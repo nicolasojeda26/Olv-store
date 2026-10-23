@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Isabella Tienda Online</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<style>
+/* Layout (rojo Isabella, dorado de la corona): banda de marca arriba, catálogo en grilla con barra de filtros fija, carrito y stock en paneles laterales */
+:root{
+  --brand: oklch(0.47 0.19 25);
+  --brand-deep: oklch(0.38 0.16 24);
+  --accent: oklch(0.8 0.12 80);
+  --on-brand: oklch(0.99 0.01 30);
+  --bg: oklch(0.985 0.008 60);
+  --surface: oklch(1 0 0);
+  --soft: oklch(0.95 0.03 20);
+  --fg: oklch(0.24 0.02 20);
+  --muted: oklch(0.5 0.02 20);
+  --line: oklch(0.91 0.015 30);
+  --ok: oklch(0.55 0.13 150);
+  --warn: oklch(0.6 0.14 60);
+  --wa: oklch(0.58 0.14 150);
+  --display: Fraunces, Georgia, serif;
+  --body: Outfit, system-ui, sans-serif;
+  --script: Allura, "Brush Script MT", cursive;
+  --radius: 14px;
+  --shadow: 0 1px 2px oklch(0.3 0.05 20 / .06), 0 8px 24px -10px oklch(0.3 0.08 20 / .18);
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --brand: oklch(0.4 0.15 25); --brand-deep: oklch(0.32 0.12 25); --accent: oklch(0.8 0.12 65); --on-brand: oklch(0.97 0.01 25);
+  --bg: oklch(0.19 0.02 25); --surface: oklch(0.24 0.025 25); --soft: oklch(0.3 0.04 25); --fg: oklch(0.94 0.01 25);
+  --muted: oklch(0.72 0.03 25); --line: oklch(0.34 0.03 25); --ok: oklch(0.72 0.14 150); --warn: oklch(0.78 0.13 70); --wa: oklch(0.55 0.13 150); color-scheme: dark}}
+:root[data-theme="dark"]{
+  --brand: oklch(0.4 0.15 25); --brand-deep: oklch(0.32 0.12 25); --accent: oklch(0.8 0.12 65); --on-brand: oklch(0.97 0.01 25);
+  --bg: oklch(0.19 0.02 25); --surface: oklch(0.24 0.025 25); --soft: oklch(0.3 0.04 25); --fg: oklch(0.94 0.01 25);
+  --muted: oklch(0.72 0.03 25); --line: oklch(0.34 0.03 25); --ok: oklch(0.72 0.14 150); --warn: oklch(0.78 0.13 70); --wa: oklch(0.55 0.13 150); color-scheme: dark}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--body);background:var(--bg);color:var(--fg);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--brand)}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+svg.lucide{width:20px;height:20px;stroke-width:1.75}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+.demo-bar{background:var(--brand-deep);color:var(--on-brand);font-size:13px;text-align:center;padding-block:8px}
+.demo-bar b{color:var(--accent);font-weight:600}
+
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--brand);color:var(--on-brand)}
+.nav{display:flex;align-items:center;gap:8px;padding-block:10px}
+.logo{display:flex;align-items:flex-start;gap:2px;font-family:var(--script);font-weight:400;font-size:40px;line-height:1;padding-top:4px}
+.logo svg{color:var(--accent);width:18px;height:18px;margin-top:-2px}
+.nav-sp{flex:1}
+.icon-btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border-radius:999px;transition:background .2s var(--ease),transform .15s var(--ease)}
+.icon-btn:active{transform:scale(.97)}
+@media (hover:hover){header .icon-btn:hover{background:oklch(1 0 0 / .12)}}
+.badge{min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--accent);color:oklch(0.24 0.02 20);font-size:12px;font-weight:600;display:inline-grid;place-items:center}
+.hide-sm{display:none}
+@media (min-width:640px){.hide-sm{display:inline}}
+
+.hero{background:var(--brand);color:var(--on-brand)}
+.hero-in{display:grid;gap:28px;padding-block:36px 48px}
+@media (min-width:900px){.hero-in{grid-template-columns:1.3fr 1fr;align-items:end;padding-block:56px 64px}}
+.eyebrow{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.hero h1{font-family:var(--display);font-weight:500;font-size:clamp(36px,6vw,64px);line-height:1.02;letter-spacing:-.02em;text-wrap:balance;margin:12px 0 16px}
+.hero h1 em{font-family:var(--script);font-style:normal;font-weight:400;font-size:1.3em;color:var(--accent)}
+.hero p{max-width:48ch;margin:0;opacity:.92}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;text-decoration:none;transition:transform .15s var(--ease),filter .2s var(--ease)}
+.btn:active{transform:scale(.97)}
+.btn-accent{background:var(--accent);color:oklch(0.24 0.02 20)}
+.btn-ghost{border:1px solid oklch(1 0 0 / .4);color:var(--on-brand)}
+.btn-brand{background:var(--brand);color:var(--on-brand);width:100%}
+.btn-wa{background:var(--wa);color:#fff;width:100%}
+@media (hover:hover){.btn:hover{filter:brightness(1.06)}}
+.store-card{background:oklch(1 0 0 / .08);border:1px solid oklch(1 0 0 / .18);border-radius:var(--radius);padding:20px;display:grid;gap:14px;font-size:15px}
+.store-card div{display:flex;gap:12px;align-items:flex-start}
+.store-card svg{color:var(--accent);flex:none;margin-top:2px}
+
+main{padding-bottom:96px}
+.toolbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 64px);z-index:10;background:var(--bg);padding-block:18px 12px;display:grid;gap:12px}
+.search{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:0 16px;min-height:48px}
+.search input{border:0;outline:0;font:inherit;flex:1;background:none;color:var(--fg);min-width:0}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chip{white-space:nowrap;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:15px;transition:background .2s var(--ease),color .2s var(--ease)}
+.chip[aria-pressed=true]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.section-h{display:flex;align-items:baseline;justify-content:space-between;margin:16px 0}
+.section-h h2{font-family:var(--display);font-weight:700;font-size:28px;letter-spacing:-.03em;margin:0}
+.section-h span{color:var(--muted);font-size:14px}
+
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (min-width:768px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}}
+@media (min-width:1100px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.card{background:var(--surface);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow);animation:in .4s var(--ease) both}
+@keyframes in{from{transform:translateY(6px)}to{transform:none}}
+.thumb{aspect-ratio:1;max-width:100%;position:relative;display:grid;place-items:center;background:oklch(0.93 0.045 var(--h))}
+.thumb svg.lucide{width:42%;height:42%;stroke-width:1.1;color:oklch(0.42 0.12 var(--h))}
+.tag{position:absolute;left:10px;top:10px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:oklch(1 0 0);color:oklch(0.24 0.02 20)}
+.tag.sale{background:var(--brand);color:var(--on-brand)}
+.body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}
+.cat{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.name{font-weight:500;line-height:1.25;text-wrap:balance}
+.price{display:flex;gap:8px;align-items:baseline;margin-top:auto;padding-top:6px;flex-wrap:wrap}
+.price b{font-family:var(--display);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+.price s{color:var(--muted);font-size:14px}
+.stock{font-size:13px;display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);flex:none}
+.stock.low{color:var(--warn)} .stock.low .dot{background:var(--warn)}
+.stock.out{color:var(--muted)} .stock.out .dot{background:var(--line)}
+.sizes{display:flex;flex-wrap:wrap;gap:6px}
+.size{min-width:36px;height:36px;border-radius:8px;border:1px solid var(--line);font-size:14px}
+.size[aria-pressed=true]{border-color:var(--fg);background:var(--fg);color:var(--bg)}
+.size:disabled{opacity:.35;text-decoration:line-through;cursor:not-allowed}
+.add{margin-top:8px;min-height:44px;border-radius:10px;background:var(--soft);color:var(--fg);font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;transition:background .2s var(--ease),transform .15s var(--ease)}
+.add:active{transform:scale(.97)}
+@media (hover:hover){.add:not(:disabled):hover{background:var(--brand);color:var(--on-brand)}}
+.add:disabled{background:var(--line);color:var(--muted);cursor:not-allowed}
+.empty{padding:48px 0;text-align:center;color:var(--muted)}
+
+.scrim{position:fixed;inset:0;background:oklch(0.15 0.02 20 / .45);opacity:0;pointer-events:none;transition:opacity .25s var(--ease);z-index:40}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(440px,100%);background:var(--surface);z-index:50;transform:translateX(100%);transition:transform .3s var(--ease);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-right:env(safe-area-inset-right,0px)}
+.drawer.on{transform:none}
+.dh{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--line)}
+.dh h3{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:-.02em;margin:0}
+.db{flex:1;overflow:auto;padding:12px 20px}
+.df{padding:16px 20px;border-top:1px solid var(--line);display:grid;gap:12px}
+.line{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:center}
+.mini{width:52px;height:52px;border-radius:10px;display:grid;place-items:center;background:oklch(0.93 0.045 var(--h));flex:none}
+.mini svg{color:oklch(0.42 0.12 var(--h))}
+.line .info{flex:1;min-width:0;font-size:15px}
+.line small{color:var(--muted)}
+.qty{display:flex;align-items:center;border:1px solid var(--line);border-radius:999px}
+.qty button{width:36px;height:36px;display:grid;place-items:center}
+.qty button svg{width:16px;height:16px}
+.qty span{min-width:20px;text-align:center;font-size:14px}
+.total{display:flex;justify-content:space-between;font-size:18px}
+.total b{font-family:var(--display);font-variant-numeric:tabular-nums}
+.ship{display:flex;gap:8px}
+.ship label{flex:1;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:14px;display:flex;gap:8px;align-items:center;cursor:pointer}
+.ship input{accent-color:var(--brand)}
+.note{font-size:13px;color:var(--muted);margin:0}
+.msg{white-space:pre-wrap;background:var(--soft);border-radius:12px;padding:14px;font-size:14px;margin:8px 0 0}
+
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.kpi{background:var(--soft);border-radius:10px;padding:10px}
+.kpi b{font-family:var(--display);font-size:22px;display:block;font-variant-numeric:tabular-nums}
+.kpi span{font-size:12px;color:var(--muted)}
+.admin-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;padding:12px 0;border-bottom:1px solid var(--line);align-items:center}
+.admin-row .n{font-size:15px;font-weight:500}
+.admin-row .c{font-size:12px;color:var(--muted)}
+.admin-sizes{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px}
+.admin-sizes label{font-size:12px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px}
+.num{width:56px;height:36px;border:1px solid var(--line);border-radius:8px;text-align:center;font:inherit;font-size:14px;background:var(--surface);color:var(--fg)}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;background:var(--fg);color:var(--bg);padding:12px 18px;border-radius:999px;font-size:14px;z-index:60;transition:opacity .2s var(--ease),transform .25s var(--ease);pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+footer{background:var(--brand-deep);color:var(--on-brand);font-size:14px}
+.foot{display:grid;gap:20px;padding-block:36px}
+@media (min-width:768px){.foot{grid-template-columns:2fr 1fr 1fr}}
+.foot h4{margin:0 0 8px;font-weight:600}
+.foot p{margin:8px 0 0;max-width:40ch;opacity:.85}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+</head>
+<body>
+<div class="demo-bar">Versión de prueba · <b>productos, fotos y precios de ejemplo</b> hasta cargar el catálogo real</div>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo"><i data-lucide="crown"></i>Isabella</div>
+    <div class="nav-sp"></div>
+    <button class="icon-btn" id="openAdmin"><i data-lucide="clipboard-list"></i><span class="hide-sm">Stock</span></button>
+    <button class="icon-btn" id="openCart" aria-label="Abrir pedido"><i data-lucide="shopping-bag"></i><span class="badge" id="cartCount">0</span></button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-in">
+    <div>
+      <div class="eyebrow">Maquillaje · Skincare · Calzado</div>
+      <h1>Todo para sentirte la <em>reina</em> de la casa</h1>
+      <p>Maquillaje, rutinas de skincare, combos para regalar armados a mano y el outlet de zapatos con pares únicos. Elegí online, coordinamos por WhatsApp y retirás en el local o te lo enviamos.</p>
+      <div class="hero-cta">
+        <a class="btn btn-accent" href="#tienda"><i data-lucide="sparkles"></i>Ver productos</a>
+        <button class="btn btn-ghost" data-jump="Outlet calzado"><i data-lucide="tag"></i>Outlet de calzado</button>
+      </div>
+    </div>
+    <div class="store-card">
+      <div><i data-lucide="map-pin"></i><span>Junín 832, entre Salta y Bs. As. · Corrientes Capital</span></div>
+      <div><i data-lucide="clock"></i><span>Lunes a sábado · 9:30 a 13 y 17:30 a 21 hs</span></div>
+      <div><i data-lucide="truck"></i><span>Envíos en Corrientes y al resto del país</span></div>
+      <div><i data-lucide="message-circle"></i><span>Consultas y pedidos: 3794-717236</span></div>
+    </div>
+  </div>
+</section>
+
+<main id="tienda" class="wrap">
+  <div class="toolbar">
+    <label class="search"><i data-lucide="search"></i><input id="q" type="search" placeholder="Buscar labial, sérum, sandalias…" aria-label="Buscar productos"></label>
+    <div class="chips" id="chips" role="group" aria-label="Categorías"></div>
+  </div>
+  <div class="section-h"><h2 id="secTitle">Todo</h2><span id="secCount"></span></div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <div class="logo"><i data-lucide="crown"></i>Isabella</div>
+      <p>Prendas, calzados y belleza, nacionales e importados. Más de 10 años atendiendo en Corrientes.</p>
+    </div>
+    <div><h4>Local</h4>Junín 832<br>Corrientes Capital<br>9:30 a 13 · 17:30 a 21 hs</div>
+    <div><h4>Contacto</h4>WhatsApp 3794-717236<br>Instagram @isabella.importados</div>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim"></div>
+
+<aside class="drawer" id="cart" aria-label="Tu pedido">
+  <div class="dh"><h3 id="cartTitle">Tu pedido</h3><button class="icon-btn" data-close aria-label="Cerrar"><i data-lucide="x"></i></button></div>
+  <div class="db" id="cartBody"></div>
+  <div class="df" id="cartFoot">
+    <div class="ship" role="radiogroup" aria-label="Entrega">
+      <label><input type="radio" id="shipLocal" name="ship" value="Retiro en el local" checked><i data-lucide="store"></i>Retiro</label>
+      <label><input type="radio" id="shipHome" name="ship" value="Envío a domicilio"><i data-lucide="truck"></i>Envío</label>
+    </div>
+    <div class="total"><span>Total</span><b id="total">$0</b></div>
+    <button class="btn btn-wa" id="checkout"><i data-lucide="message-circle"></i>Enviar pedido por WhatsApp</button>
+    <p class="note">Te respondemos para confirmar stock, forma de pago y envío.</p>
+  </div>
+</aside>
+
+<aside class="drawer" id="admin" aria-label="Panel de stock">
+  <div class="dh"><h3>Panel de stock</h3><button class="icon-btn" data-close aria-label="Cerrar"><i data-lucide="x"></i></button></div>
+  <div class="db">
+    <div class="kpis" id="kpis"></div>
+    <p class="note">Vista de la dueña. Cambiá una cantidad y la tienda se actualiza al instante; lo agotado se marca solo.</p>
+    <div id="adminList"></div>
+  </div>
+  <div class="df"><button class="btn btn-brand" id="resetStock"><i data-lucide="rotate-ccw"></i>Restaurar stock de ejemplo</button></div>
+</aside>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const CATS=["Todo","Maquillaje","Skincare","Combos y regalos","Outlet calzado"];
+const HUE={"Maquillaje":10,"Skincare":160,"Combos y regalos":340,"Outlet calzado":60};
+const SEED=[
+  {id:1,cat:"Maquillaje",name:"Labial matte larga duración",price:8500,stock:14,icon:"brush",tag:"Más vendido"},
+  {id:2,cat:"Maquillaje",name:"Base líquida cobertura media",price:15900,stock:6,icon:"droplet"},
+  {id:3,cat:"Maquillaje",name:"Paleta de sombras 12 tonos nude",price:18500,stock:3,icon:"palette",tag:"Nuevo"},
+  {id:4,cat:"Maquillaje",name:"Máscara de pestañas volumen",price:9900,stock:11,icon:"eye"},
+  {id:5,cat:"Maquillaje",name:"Rubor en crema",price:7800,stock:0,icon:"heart"},
+  {id:6,cat:"Maquillaje",name:"Set de brochas x7 con estuche",price:21000,stock:4,icon:"pen-tool"},
+  {id:7,cat:"Skincare",name:"Sérum ácido hialurónico 30 ml",price:16500,stock:8,icon:"flask-conical",tag:"Nuevo"},
+  {id:8,cat:"Skincare",name:"Crema hidratante facial",price:13900,stock:9,icon:"flower"},
+  {id:9,cat:"Skincare",name:"Gel limpiador facial",price:10500,stock:2,icon:"waves"},
+  {id:10,cat:"Skincare",name:"Protector solar FPS 50",price:17800,stock:7,icon:"sun"},
+  {id:11,cat:"Combos y regalos",name:"Combo skincare premium (5 productos)",price:54000,stock:3,icon:"gift",tag:"Personalizable"},
+  {id:12,cat:"Combos y regalos",name:"Combo skincare esencial (3 productos)",price:32000,stock:6,icon:"package"},
+  {id:13,cat:"Combos y regalos",name:"Box “Reina de la casa” con neceser",price:39000,stock:4,icon:"crown",tag:"Para regalar"},
+  {id:14,cat:"Outlet calzado",name:"Sandalias Via Uno doradas (Brasil)",price:42000,old:69000,icon:"footprints",sizes:{35:0,36:1,37:0,38:1,39:0,40:0},tag:"Pares únicos",sale:true},
+  {id:15,cat:"Outlet calzado",name:"Stilettos plateados con strass",price:36000,old:58000,icon:"sparkles",sizes:{35:1,36:0,37:1,38:0,39:1,40:0},sale:true,tag:"-38%"},
+  {id:16,cat:"Outlet calzado",name:"Plataformas de gamuza rojas",price:39000,old:62000,icon:"footprints",sizes:{35:0,36:0,37:1,38:1,39:0,40:1},sale:true,tag:"-37%"},
+  {id:17,cat:"Outlet calzado",name:"Chatitas de cuero nacionales",price:28000,old:41000,icon:"footprints",sizes:{35:2,36:1,37:2,38:0,39:1,40:1},sale:true,tag:"Nuevos ingresos"},
+  {id:18,cat:"Outlet calzado",name:"Zapatillas urbanas blancas",price:31000,old:47000,icon:"footprints",sizes:{35:0,36:0,37:0,38:0,39:0,40:0},sale:true}
+];
+const KEY="isabella-stock";const WA="5493794717236";
+const clone=o=>JSON.parse(JSON.stringify(o));
+let products=load(), cart=[], cat="Todo", query="";
+const pick={};
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.length===SEED.length)return s}catch(e){}return clone(SEED)}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(products))}catch(e){}}
+const $=s=>document.querySelector(s);
+const money=n=>"$"+n.toLocaleString("es-AR");
+const units=p=>p.sizes?Object.values(p.sizes).reduce((a,b)=>a+b,0):p.stock;
+const inCart=(id,size)=>cart.filter(l=>l.id===id&&(size==null||l.size==size)).reduce((a,l)=>a+l.qty,0);
+const avail=(p,size)=>(p.sizes?p.sizes[size]:p.stock)-inCart(p.id,p.sizes?size:null);
+const icons=()=>window.lucide&&lucide.createIcons();
+
+function stockLabel(p){const u=units(p);
+  if(!u)return `<div class="stock out"><span class="dot"></span>Sin stock</div>`;
+  if(p.sizes)return `<div class="stock ${u<=2?'low':''}"><span class="dot"></span>${u===1?'Último par':u+' pares disponibles'}</div>`;
+  if(u<=3)return `<div class="stock low"><span class="dot"></span>¡Quedan ${u}!</div>`;
+  return `<div class="stock"><span class="dot"></span>En stock</div>`}
+function renderChips(){$("#chips").innerHTML=CATS.map(c=>`<button class="chip" aria-pressed="${c===cat}" data-cat="${c}">${c}</button>`).join("")}
+function renderGrid(){
+  const q=query.trim().toLowerCase();
+  const list=products.filter(p=>(cat==="Todo"||p.cat===cat)&&(!q||(p.name+" "+p.cat).toLowerCase().includes(q)));
+  $("#secTitle").textContent=cat;$("#secCount").textContent=list.length+" productos";
+  $("#grid").innerHTML=list.length?list.map(p=>{const u=units(p);
+    const sizes=p.sizes?`<div class="sizes" role="group" aria-label="Talle">${Object.entries(p.sizes).map(([s,n])=>`<button class="size" data-size="${s}" data-id="${p.id}" aria-pressed="${pick[p.id]==s}" ${n?'':'disabled'} aria-label="Talle ${s}">${s}</button>`).join("")}</div>`:"";
+    return `<article class="card" style="--h:${HUE[p.cat]}">
+      <div class="thumb">${p.tag?`<span class="tag ${p.sale?'sale':''}">${p.tag}</span>`:""}<i data-lucide="${p.icon}"></i></div>
+      <div class="body"><div class="cat">${p.cat}</div><div class="name">${p.name}</div>${stockLabel(p)}${sizes}
+        <div class="price"><b>${money(p.price)}</b>${p.old?`<s>${money(p.old)}</s>`:""}</div>
+        <button class="add" data-add="${p.id}" ${u?'':'disabled'}><i data-lucide="${u?'plus':'bell'}"></i>${u?'Agregar':'Sin stock'}</button>
+      </div></article>`}).join(""):`<p class="empty">No encontramos productos con esa búsqueda.</p>`;
+  icons()}
+function cartTotal(){return cart.reduce((a,l)=>a+l.qty*products.find(p=>p.id===l.id).price,0)}
+function renderCart(){
+  $("#cartCount").textContent=cart.reduce((a,l)=>a+l.qty,0);$("#cartTitle").textContent="Tu pedido";
+  if(!cart.length){$("#cartBody").innerHTML=`<p class="empty">Tu pedido está vacío.<br>Sumá productos desde el catálogo.</p>`;$("#cartFoot").hidden=true;icons();return}
+  $("#cartFoot").hidden=false;
+  $("#cartBody").innerHTML=cart.map((l,i)=>{const p=products.find(x=>x.id===l.id);return `
+    <div class="line"><div class="mini" style="--h:${HUE[p.cat]}"><i data-lucide="${p.icon}"></i></div>
+      <div class="info">${p.name}<br><small>${l.size?'Talle '+l.size+' · ':''}${money(p.price)}</small></div>
+      <div class="qty"><button data-dec="${i}" aria-label="Restar"><i data-lucide="minus"></i></button><span>${l.qty}</span><button data-inc="${i}" aria-label="Sumar"><i data-lucide="plus"></i></button></div></div>`}).join("");
+  $("#total").textContent=money(cartTotal());icons()}
+function renderAdmin(){
+  const total=products.reduce((a,p)=>a+units(p),0),out=products.filter(p=>!units(p)).length,low=products.filter(p=>{const u=units(p);return u&&u<=3}).length;
+  $("#kpis").innerHTML=`<div class="kpi"><b>${total}</b><span>unidades</span></div><div class="kpi"><b>${low}</b><span>stock bajo</span></div><div class="kpi"><b>${out}</b><span>agotados</span></div>`;
+  $("#adminList").innerHTML=products.map(p=>`<div class="admin-row"><div><div class="n">${p.name}</div><div class="c">${p.cat} · ${money(p.price)}</div></div>
+    ${p.sizes?`<span class="c">${units(p)} pares</span><div class="admin-sizes">${Object.entries(p.sizes).map(([s,n])=>`<label>${s}<input class="num" id="st-${p.id}-${s}" type="number" min="0" value="${n}" data-sid="${p.id}" data-s="${s}" aria-label="Stock talle ${s}"></label>`).join("")}</div>`
+    :`<input class="num" id="st-${p.id}" type="number" min="0" value="${p.stock}" data-pid="${p.id}" aria-label="Stock de ${p.name}">`}</div>`).join("")}
+function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("on"),1800)}
+function open(id){document.querySelectorAll(".drawer").forEach(d=>d.classList.remove("on"));$(id).classList.add("on");$("#scrim").classList.add("on")}
+function closeAll(){document.querySelectorAll(".drawer").forEach(d=>d.classList.remove("on"));$("#scrim").classList.remove("on")}
+function orderText(){const ship=document.querySelector("input[name=ship]:checked").value;
+  const lines=cart.map(l=>{const p=products.find(x=>x.id===l.id);return `• ${l.qty} x ${p.name}${l.size?' (talle '+l.size+')':''}: ${money(p.price*l.qty)}`});
+  return `¡Hola Isabella! Quiero hacer este pedido:\n\n${lines.join("\n")}\n\nTotal: ${money(cartTotal())}\nEntrega: ${ship}`}
+function showOrder(){const msg=orderText();$("#cartTitle").textContent="Pedido listo";$("#cartFoot").hidden=true;
+  $("#cartBody").innerHTML=`<p class="note">Tocá el botón y se abre WhatsApp con tu pedido listo para enviar:</p><pre class="msg" id="msg"></pre>
+    <div style="display:grid;gap:10px;margin-top:14px"><a class="btn btn-wa" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent(msg)}"><i data-lucide="message-circle"></i>Abrir en WhatsApp</a>
+    <button class="btn btn-brand" id="copyMsg"><i data-lucide="copy"></i>Copiar mensaje</button>
+    <button class="btn" id="backCart" style="border:1px solid var(--line)"><i data-lucide="arrow-left"></i>Volver al pedido</button></div>`;
+  $("#msg").textContent=msg;icons()}
+
+document.addEventListener("click",e=>{const t=e.target.closest("button");if(!t)return;
+  if(t.dataset.cat){cat=t.dataset.cat;renderChips();renderGrid()}
+  if(t.dataset.jump){cat=t.dataset.jump;renderChips();renderGrid();$("#tienda").scrollIntoView({behavior:"smooth"})}
+  if(t.dataset.size){pick[t.dataset.id]=t.dataset.size;renderGrid()}
+  if(t.dataset.add){const p=products.find(x=>x.id==t.dataset.add);let size=null;
+    if(p.sizes){size=pick[p.id];if(!size){toast("Elegí un talle primero");return}}
+    if(avail(p,size)<=0){toast("No hay más stock de ese producto");return}
+    const l=cart.find(l=>l.id===p.id&&l.size==size);l?l.qty++:cart.push({id:p.id,size,qty:1});renderCart();toast("Agregado a tu pedido")}
+  if(t.dataset.inc!=null){const l=cart[t.dataset.inc],p=products.find(x=>x.id===l.id);if(avail(p,l.size)>0)l.qty++;else toast("Es todo el stock disponible");renderCart()}
+  if(t.dataset.dec!=null){const l=cart[t.dataset.dec];l.qty--;if(!l.qty)cart.splice(t.dataset.dec,1);renderCart()}
+  if(t.id==="copyMsg"){const m=$("#msg").textContent;(navigator.clipboard?navigator.clipboard.writeText(m):Promise.reject()).then(()=>toast("Mensaje copiado")).catch(()=>{const r=document.createRange();r.selectNodeContents($("#msg"));const s=getSelection();s.removeAllRanges();s.addRange(r);toast("Seleccionado, copialo con Ctrl+C")})}
+  if(t.id==="backCart")renderCart();
+  if(t.hasAttribute("data-close"))closeAll()});
+$("#scrim").onclick=closeAll;
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAll()});
+$("#openCart").onclick=()=>{renderCart();open("#cart")};
+$("#openAdmin").onclick=()=>{renderAdmin();open("#admin")};
+$("#checkout").onclick=showOrder;
+$("#q").addEventListener("input",e=>{query=e.target.value;renderGrid()});
+$("#adminList").addEventListener("change",e=>{const v=Math.max(0,parseInt(e.target.value)||0);
+  if(e.target.dataset.pid)products.find(p=>p.id==e.target.dataset.pid).stock=v;
+  if(e.target.dataset.sid)products.find(p=>p.id==e.target.dataset.sid).sizes[e.target.dataset.s]=v;
+  save();renderAdmin();renderGrid();toast("Stock actualizado")});
+$("#resetStock").onclick=()=>{products=clone(SEED);save();renderAdmin();renderGrid();toast("Stock restaurado")};
+renderChips();renderGrid();renderCart();icons();
+</script>
+
+</body>
+</html>
