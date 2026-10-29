@@ -6,6 +6,13 @@
 <title>Isabella Importados · Maquillaje, skincare y calzado</title>
 <meta name="description" content="Maquillaje, skincare, combos para regalar y outlet de calzado. Local en Junín 832, Corrientes Capital, y envíos a todo el país.">
 <meta name="theme-color" content="#a50f1f">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23a50f1f'/%3E%3Cpath d='M14 44l-2-22 12 10 8-16 8 16 12-10-2 22z' fill='%23d9a441'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Isabella Importados">
+<meta property="og:title" content="Isabella Importados · Maquillaje, skincare y calzado">
+<meta property="og:description" content="Maquillaje, skincare, combos para regalar y outlet de calzado. Retiro en Junín 832, Corrientes, o envío a todo el país.">
+<meta property="og:url" content="https://isabella-importados.vercel.app/">
+<meta property="og:locale" content="es_AR">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Allura&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -131,8 +138,12 @@ header{position:sticky;top:0;z-index:30;background:rgb(251 246 241 / .92);backdr
 .cat{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3;background:var(--petal);text-align:left}
 .cat img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
 @media (hover:hover){.cat:hover img{transform:scale(1.04)}}
-.cat .ico svg{margin-bottom:22%}
-.cat::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgb(60 10 20 / .62))}
+.cat .ico{place-items:start center;padding-top:14%}
+.cat .ico svg{width:34%;height:34%}
+@media (max-width:699px){.cat{aspect-ratio:1/1}.cat span{font-size:20px}.cat .ico{padding-top:16%}.cat .ico svg{width:30%;height:30%}}
+.cat:has(img)::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgb(60 10 20 / .62))}
+.cat:not(:has(img)) span{color:var(--ink)}
+.cat:not(:has(img)) span small{color:var(--ink);opacity:.78}
 .cat span{position:absolute;left:14px;right:14px;bottom:12px;z-index:1;color:#fff;font-family:var(--display);font-size:24px;line-height:1.05}
 .cat small{display:block;font-family:var(--body);font-size:12px;font-weight:600;opacity:.9;margin-top:4px}
 
@@ -166,7 +177,7 @@ header{position:sticky;top:0;z-index:30;background:rgb(251 246 241 / .92);backdr
 .badges{position:absolute;left:10px;top:10px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;z-index:1}
 .bdg{font-size:11.5px;font-weight:700;padding:4px 9px;border-radius:999px;background:var(--paper);color:var(--ink)}
 .bdg.off{background:var(--rose);color:#fff}
-.bdg.low{background:#fff1dc;color:var(--warn)}
+.bdg.low{background:#fff1dc;color:#7a3606}
 .bdg.out{background:var(--ink);color:#fff}
 .card.soldout .ph img{filter:grayscale(.6) opacity(.7)}
 .cb{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px;flex:1}
@@ -194,10 +205,11 @@ header{position:sticky;top:0;z-index:30;background:rgb(251 246 241 / .92);backdr
 footer{background:var(--berry);color:#f6e5e2;font-size:14px;margin-top:20px}
 .foot{display:grid;gap:24px;padding-block:40px calc(40px + env(safe-area-inset-bottom,0px))}
 @media (min-width:800px){.foot{grid-template-columns:1.6fr 1fr 1fr}}
-.foot h4{color:#fff;margin:0 0 10px;font-size:15px}
+.foot h3{color:#fff;margin:0 0 6px;font-size:15px;font-family:var(--body);font-weight:700}
 .foot p{margin:0;max-width:40ch;opacity:.9}
 .foot .big{font-family:var(--script);font-size:48px;color:#fff;line-height:1;margin-bottom:10px}
-.foot a{text-decoration:none}
+.foot a{text-decoration:none;display:inline-block;padding-block:6px}
+@media (hover:hover){.foot a:hover{text-decoration:underline}}
 .foot small{display:block;margin-top:20px;opacity:.7}
 
 /* modal producto */
@@ -280,9 +292,9 @@ footer{background:var(--berry);color:#f6e5e2;font-size:14px;margin-top:20px}
 </head>
 <body>
 
-<div class="ribbon" aria-label="Promociones">
+<aside class="ribbon" aria-label="Avisos de la tienda">
   <div class="ribbon-track" id="ribbon"></div>
-</div>
+</aside>
 
 <header>
   <div class="wrap nav">
@@ -371,25 +383,25 @@ footer{background:var(--berry);color:#f6e5e2;font-size:14px;margin-top:20px}
       <div class="big">Isabella</div>
       <p>Prendas, calzados y belleza, nacionales e importados. Más de 10 años atendiendo en Corrientes.</p>
     </div>
-    <div><h4>Comprá</h4><div style="display:grid;gap:6px">
+    <div><h3>Comprá</h3><div style="display:grid;gap:0">
       <a href="#catalogo" data-go="Maquillaje">Maquillaje</a>
       <a href="#catalogo" data-go="Skincare">Skincare</a>
       <a href="#catalogo" data-go="Combos y regalos">Combos y regalos</a>
       <a href="#catalogo" data-go="Outlet calzado">Outlet calzado</a></div></div>
-    <div><h4>Contacto</h4><div style="display:grid;gap:6px">
+    <div><h3>Contacto</h3><div style="display:grid;gap:0">
       <a href="https://wa.me/5493794717236" target="_blank" rel="noopener">WhatsApp 3794-717236</a>
       <a href="https://www.instagram.com/isabella.importados/" target="_blank" rel="noopener">Instagram @isabella.importados</a>
       <span>Junín 832, Corrientes Capital</span></div></div>
   </div>
-  <div class="wrap" style="padding-bottom:24px;font-size:12px;opacity:.75">© 2026 Isabella Importados. Precios en pesos argentinos. Pagos online procesados por Mercado Pago. <a href="/admin.html" style="opacity:.6">Acceso dueña</a></div>
+  <div class="wrap" style="padding-bottom:24px;font-size:12px;opacity:.75">© 2026 Isabella Importados. Precios en pesos argentinos. Pagos online procesados por Mercado Pago. <a href="/admin.html" style="color:#f0c9cd">Acceso dueña</a></div>
 </footer>
 
-<a class="wa-float" href="https://wa.me/5493794717236" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp"><i data-lucide="message-circle"></i></a>
+<aside aria-label="Contacto rápido"><a class="wa-float" href="https://wa.me/5493794717236" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp"><i data-lucide="message-circle"></i></a></aside>
 
 <div class="scrim" id="scrim"></div>
 
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle"></div>
-<div class="modal result" id="result" role="dialog" aria-modal="true" aria-labelledby="rTitle"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Detalle del producto"></div>
+<div class="modal result" id="result" role="dialog" aria-modal="true" aria-label="Resultado del pago"></div>
 
 <aside class="drawer" id="cart" aria-label="Tu carrito">
   <div class="dh"><h3 id="cartTitle">Tu pedido</h3><button class="ibtn" data-close aria-label="Cerrar"><i data-lucide="x"></i></button></div>
