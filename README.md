@@ -6,7 +6,9 @@ Tienda con catálogo, stock por talle, pago con **Mercado Pago** (tarjeta, cuota
 | --- | --- |
 | `index.html` | La tienda (lo que ven las clientas) |
 | `admin.html` | Panel de Isabella: pedidos, productos con fotos y stock, conexión con Mercado Pago |
-| `api/` | Funciones del servidor en Vercel (pago, aviso de Mercado Pago, conexión) |
+| `arrepentimiento.html`, `cambios.html` | Botón de arrepentimiento y política de cambios |
+| `api/` | Funciones del servidor en Vercel (pago, aviso de Mercado Pago, conexión, arrepentimiento) |
+| `lib/notify.js` | Avisos por email (Resend) |
 | `lib/shared.js` | Código compartido de las funciones |
 | `supabase/schema.sql` | Base de datos: se ejecuta una sola vez en Supabase |
 
@@ -19,7 +21,7 @@ Cómo funciona un pago: la clienta arma el pedido → el servidor revisa precios
 ### 1. Base de datos en Supabase (gratis)
 
 1. Entrá a [supabase.com](https://supabase.com) → **New project**. Nombre: `isabella-tienda`. Región: **South America (São Paulo)**. Guardá la contraseña de la base en un lugar seguro.
-2. Andá a **SQL Editor → New query**, pegá todo el contenido de `supabase/schema.sql` y tocá **Run**. Crea las tablas, los permisos, la carpeta de fotos y 12 productos de ejemplo.
+2. Andá a **SQL Editor → New query**, pegá todo el contenido de `supabase/schema.sql` y tocá **Run**. (Si la base ya estaba creada de antes, ejecutá solo `supabase/02-arrepentimiento.sql`.) Crea las tablas, los permisos, la carpeta de fotos y 12 productos de ejemplo.
 3. **Authentication → Sign In / Providers → Email**: desactivá **Allow new users to sign up** (así nadie más puede crearse una cuenta).
 4. **Authentication → URL Configuration**: Site URL `https://isabella-importados.vercel.app/admin.html` y en Redirect URLs `https://isabella-importados.vercel.app/**`.
 5. **Authentication → Users → Add user → Send invitation**: el email de Isabella. Le llega un mail, entra y elige su contraseña en el panel.
@@ -48,6 +50,9 @@ Proyecto `isabella-importados` → **Settings → Environment Variables**. Carg�
 | `SITE_URL` | `https://isabella-importados.vercel.app` |
 | `WHATSAPP_NUMBER` | `5493794717236` |
 | `MP_SANDBOX` | `true` mientras prueban, `false` para cobrar de verdad |
+| `RESEND_API_KEY` | opcional: clave de [Resend](https://resend.com) para mandar avisos por email (secreta) |
+| `NOTIFY_EMAIL` | a quién avisar de ventas nuevas y arrepentimientos (se pueden poner varios separados por coma) |
+| `MAIL_FROM` | opcional: remitente, ej. `Isabella Importados <avisos@su-dominio.com>`. Sin dominio propio, Resend solo deja mandar al email de la cuenta de Resend |
 
 Después: **Deployments → ⋯ → Redeploy** para que tome las variables.
 
@@ -69,6 +74,12 @@ Reemplazá el contenido del repo por los archivos de esta carpeta (mantené la e
 1. En Vercel cambiá `MP_SANDBOX` a `false` y hacé **Redeploy**.
 2. En el panel → **Mercado Pago → Desconectar**, y que **Isabella** toque **Conectar** con su propia cuenta.
 3. Borrá los productos de ejemplo y cargá los reales desde **Productos → Nuevo producto**.
+
+## Legales (Argentina)
+
+- **Botón de arrepentimiento** (Res. 424/2020): en el pie de todas las páginas, lleva a `/arrepentimiento.html`. Sin registro; da un código de trámite al instante y lo manda por email. Los pedidos aparecen en el panel → **Arrepentimientos**.
+- **Defensa de las y los Consumidores** (Res. 274/2021): link al formulario de la Ventanilla Única Federal en el pie.
+- **Cambios y devoluciones**: `/cambios.html`. Confirmar con Isabella el plazo de cambio (puesto en 30 días).
 
 ## Uso diario (para Isabella)
 

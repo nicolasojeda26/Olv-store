@@ -204,7 +204,10 @@ header{position:sticky;top:0;z-index:30;background:rgb(251 246 241 / .92);backdr
 
 footer{background:var(--berry);color:#f6e5e2;font-size:14px;margin-top:20px}
 .foot{display:grid;gap:24px;padding-block:40px calc(40px + env(safe-area-inset-bottom,0px))}
-@media (min-width:800px){.foot{grid-template-columns:1.6fr 1fr 1fr}}
+@media (min-width:800px){.foot{grid-template-columns:1.4fr 1fr 1fr 1.1fr}}
+.arr-btn{display:inline-flex!important;align-items:center;gap:8px;background:#fff;color:var(--berry);font-weight:700;border-radius:999px;padding:10px 16px!important;margin:4px 0 8px;text-decoration:none!important}
+.consumo{display:block;border:1px solid rgba(255,255,255,.35);border-radius:12px;padding:10px 12px!important;margin-top:6px;line-height:1.35;font-size:13px}
+.consumo b{display:block;color:#fff}
 .foot h3{color:#fff;margin:0 0 6px;font-size:15px;font-family:var(--body);font-weight:700}
 .foot p{margin:0;max-width:40ch;opacity:.9}
 .foot .big{font-family:var(--script);font-size:48px;color:#fff;line-height:1;margin-bottom:10px}
@@ -392,6 +395,10 @@ footer{background:var(--berry);color:#f6e5e2;font-size:14px;margin-top:20px}
       <a href="https://wa.me/5493794717236" target="_blank" rel="noopener">WhatsApp 3794-717236</a>
       <a href="https://www.instagram.com/isabella.importados/" target="_blank" rel="noopener">Instagram @isabella.importados</a>
       <span>Junín 832, Corrientes Capital</span></div></div>
+    <div><h3>Ayuda</h3><div style="display:grid;gap:0;justify-items:start">
+      <a class="arr-btn" href="/arrepentimiento.html"><i data-lucide="undo-2" aria-hidden="true"></i>Botón de arrepentimiento</a>
+      <a href="/cambios.html">Cambios y devoluciones</a>
+      <a class="consumo" href="https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario" target="_blank" rel="noopener"><b>Defensa de las y los Consumidores</b>Para reclamos <u>ingrese aquí</u></a></div></div>
   </div>
   <div class="wrap" style="padding-bottom:24px;font-size:12px;opacity:.75">© 2026 Isabella Importados. Precios en pesos argentinos. Pagos online procesados por Mercado Pago. <a href="/admin.html" style="color:#f0c9cd">Acceso dueña</a></div>
 </footer>

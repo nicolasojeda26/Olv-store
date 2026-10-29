@@ -3,6 +3,7 @@
 // - pay_method "mercadopago": arma el cobro en Mercado Pago y devuelve el link de pago.
 // - pay_method "transfer" | "cash": solo registra el pedido (se confirma por WhatsApp).
 const { sb, send, readBody, siteUrl, sellerToken, mp, TEST_MODE } = require("../lib/shared");
+const { notifyOrder } = require("../lib/notify");
 
 const SHIPPING = { pickup: "Retiro en el local", city: "Envío en Corrientes Capital", country: "Envío al resto del país" };
 const PAY = ["mercadopago", "transfer", "cash"];
@@ -72,7 +73,10 @@ module.exports = async (req, res) => {
       },
     });
 
-    if (payMethod !== "mercadopago") return send(res, 200, { order_id: order.id, total });
+    if (payMethod !== "mercadopago") {
+      await notifyOrder(order, { paid: false });
+      return send(res, 200, { order_id: order.id, total });
+    }
 
     const base = siteUrl(req);
     const back = (estado) => `${base}/?pago=${estado}&pedido=${order.id}`;

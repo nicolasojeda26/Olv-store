@@ -1,6 +1,7 @@
 // /api/mp-webhook — Mercado Pago avisa acá cuando cambia un pago.
 // No confiamos en el aviso: consultamos el pago real en Mercado Pago antes de tocar nada.
 const { sb, send, readBody, sellerToken, mp } = require("../lib/shared");
+const { notifyOrder } = require("../lib/notify");
 
 function paymentIdFrom(req) {
   const b = readBody(req);
@@ -39,6 +40,13 @@ module.exports = async (req, res) => {
         method: "POST",
         body: { p_order: orderId, p_payment: paymentId, p_status: pay.status },
       });
+      // Aviso de venta solo la primera vez que se aplica el pago (Mercado Pago reintenta avisos).
+      if (result === "paid" || result === "paid_stock_issue") {
+        try {
+          const [full] = await sb(`orders?id=eq.${orderId}&select=*`);
+          if (full) await notifyOrder(full, { paid: true });
+        } catch (e) { console.error("aviso venta", e.message); }
+      }
       return send(res, 200, { ok: true, result });
     }
 

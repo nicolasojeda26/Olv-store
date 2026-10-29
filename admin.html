@@ -192,6 +192,7 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
     <div class="tabs" role="tablist">
       <button class="tab" role="tab" data-tab="orders" aria-selected="true"><i data-lucide="receipt"></i>Pedidos <span class="n" id="pendN" hidden></span></button>
       <button class="tab" role="tab" data-tab="products" aria-selected="false"><i data-lucide="package"></i>Productos</button>
+      <button class="tab" role="tab" data-tab="arr" aria-selected="false"><i data-lucide="undo-2"></i>Arrepentimientos <span class="n" id="arrN" hidden></span></button>
       <button class="tab" role="tab" data-tab="mp" aria-selected="false"><i data-lucide="credit-card"></i>Mercado Pago</button>
     </div>
 
@@ -219,6 +220,12 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
       <div class="list" id="products"></div>
     </section>
 
+    <section id="tab-arr" hidden>
+      <h1>Arrepentimientos</h1>
+      <p class="sub">Pedidos hechos con el botón de arrepentimiento de la tienda. La clienta tiene 10 días corridos desde que recibió el producto; contactala, coordiná la devolución y reintegrá el dinero por el mismo medio de pago.</p>
+      <div class="list" id="arrs"></div>
+    </section>
+
     <section id="tab-mp" hidden>
       <h1>Mercado Pago</h1>
       <p class="sub">Conectá tu cuenta para cobrar con tarjeta, cuotas y dinero en cuenta. La plata va directo a tu Mercado Pago.</p>
@@ -235,7 +242,8 @@ const CATS={"Maquillaje":"brush","Skincare":"flask-conical","Combos y regalos":"
 const SHIP={pickup:"Retiro en el local",city:"Envío en Corrientes Capital",country:"Envío al resto del país"};
 const PAYM={mercadopago:"Mercado Pago",transfer:"Transferencia",cash:"Efectivo"};
 const ST={pending:["Pendiente","warn"],paid:["Pagado","ok"],delivered:["Entregado","mp"],rejected:["Rechazado","bad"],cancelled:["Cancelado","off"]};
-let sb=null, session=null, products=[], orders=[], editing=null;
+let sb=null, session=null, products=[], orders=[], arrs=[], editing=null;
+const AST={nuevo:["Nuevo","warn"],en_proceso:["En proceso","mp"],resuelto:["Resuelto","ok"]};
 const $=s=>document.querySelector(s);
 const money=n=>"$"+Math.round(n||0).toLocaleString("es-AR");
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -282,7 +290,7 @@ async function showApp(){
   const q=new URLSearchParams(location.search).get("mp");
   if(q){history.replaceState(null,"",location.pathname);selectTab("mp");
     toast({conectado:"¡Mercado Pago conectado!",cancelado:"Cancelaste la conexión",invalido:"La conexión venció, probá de nuevo",error:"No se pudo conectar, probá de nuevo"}[q]||"")}
-  await Promise.all([loadOrders(),loadProducts()]); if(!q)renderOrders(); renderMp();
+  await Promise.all([loadOrders(),loadProducts(),loadArrs()]); if(!q)renderOrders(); renderMp();
 }
 $("#loginForm").addEventListener("submit",async e=>{
   e.preventDefault();const btn=$("#lBtn");btn.disabled=true;$("#lErr").hidden=true;
@@ -297,8 +305,8 @@ $("#logout").onclick=async()=>{await sb.auth.signOut();location.reload()};
 /* ---------- pestañas ---------- */
 function selectTab(t){
   document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===t));
-  ["orders","products","mp"].forEach(x=>$("#tab-"+x).hidden=x!==t);
-  if(t==="mp")renderMp(); if(t==="orders")renderOrders(); if(t==="products")renderProducts();
+  ["orders","products","arr","mp"].forEach(x=>$("#tab-"+x).hidden=x!==t);
+  if(t==="arr")renderArrs(); if(t==="mp")renderMp(); if(t==="orders")renderOrders(); if(t==="products")renderProducts();
 }
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>selectTab(b.dataset.tab));
 
@@ -339,6 +347,39 @@ document.addEventListener("click",async e=>{
     toast(b.dataset.oact==="paid"?(r.result==="paid_stock_issue"?"Pagado, pero faltaba stock":"Pagado · stock descontado"):"Pedido actualizado");
     await Promise.all([loadOrders(),loadProducts()]);renderOrders();
   }catch(err){toast(err.message);b.disabled=false}
+});
+
+/* ---------- arrepentimientos ---------- */
+async function loadArrs(){
+  const {data,error}=await sb.from("revocations").select("*").order("created_at",{ascending:false}).limit(200);
+  if(error){arrs=null;return}
+  arrs=data; const n=arrs.filter(a=>a.status==="nuevo").length; $("#arrN").textContent=n; $("#arrN").hidden=!n;
+}
+function renderArrs(){
+  if(arrs===null){$("#arrs").innerHTML=`<p class="empty">No pudimos cargar los arrepentimientos.</p>`;return}
+  $("#arrs").innerHTML=arrs.length?arrs.map(a=>{
+    const [lbl,cls]=AST[a.status]||[a.status,""];
+    const d=new Date(a.created_at).toLocaleString("es-AR",{day:"2-digit",month:"2-digit",year:"2-digit",hour:"2-digit",minute:"2-digit"});
+    const phone=String(a.phone||"").replace(/\D/g,""); const wa=phone.length===10?"549"+phone:phone;
+    return `<article class="card order">
+      <div class="oh"><b>${esc(a.name)} · ${esc(a.code)}</b><span class="chip ${cls}">${lbl}</span></div>
+      <div class="om">${d}${a.order_ref?` · Pedido ${esc(a.order_ref)}`:""}</div>
+      ${a.product?`<div>Producto: ${esc(a.product)}</div>`:""}
+      ${a.reason?`<div class="om">Comentario: ${esc(a.reason)}</div>`:""}
+      <div class="om">${a.phone?`WhatsApp: <a href="https://wa.me/${wa}" target="_blank" rel="noopener">${esc(a.phone)}</a>`:""}${a.phone&&a.email?" · ":""}${a.email?`<a href="mailto:${esc(a.email)}">${esc(a.email)}</a>`:""}</div>
+      <div class="row">
+        ${a.status==="nuevo"?`<button class="btn b-rose b-sm" data-aact="en_proceso" data-id="${a.id}"><i data-lucide="phone"></i>Ya la contacté</button>`:""}
+        ${a.status!=="resuelto"?`<button class="btn b-line b-sm" data-aact="resuelto" data-id="${a.id}"><i data-lucide="check"></i>Marcar resuelto</button>`:""}
+        ${a.status==="resuelto"?`<button class="btn b-ghost b-sm" data-aact="en_proceso" data-id="${a.id}">Reabrir</button>`:""}
+      </div>
+    </article>`}).join(""):`<p class="empty">No hay pedidos de arrepentimiento.</p>`;
+  icons()}
+document.addEventListener("click",async e=>{
+  const b=e.target.closest("[data-aact]"); if(!b)return;
+  b.disabled=true;
+  const {error}=await sb.from("revocations").update({status:b.dataset.aact}).eq("id",b.dataset.id);
+  if(error){toast("No se pudo actualizar");b.disabled=false;return}
+  toast("Actualizado"); await loadArrs(); renderArrs();
 });
 
 /* ---------- productos ---------- */
