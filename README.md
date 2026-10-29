@@ -47,7 +47,7 @@ Proyecto `isabella-importados` → **Settings → Environment Variables**. Carg�
 | `ADMIN_EMAILS` | opcional: email de Isabella. Si está vacío, entra cualquier usuaria creada en Supabase |
 | `SITE_URL` | `https://isabella-importados.vercel.app` |
 | `WHATSAPP_NUMBER` | `5493794717236` |
-| `MP_TEST_MODE` | `true` mientras prueban, `false` para cobrar de verdad |
+| `MP_SANDBOX` | `true` mientras prueban, `false` para cobrar de verdad |
 
 Después: **Deployments → ⋯ → Redeploy** para que tome las variables.
 
@@ -60,13 +60,13 @@ Reemplazá el contenido del repo por los archivos de esta carpeta (mantené la e
 ## Probar antes de cobrar de verdad
 
 1. En Mercado Pago Developers → tu aplicación → **Cuentas de prueba**: creá un **vendedor** y un **comprador** de prueba.
-2. Con `MP_TEST_MODE=true`, entrá a `/admin.html` → **Mercado Pago → Conectar** y autorizá con el **vendedor de prueba** (abrilo en una ventana de incógnito).
+2. Con `MP_SANDBOX=true`, entrá a `/admin.html` → **Mercado Pago → Conectar** y autorizá con el **vendedor de prueba** (abrilo en una ventana de incógnito).
 3. En la tienda, comprá algo eligiendo Mercado Pago y pagá con el **comprador de prueba** y una [tarjeta de prueba](https://www.mercadopago.com.ar/developers/es/docs/checkout-pro/integration-test/test-cards) (titular `APRO` = aprobado).
 4. Revisá en el panel: el pedido aparece **Pagado** y el stock bajó.
 
 ## Pasar a producción
 
-1. En Vercel cambiá `MP_TEST_MODE` a `false` y hacé **Redeploy**.
+1. En Vercel cambiá `MP_SANDBOX` a `false` y hacé **Redeploy**.
 2. En el panel → **Mercado Pago → Desconectar**, y que **Isabella** toque **Conectar** con su propia cuenta.
 3. Borrá los productos de ejemplo y cargá los reales desde **Productos → Nuevo producto**.
 
