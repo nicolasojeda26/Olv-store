@@ -3,30 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>OLV Store · Lencería, pijamas y bikinis para todas</title>
-<meta name="description" content="Lencería, pijamas y bikinis en todos los talles. Local en Corrientes Capital y envíos a todo el país.">
-<meta name="theme-color" content="#d6246e">
+<title>Isabella Importados · Maquillaje, skincare y calzado</title>
+<meta name="description" content="Maquillaje, skincare, combos para regalar y outlet de calzado. Local en Junín 832, Corrientes Capital, y envíos a todo el país.">
+<meta name="theme-color" content="#a50f1f">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 <style>
-/* Layout: cinta de promos + header; hero con collage de fotos reales; categorías con foto; catálogo con filtros; ficha en modal; carrito con promos calculadas y pedido por WhatsApp */
+/* Layout: cinta de avisos + header; hero con vitrina de categorías; categorías con foto; catálogo con filtros; ficha en modal; carrito con promos calculadas y pedido por WhatsApp */
 :root{
-  --blush: #fff5f8;      /* fondo de la marca */
-  --petal: #fde3ec;      /* superficies suaves */
-  --rose: #d6246e;       /* fucsia principal */
-  --berry: #8f1a4b;      /* bordó del logo */
-  --ink: #2c1520;        /* texto */
-  --muted: #7d5a68;
-  --line: #f3d2de;
+  --blush: #fbf6f1;      /* fondo crema */
+  --petal: #f6e5e2;      /* superficies suaves */
+  --rose: #a50f1f;       /* rojo Isabella */
+  --berry: #6e0a15;      /* rojo profundo */
+  --gold: #d9a441;       /* dorado de la corona */
+  --ink: #26171a;        /* texto */
+  --muted: #6d5b5c;
+  --line: #ecdcd8;
   --paper: #ffffff;
   --mint: #1f7a55;       /* precio con transferencia */
   --warn: #b5560f;
-  --display: "DM Serif Display", Georgia, "Times New Roman", serif;
-  --body: Figtree, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display: Fraunces, Georgia, "Times New Roman", serif;
+  --body: Outfit, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --script: Allura, "Brush Script MT", cursive;
   --radius: 18px;
-  --shadow: 0 1px 2px rgb(143 26 75 / .06), 0 10px 30px -12px rgb(143 26 75 / .22);
+  --shadow: 0 1px 2px rgb(110 10 21 / .06), 0 10px 30px -12px rgb(110 10 21 / .22);
   --ease: cubic-bezier(0.23, 1, 0.32, 1);
 }
 *{box-sizing:border-box}
@@ -44,15 +46,16 @@ svg.lucide{width:20px;height:20px;stroke-width:1.8}
 .ribbon{background:var(--berry);color:#fff;font-size:13px;font-weight:600;letter-spacing:.02em;overflow:hidden;white-space:nowrap}
 .ribbon-track{display:inline-flex;gap:48px;padding-block:9px;animation:marquee 38s linear infinite}
 .ribbon-track span{display:inline-flex;align-items:center;gap:8px}
-.ribbon-track span::before{content:"✦";color:#ffb3cf}
+.ribbon-track span::before{content:"♛";color:var(--gold)}
 @keyframes marquee{to{transform:translateX(-50%)}}
 
 /* header */
-header{position:sticky;top:0;z-index:30;background:rgb(255 245 248 / .92);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+header{position:sticky;top:0;z-index:30;background:rgb(251 246 241 / .92);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
 .nav{display:flex;align-items:center;gap:12px;min-height:68px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
 .brand img{width:46px;height:46px;border-radius:50%;object-fit:cover}
-.brand b{font-family:var(--display);font-weight:400;font-size:26px;color:var(--berry);line-height:1}
+.brand b{font-family:var(--script);font-weight:400;font-size:40px;color:var(--rose);line-height:1;display:flex;align-items:flex-start;gap:2px;padding-top:6px}
+.brand b svg{width:16px;height:16px;color:var(--gold);margin-top:-4px}
 .brand small{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
 .links{display:none;gap:4px;margin-left:16px}
 .links button{padding:8px 12px;border-radius:999px;font-weight:500;font-size:15px}
@@ -69,20 +72,26 @@ header{position:sticky;top:0;z-index:30;background:rgb(255 245 248 / .92);backdr
 .hero{padding-block:40px 24px;display:grid;gap:36px;align-items:center}
 @media (min-width:920px){.hero{grid-template-columns:1.05fr 1fr;padding-block:56px 40px}}
 .kicker{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--line);padding:6px 12px;border-radius:999px;font-size:13px;font-weight:600;color:var(--berry)}
-.kicker svg{width:16px;height:16px;color:#e3a008;fill:#e3a008}
-.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(44px,7.4vw,86px);line-height:.95;letter-spacing:-.02em;margin:18px 0 18px;text-wrap:balance;color:var(--ink)}
-.hero h1 em{color:var(--rose);font-style:italic}
+.kicker svg{width:16px;height:16px;color:var(--gold)}
+.hero h1{font-family:var(--display);font-weight:500;font-size:clamp(44px,7.4vw,86px);line-height:.95;letter-spacing:-.02em;margin:18px 0 18px;text-wrap:balance;color:var(--ink)}
+.hero h1 em{color:var(--rose);font-family:var(--script);font-style:normal;font-weight:400;font-size:1.3em;line-height:.8}
 .hero p{max-width:46ch;margin:0;font-size:18px;color:var(--muted)}
 .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 24px;border-radius:999px;font-weight:700;text-decoration:none;transition:transform .15s var(--ease),filter .2s var(--ease),background .2s var(--ease)}
 .btn:active{transform:scale(.97)}
-.btn-rose{background:var(--rose);color:#fff;box-shadow:0 8px 20px -8px rgb(214 36 110 / .7)}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 8px 20px -8px rgb(165 15 31 / .6)}
 .btn-line{background:var(--paper);border:1px solid var(--line);color:var(--ink)}
 .btn-wa{background:#1fa855;color:#fff;width:100%}
 .btn-ink{background:var(--ink);color:#fff;width:100%}
 @media (hover:hover){.btn:hover{filter:brightness(1.05)}}
 .sizes-strip{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:22px;font-size:13px;color:var(--muted)}
 .sizes-strip i{font-style:normal;font-weight:700;color:var(--berry);background:var(--petal);border-radius:8px;padding:3px 8px;font-variant-numeric:tabular-nums}
+.showcase{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:540px;width:100%;margin-inline:auto}
+.tile{position:relative;aspect-ratio:1;border-radius:24px;overflow:hidden;text-align:left;box-shadow:var(--shadow)}
+.tile:nth-child(2){transform:translateY(22px)}.tile:nth-child(3){transform:translateY(-6px)}.tile:nth-child(4){transform:translateY(16px)}
+.tile span{position:absolute;left:16px;bottom:14px;z-index:1;font-family:var(--display);font-size:20px;font-weight:600;color:var(--ink);line-height:1.05}
+.tile span small{display:block;font-family:var(--body);font-size:12px;font-weight:600;color:var(--muted);margin-top:3px}
+.tile .ico svg{width:38%;height:38%;margin-bottom:18%}
 .collage{position:relative;aspect-ratio:1/0.92;max-width:560px;width:100%;margin-inline:auto}
 .collage figure{position:absolute;margin:0;border-radius:24px;overflow:hidden;box-shadow:var(--shadow);background:var(--petal);border:6px solid var(--paper)}
 .collage img{width:100%;height:100%;object-fit:cover}
@@ -106,12 +115,13 @@ header{position:sticky;top:0;z-index:30;background:rgb(255 245 248 / .92);backdr
 .sec-h h2{font-family:var(--display);font-weight:400;font-size:clamp(30px,4vw,44px);line-height:1;margin:0;letter-spacing:-.01em}
 .sec-h p{margin:6px 0 0;color:var(--muted)}
 .cats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-@media (min-width:700px){.cats{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media (min-width:1100px){.cats{grid-template-columns:repeat(6,minmax(0,1fr))}}
-.cat{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:3/4;background:var(--petal);text-align:left}
+
+@media (min-width:1100px){.cats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.cat{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3;background:var(--petal);text-align:left}
 .cat img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
 @media (hover:hover){.cat:hover img{transform:scale(1.04)}}
-.cat::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgb(60 10 32 / .72))}
+.cat .ico svg{margin-bottom:22%}
+.cat::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgb(60 10 20 / .62))}
 .cat span{position:absolute;left:14px;right:14px;bottom:12px;z-index:1;color:#fff;font-family:var(--display);font-size:24px;line-height:1.05}
 .cat small{display:block;font-family:var(--body);font-size:12px;font-weight:600;opacity:.9;margin-top:4px}
 
@@ -138,11 +148,14 @@ header{position:sticky;top:0;z-index:30;background:rgb(255 245 248 / .92);backdr
 .ph{position:relative;aspect-ratio:4/5;background:var(--petal);overflow:hidden}
 .ph img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
 @media (hover:hover){.card:hover .ph img{transform:scale(1.04)}}
-.ph.noimg::after{content:"OLV";position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-size:42px;color:var(--rose);opacity:.5}
+.ico{position:absolute;inset:0;display:grid;place-items:center;background:oklch(0.93 0.045 var(--h))}
+.ico svg.lucide{width:42%;height:42%;stroke-width:1.15;color:oklch(0.45 0.13 var(--h))}
+.th{position:relative;overflow:hidden}
+.ph.noimg::after{content:"♛";position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-size:42px;color:var(--rose);opacity:.5}
 .badges{position:absolute;left:10px;top:10px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;z-index:1}
 .bdg{font-size:11.5px;font-weight:700;padding:4px 9px;border-radius:999px;background:var(--paper);color:var(--ink)}
 .bdg.off{background:var(--rose);color:#fff}
-.bdg.low{background:#fff3e2;color:var(--warn)}
+.bdg.low{background:#fff1dc;color:var(--warn)}
 .bdg.out{background:var(--ink);color:#fff}
 .card.soldout .ph img{filter:grayscale(.6) opacity(.7)}
 .cb{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px;flex:1}
@@ -167,12 +180,12 @@ header{position:sticky;top:0;z-index:30;background:rgb(255 245 248 / .92);backdr
 .visit b{display:block}
 .visit span{color:var(--muted);font-size:15px}
 
-footer{background:var(--berry);color:#fde3ec;font-size:14px;margin-top:20px}
+footer{background:var(--berry);color:#f6e5e2;font-size:14px;margin-top:20px}
 .foot{display:grid;gap:24px;padding-block:40px calc(40px + env(safe-area-inset-bottom,0px))}
 @media (min-width:800px){.foot{grid-template-columns:1.6fr 1fr 1fr}}
 .foot h4{color:#fff;margin:0 0 10px;font-size:15px}
 .foot p{margin:0;max-width:40ch;opacity:.9}
-.foot .big{font-family:var(--display);font-size:34px;color:#fff;line-height:1;margin-bottom:10px}
+.foot .big{font-family:var(--script);font-size:48px;color:#fff;line-height:1;margin-bottom:10px}
 .foot a{text-decoration:none}
 .foot small{display:block;margin-top:20px;opacity:.7}
 
@@ -182,7 +195,8 @@ footer{background:var(--berry);color:#fde3ec;font-size:14px;margin-top:20px}
 .modal{position:fixed;z-index:60;left:50%;top:50%;width:min(920px,calc(100% - 24px));max-height:calc(100% - 24px);overflow:auto;background:var(--paper);border-radius:24px;transform:translate(-50%,-46%) scale(.97);opacity:0;pointer-events:none;transition:transform .3s var(--ease),opacity .2s var(--ease);display:grid}
 .modal.on{transform:translate(-50%,-50%);opacity:1;pointer-events:auto}
 @media (min-width:760px){.modal{grid-template-columns:1fr 1fr}}
-.modal .ph{aspect-ratio:4/5;border-radius:0}
+.modal .ph{aspect-ratio:4/5;border-radius:0;min-height:0}
+@media (max-width:759px){.modal .ph{aspect-ratio:auto;height:min(38vh,300px);flex:none}.modal{grid-template-rows:auto auto}}
 .md{padding:22px;display:flex;flex-direction:column;gap:12px;position:relative}
 .md h3{font-family:var(--display);font-weight:400;font-size:30px;line-height:1.05;margin:0;padding-right:40px}
 .md .x{position:absolute;right:10px;top:10px}
@@ -194,6 +208,7 @@ footer{background:var(--berry);color:#fde3ec;font-size:14px;margin-top:20px}
 .sz small{font-size:10.5px;font-weight:600;color:var(--warn)}
 .sz[aria-pressed=true]{border-color:var(--ink);background:var(--ink);color:#fff}
 .sz[aria-pressed=true] small{color:#ffd9a8}
+.md .tr:empty,.cb .tr:empty,.cu:empty{display:none}
 .sz:disabled{opacity:.4;text-decoration:line-through;cursor:not-allowed}
 .qty{display:inline-flex;align-items:center;border:1.5px solid var(--line);border-radius:999px;align-self:flex-start}
 .qty button{width:42px;height:42px;display:grid;place-items:center}
@@ -260,61 +275,53 @@ footer{background:var(--berry);color:#fde3ec;font-size:14px;margin-top:20px}
 
 <header>
   <div class="wrap nav">
-    <a class="brand" href="#top" aria-label="OLV Store, inicio">
-      <img src="https://acdn-us.mitiendanube.com/stores/003/029/191/themes/common/logo-8868802978764947257-1786400212-561904b3b3343ca132c1045c03ce2f8c1786400213-480-0.webp" alt="" width="46" height="46" onerror="this.remove()">
-      <div><b>OLV</b><small>Olivia Store</small></div>
+    <a class="brand" href="#top" aria-label="Isabella Importados, inicio">
+      <div><b><i data-lucide="crown"></i>Isabella</b><small>Importados</small></div>
     </a>
     <nav class="links" aria-label="Categorías">
-      <button data-go="Bikinis">Bikinis</button>
-      <button data-go="Enterizas">Enterizas</button>
-      <button data-go="Lencería">Lencería</button>
-      <button data-go="Pijamas">Pijamas</button>
-      <button data-go="Ropa">Ropa</button>
-      <button data-go="Combos">Combos</button>
+      <button data-go="Maquillaje">Maquillaje</button>
+      <button data-go="Skincare">Skincare</button>
+      <button data-go="Combos y regalos">Combos y regalos</button>
+      <button data-go="Outlet calzado">Outlet calzado</button>
     </nav>
     <div class="sp"></div>
     <button class="ibtn" id="openAdmin" aria-label="Panel de stock"><i data-lucide="clipboard-list"></i><span class="hide-sm">Stock</span></button>
-    <button class="ibtn" id="openCart" aria-label="Abrir carrito"><i data-lucide="shopping-bag"></i><span class="count" id="cartCount">0</span></button>
+    <button class="ibtn" id="openCart" aria-label="Abrir tu pedido"><i data-lucide="shopping-bag"></i><span class="count" id="cartCount">0</span></button>
   </div>
 </header>
 
 <main id="top">
   <section class="wrap hero">
     <div>
-      <span class="kicker"><i data-lucide="star"></i>4,9 en Google · 227 opiniones</span>
-      <h1>Lencería, pijamas y bikinis <em>para todas</em></h1>
-      <p>Marca correntina desde 2020. Talles reales hasta el 135, envíos a todo el país y un local donde te atendemos como en casa.</p>
+      <span class="kicker"><i data-lucide="crown"></i>Más de 10 años atendiendo en Corrientes</span>
+      <h1>Todo para sentirte la <em>reina</em> de la casa</h1>
+      <p>Maquillaje, rutinas de skincare, combos para regalar armados a mano y el outlet de zapatos con pares únicos. Elegí online, te confirmamos por WhatsApp y retirás en el local o te lo enviamos.</p>
       <div class="cta">
-        <a class="btn btn-rose" href="#catalogo"><i data-lucide="sparkles"></i>Ver la colección</a>
-        <button class="btn btn-line" data-go="Combos"><i data-lucide="gift"></i>Combos para ahorrar</button>
+        <a class="btn btn-rose" href="#catalogo"><i data-lucide="sparkles"></i>Ver productos</a>
+        <button class="btn btn-line" data-go="Outlet calzado"><i data-lucide="tag"></i>Outlet de calzado</button>
       </div>
-      <div class="sizes-strip">Encontrá tu talle:<i>85</i><i>90</i><i>100</i><i>110</i><i>120</i><i>130</i><i>135</i></div>
+      <div class="sizes-strip">Calzado del<i>35</i>al<i>40</i>· nacional y brasilero 🇦🇷 🇧🇷</div>
     </div>
-    <div class="collage" aria-hidden="true">
-      <figure class="a"><img src="https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_4860-8bab54d6bca5feaef217398058322327-640-0.webp" alt="" onerror="this.parentNode.classList.add('noimg');this.remove()"></figure>
-      <figure class="b"><img src="https://acdn-us.mitiendanube.com/stores/003/029/191/products/71e8b016-d029-4090-84b2-92a0cd7a63b8-468a6fcd616ee9c41717930339578277-640-0.webp" alt="" onerror="this.parentNode.classList.add('noimg');this.remove()"></figure>
-      <figure class="c"><img src="https://acdn-us.mitiendanube.com/stores/003/029/191/products/1c8c4a77-fd92-4406-b4f6-10d2a212c35b-d73555527928e110e417912532499655-640-0.webp" alt="" onerror="this.parentNode.classList.add('noimg');this.remove()"></figure>
-      <div class="stamp"><div>20% OFF<small>CON TRANSFERENCIA</small></div></div>
-    </div>
+    <div class="showcase" id="showcase"></div>
   </section>
 
   <section class="wrap perks" aria-label="Beneficios">
-    <div class="perk"><i data-lucide="truck"></i><div><b>Envío gratis</b><span>a sucursal desde $85.000</span></div></div>
-    <div class="perk"><i data-lucide="credit-card"></i><div><b>Hasta 6 cuotas</b><span>sin interés</span></div></div>
-    <div class="perk"><i data-lucide="repeat"></i><div><b>Cambios fáciles</b><span>hasta 15 días</span></div></div>
-    <div class="perk"><i data-lucide="rocket"></i><div><b>Despacho inmediato</b><span>a todo el país</span></div></div>
+    <div class="perk"><i data-lucide="truck"></i><div><b>Envíos</b><span>en Corrientes y a todo el país</span></div></div>
+    <div class="perk"><i data-lucide="store"></i><div><b>Retiro en el local</b><span>Junín 832, Corrientes</span></div></div>
+    <div class="perk"><i data-lucide="gift"></i><div><b>Regalos armados</b><span>con los colores que elijas</span></div></div>
+    <div class="perk"><i data-lucide="message-circle"></i><div><b>Atención por WhatsApp</b><span>te asesoramos antes de comprar</span></div></div>
   </section>
 
   <section class="wrap sec" aria-labelledby="catsTitle">
-    <div class="sec-h"><div><h2 id="catsTitle">Comprá por categoría</h2><p>Nueva colección 26/27</p></div></div>
+    <div class="sec-h"><div><h2 id="catsTitle">Comprá por categoría</h2><p>Lo que encontrás en el local, ahora online</p></div></div>
     <div class="cats" id="cats"></div>
   </section>
 
   <section class="wrap sec" id="catalogo" aria-labelledby="catTitle">
-    <div class="sec-h"><div><h2 id="catTitle">La tienda</h2><p>Elegí tu talle en cada producto: te mostramos solo lo que hay.</p></div></div>
+    <div class="sec-h"><div><h2 id="catTitle">La tienda</h2><p>Mirá qué hay en stock y, en calzado, qué talles quedan de cada par.</p></div></div>
     <div class="toolbar">
       <div class="row">
-        <label class="search"><i data-lucide="search"></i><span class="sr">Buscar</span><input id="q" type="search" placeholder="Buscar bikini, pijama, pack…" autocomplete="off"></label>
+        <label class="search"><i data-lucide="search"></i><span class="sr">Buscar</span><input id="q" type="search" placeholder="Buscar labial, sérum, sandalias…" autocomplete="off"></label>
         <label class="sr" for="sort">Ordenar</label>
         <select class="sort" id="sort">
           <option value="rel">Destacados</option>
@@ -333,16 +340,16 @@ footer{background:var(--berry);color:#fde3ec;font-size:14px;margin-top:20px}
     <div class="story">
       <div>
         <span class="eyebrow">Nuestra historia</span>
-        <h2>Una familia, un equipo y un sueño compartido</h2>
-        <p>Olivia nació de un sueño y creció gracias al esfuerzo y al cariño de mucha gente. Hoy la llevamos adelante en familia, con Lolo y un equipo de mujeres increíbles.</p>
-        <p>Cada pedido sale con tiempo, cuidado y mucho amor. Más que una tienda, somos personas reales que disfrutan acompañarte en cada compra.</p>
+        <h2>Vender lo llevamos en la sangre</h2>
+        <p>Isabella es un emprendimiento correntino con más de 10 años de experiencia en ventas y un local a la calle. Empezamos con calzado, sumamos maquillaje y skincare, y hoy volvimos con el outlet de zapatos.</p>
+        <p>Armamos cada regalo a mano y te asesoramos como si estuvieras en el local. Gracias por elegirnos y por acompañarnos en cada etapa.</p>
       </div>
       <div class="visit">
         <span class="eyebrow">Visitanos</span>
-        <div><i data-lucide="map-pin"></i><span><b>Pasaje Álvarez 871</b>entre Virasoro y Pujol · Corrientes Capital</span></div>
-        <div><i data-lucide="clock"></i><span><b>Lunes a sábado</b>9 a 12 y 18 a 21 hs · Domingos cerrado</span></div>
-        <div><i data-lucide="message-circle"></i><span><b>WhatsApp</b>+54 9 379 428-4049</span></div>
-        <a class="btn btn-rose" href="https://www.google.com/maps/search/?api=1&query=Pasaje+%C3%81lvarez+871+Corrientes" target="_blank" rel="noopener"><i data-lucide="navigation"></i>Cómo llegar</a>
+        <div><i data-lucide="map-pin"></i><span><b>Junín 832</b>entre Salta y Buenos Aires · Corrientes Capital</span></div>
+        <div><i data-lucide="clock"></i><span><b>Horarios</b>9:30 a 13 y 17:30 a 21 hs</span></div>
+        <div><i data-lucide="message-circle"></i><span><b>WhatsApp</b>3794-717236</span></div>
+        <a class="btn btn-rose" href="https://www.google.com/maps/search/?api=1&query=Jun%C3%ADn+832+Corrientes+Capital" target="_blank" rel="noopener"><i data-lucide="navigation"></i>Cómo llegar</a>
       </div>
     </div>
   </section>
@@ -351,30 +358,30 @@ footer{background:var(--berry);color:#fde3ec;font-size:14px;margin-top:20px}
 <footer>
   <div class="wrap foot">
     <div>
-      <div class="big">OLV Store</div>
-      <p>Lencería, pijamas y bikinis para todas. Marca registrada desde 2020 🇦🇷</p>
+      <div class="big">Isabella</div>
+      <p>Prendas, calzados y belleza, nacionales e importados. Más de 10 años atendiendo en Corrientes.</p>
     </div>
     <div><h4>Comprá</h4><div style="display:grid;gap:6px">
-      <a href="#catalogo" data-go="Bikinis">Bikinis y enterizas</a>
-      <a href="#catalogo" data-go="Lencería">Lencería</a>
-      <a href="#catalogo" data-go="Pijamas">Pijamas</a>
-      <a href="#catalogo" data-go="Combos">Combos</a></div></div>
+      <a href="#catalogo" data-go="Maquillaje">Maquillaje</a>
+      <a href="#catalogo" data-go="Skincare">Skincare</a>
+      <a href="#catalogo" data-go="Combos y regalos">Combos y regalos</a>
+      <a href="#catalogo" data-go="Outlet calzado">Outlet calzado</a></div></div>
     <div><h4>Contacto</h4><div style="display:grid;gap:6px">
-      <a href="https://wa.me/5493794284049" target="_blank" rel="noopener">WhatsApp +54 9 379 428-4049</a>
-      <a href="https://www.instagram.com/olv.storearg/" target="_blank" rel="noopener">Instagram @olv.storearg</a>
-      <span>Pasaje Álvarez 871, Corrientes</span></div></div>
+      <a href="https://wa.me/5493794717236" target="_blank" rel="noopener">WhatsApp 3794-717236</a>
+      <a href="https://www.instagram.com/isabella.importados/" target="_blank" rel="noopener">Instagram @isabella.importados</a>
+      <span>Junín 832, Corrientes Capital</span></div></div>
   </div>
-  <div class="wrap" style="padding-bottom:24px;font-size:12px;opacity:.75">© 2026 Olivia Store. Precios en pesos argentinos. Las promociones se confirman al cerrar el pedido.</div>
+  <div class="wrap" style="padding-bottom:24px;font-size:12px;opacity:.75">© 2026 Isabella Importados. Precios en pesos argentinos. Catálogo de muestra: se reemplaza por el real al cargar los productos.</div>
 </footer>
 
-<a class="wa-float" href="https://wa.me/5493794284049" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp"><i data-lucide="message-circle"></i></a>
+<a class="wa-float" href="https://wa.me/5493794717236" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp"><i data-lucide="message-circle"></i></a>
 
 <div class="scrim" id="scrim"></div>
 
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle"></div>
 
 <aside class="drawer" id="cart" aria-label="Tu carrito">
-  <div class="dh"><h3 id="cartTitle">Tu carrito</h3><button class="ibtn" data-close aria-label="Cerrar"><i data-lucide="x"></i></button></div>
+  <div class="dh"><h3 id="cartTitle">Tu pedido</h3><button class="ibtn" data-close aria-label="Cerrar"><i data-lucide="x"></i></button></div>
   <div class="db" id="cartBody"></div>
   <div class="df" id="cartFoot"></div>
 </aside>
@@ -383,7 +390,7 @@ footer{background:var(--berry);color:#fde3ec;font-size:14px;margin-top:20px}
   <div class="dh"><h3>Panel de stock</h3><button class="ibtn" data-close aria-label="Cerrar"><i data-lucide="x"></i></button></div>
   <div class="db">
     <div class="kpis" id="kpis"></div>
-    <p class="note" style="margin-bottom:10px">Vista para el equipo de OLV. Cambiá las unidades por talle y la tienda se actualiza al instante. Lo agotado se marca solo.</p>
+    <p class="note" style="margin-bottom:10px">Vista para la dueña. Cambiá las unidades (y en calzado, por talle) y la tienda se actualiza al instante. Lo agotado se marca solo.</p>
     <div class="adm-filter" id="admFilter"></div>
     <div id="adminList"></div>
   </div>
@@ -393,19 +400,17 @@ footer{background:var(--berry);color:#fde3ec;font-size:14px;margin-top:20px}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-const WA="5493794284049";
-const FREE_BRANCH=85000, FREE_HOME=150000, TRANSFER=0.20, MULTI=0.10, MULTI_MIN=3;
-const PROMOS=["20% OFF abonando con transferencia","Envío gratis a sucursal desde $85.000","Envío gratis a domicilio desde $150.000","Llevando 3 productos o más, 10% OFF extra","Hasta 6 cuotas sin interés","Cambios hasta 15 días"];
+const WA="5493794717236";
+const TRANSFER=0; // poner 0.10 si hay 10% OFF por transferencia
+const PROMOS=["Envíos en Corrientes y a todo el país","Retiro en el local: Junín 832","Outlet de calzado: pares únicos","Combos de skincare personalizados para regalar","Consultas al 3794-717236"];
 const CATS=[
-  {k:"Bikinis",d:"Texturadas y tiro alto"},
-  {k:"Enterizas",d:"Hasta el talle 6"},
-  {k:"Lencería",d:"Conjuntos y packs"},
-  {k:"Pijamas",d:"Camiseros y modal"},
-  {k:"Ropa",d:"Tops, bodys y shorts"},
-  {k:"Combos",d:"Para ahorrar"}
+  {k:"Maquillaje",d:"Labiales, bases y paletas",icon:"palette",h:15},
+  {k:"Skincare",d:"Tu rutina de cuidado",icon:"flask-conical",h:165},
+  {k:"Combos y regalos",d:"Armados a mano",icon:"gift",h:345},
+  {k:"Outlet calzado",d:"Pares únicos del 35 al 40",icon:"footprints",h:60}
 ];
-const SEED=[{"id": 307687071, "cat": "Bikinis", "name": "Bik Lali Texturada Chocolate/Crema", "price": 33980, "old": 50000, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_2204-78b1b930bd596d032117685053843511-640-0.webp", "sizes": {"1": 4, "2": 0, "3": 0, "4": 0, "5": 0}}, {"id": 311048642, "cat": "Bikinis", "name": "Bik Lali Texturada Blanca y Negra", "price": 33950, "old": 50000, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/fullsizerender_vsco-98609a3cf65c66bbfb17648060530275-640-0.webp", "sizes": {"1": 3, "2": 0, "3": 1, "4": 0, "5": 0}}, {"id": 316926943, "cat": "Bikinis", "name": "Bik Sofia Rojo/Rosa", "price": 33980, "old": 67960, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_4568-d25376f69fc52a496b17685066896628-640-0.webp", "sizes": {"1": 0, "2": 0, "3": 1, "4": 0}}, {"id": 307631981, "cat": "Bikinis", "name": "Bikini Cherry One Shoulder", "price": 33120, "old": 67100, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_7522-a8f503c4474066562417633166196705-640-0.webp", "sizes": {"2": 0, "3": 0, "4": 0, "5": 0, "6": 2}}, {"id": 241728238, "cat": "Bikinis", "name": "Bikini Ipanema Negra hasta el T.135", "price": 41020, "old": 75000, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_4860-8bab54d6bca5feaef217398058322327-640-0.webp", "sizes": {"P": 2, "M": 4, "G": 2}}, {"id": 320705017, "cat": "Bikinis", "name": "Bikini Laos Textura Petróleo/Crema", "price": 33980, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_2997-75c7e7146b1ad605b817693960535169-640-0.webp", "sizes": {"1": 1, "2": 1, "3": 0, "5": 0}}, {"id": 307687427, "cat": "Bikinis", "name": "Bikini Laos Textura Choco/Rosa", "price": 33980, "old": 55000, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_7562-b7625333b88673ad7517633453430705-640-0.webp", "sizes": {"2": 1, "4": 0, "5": 0}}, {"id": 315938032, "cat": "Bikinis", "name": "Bik Lali Textura Maui Negra Combinada", "price": 33980, "old": 67960, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_1440-a0bef084bbff0714a217673861338665-640-0.webp", "sizes": {"1": 1, "2": 0, "3": 0, "4": 0, "5": 0}}, {"id": 315922090, "cat": "Bikinis", "name": "Bik Lali Chicle y Lima", "price": 33980, "old": 50000, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_1480-37ddc44abf2c347fbb17673842043497-640-0.webp", "sizes": {"1": 1, "2": 0, "3": 0, "4": 0, "5": 0}}, {"id": 306061935, "cat": "Bikinis", "name": "Bikini Cherry Rib", "price": 33980, "old": 55000, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/33b00be3-e255-4be6-b641-520e175ac83d_original-ca99ca61626e99244e17633150861675-640-0.webp", "sizes": {"2": 2, "3": 0, "4": 0, "5": 0, "6": 0}}, {"id": 321865984, "cat": "Bikinis", "name": "Bikini Laos Textura Uva/Crema", "price": 33980, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_3318-7262ac41f62105ddfc17697945422009-640-0.webp", "sizes": {"1": 3, "2": 0, "3": 0, "4": 0, "5": 0}}, {"id": 315937498, "cat": "Bikinis", "name": "Bik Ibiza Textura Cuadrille Lila", "price": 33980, "old": 50000, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_1437-876d3fdd39254c2f2f17673859981567-640-0.webp", "sizes": {"3": 1, "4": 0, "5": 0, "6": 0}}, {"id": 376814385, "cat": "Enterizas", "name": "Enteriza Maragogi Texturada Combinada", "price": 55000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_5121-e4f5e05c7ec209cd4c17930359310616-640-0.webp", "sizes": {"4": 0, "5": 0, "6": 2}}, {"id": 376813516, "cat": "Enterizas", "name": "Enteriza Maragogi Lycra Chocolate Combinada", "price": 55000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_5118-9d93ea8ec51febebd917930358012405-640-0.webp", "sizes": {"4": 0, "5": 0, "6": 2}}, {"id": 376813346, "cat": "Enterizas", "name": "Enteriza Maragogi Lycra Verde Combinada", "price": 55000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_5119-b502c9da086350c2ee17930357803848-640-0.webp", "sizes": {"4": 0, "5": 0, "6": 2}}, {"id": 364069257, "cat": "Enterizas", "name": "Enteriza Mancora Mora con Rosa", "price": 51030, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_2332-e7bc8e1a86fdc4f2a917900184993752-640-0.webp", "sizes": {"3": 2, "4": 2, "5": 2}}, {"id": 364056211, "cat": "Enterizas", "name": "Enteriza Saona Petróleo", "price": 51030, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_2150-cc7e6d871575b52b1b17898685136019-640-0.webp", "sizes": {"3": 4, "4": 4, "5": 4, "6": 4}}, {"id": 364056032, "cat": "Enterizas", "name": "Enteriza Saona Negro", "price": 51030, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/tezza-0994_original-86d3a1bbfc44f0f0ea17899004875051-640-0.webp", "sizes": {"3": 3, "4": 3, "5": 4, "6": 2}}, {"id": 364055933, "cat": "Enterizas", "name": "Enteriza Mancora", "price": 51030, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_4774-7b20aa7fd8c397eb6717899006027580-640-0.webp", "sizes": {"3": 3, "5": 0}}, {"id": 372345713, "cat": "Lencería", "name": "Conjunto de Morley con Arco hasta el T.120", "price": 20000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/e734a129-0956-40aa-8b1b-9a285a194bca-09cb4cf1b7844802ee17913074089439-640-0.webp", "sizes": {"100": 2, "105": 2, "110": 1, "115": 2, "120": 1}}, {"id": 372245653, "cat": "Lencería", "name": "Conjunto Ara Animal Print + Arnés hasta el T.120", "price": 30000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/df446538-f44e-41d1-a5cc-85943b2b43b6-f2b3184fff7b3393bc17912533178377-640-0.webp", "sizes": {"100": 0, "105": 0, "110": 1, "115": 0, "120": 2}}, {"id": 372245615, "cat": "Lencería", "name": "Conjunto Merli + Arnés hasta el T.120", "price": 30000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/1c8c4a77-fd92-4406-b4f6-10d2a212c35b-d73555527928e110e417912532499655-640-0.webp", "sizes": {"100": 2, "105": 1, "110": 2, "115": 1, "120": 2}}, {"id": 372245470, "cat": "Lencería", "name": "Baby Doll Sweet · incluye Less hasta el T.120", "price": 30000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/cb732ec0-bff8-42cc-9f82-da86cc7472a1-4a09fffdcedc765f7317912531373338-640-0.webp", "sizes": {"100": 1, "105": 2, "110": 1, "115": 0, "120": 0}}, {"id": 371946822, "cat": "Lencería", "name": "Pack X3 Colaless Tiro Alto Estampada", "price": 40500, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/13f4ce4f-de1e-4ec3-b62c-86c8d6321a15-c5ae12d1ba8e19f5ea17928689436304-640-0.webp", "sizes": {"1": 0, "2": 6, "3": 6}}, {"id": 370723227, "cat": "Lencería", "name": "Pack X2 Colaless Estampada de Algodón con Lycra", "price": 24300, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/6672023a-628b-4d10-858f-72186fc90d3a-9903767176f7fcc9e817907053108424-640-0.webp", "sizes": {"2": 5, "3": 9}}, {"id": 370722856, "cat": "Lencería", "name": "Pack X2 Vedetina Estampada de Algodón con Lycra", "price": 24300, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/60610ab0-ba93-4256-840a-38085f6ff42e-c86e8bcbe1fb2e893b17907051314485-640-0.webp", "sizes": {"1": 0, "2": 6, "3": 14}}, {"id": 368175430, "cat": "Lencería", "name": "Pack X2 Culoteless Tiro Alto Algodón", "price": 32000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/8a3d8d48-a3e9-4160-aca5-1acd6a9b3dd9-aac6da127331948ce817896728648191-640-0.jpg", "sizes": {"2": 12, "3": 6}}, {"id": 368174709, "cat": "Lencería", "name": "Pack X3 Less Regulable de Algodón", "price": 38330, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/feb9e474-a84f-4c74-b4e5-94f44ff7349e-8df525c8129f201f4e17907310009206-640-0.webp", "sizes": {"1": 6, "2": 6, "3": 6}}, {"id": 376807381, "cat": "Pijamas", "name": "Pijama Camisero Lucifer Modal", "price": 55000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_5106-28d34df464ba94cd0917930348970322-640-0.webp", "sizes": {"M": 3, "L": 3, "XL": 3}}, {"id": 376545595, "cat": "Pijamas", "name": "Pijama Línea Morley hasta T.64", "price": 25000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/aec75afd-c344-487d-aea8-f668b54808ca-7a70819d10d782775417928797667804-640-0.webp", "sizes": {"T.50": 1, "T.54": 0, "T.58": 0, "T.62": 1}}, {"id": 375030787, "cat": "Pijamas", "name": "Pijama Camisero Modal Rayas Tendencia", "price": 55000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/71e8b016-d029-4090-84b2-92a0cd7a63b8-468a6fcd616ee9c41717930339578277-640-0.webp", "sizes": {"M": 0, "L": 5, "XL": 5}}, {"id": 374119656, "cat": "Pijamas", "name": "Pijama Línea Modal Estampado hasta T.64", "price": 25000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/4e96c651-9a18-4a06-a5c9-09c2a7960055-f9cceccc47fcd1e77717928798782932-640-0.webp", "sizes": {"T.50": 0, "T.54": 1, "T.58": 1, "T.62": 1}}, {"id": 375898948, "cat": "Ropa", "name": "Top Vane", "price": 21000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_9172-22c14ee8609b570d8a17926780425527-640-0.webp", "sizes": {"Negro · XXL": 2, "Chocolate · XXL": 2}}, {"id": 375898262, "cat": "Ropa", "name": "Remera Lina Strass", "price": 26000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/779275cf-4bb9-4655-bf6f-bf1a3cf54e6f-70d128bee7e2581c4a17926784401856-640-0.webp", "sizes": {"Negro · XXL": 1}}, {"id": 375897492, "cat": "Ropa", "name": "Remerón Tul Greta", "price": 27000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/c896f6dc-ce66-4430-9fbb-848a260fccb0-7091d0749b76393e5517926930276720-640-0.webp", "sizes": {"Negro": 2}}, {"id": 375896444, "cat": "Ropa", "name": "Remera Luisa", "price": 26000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/5c774a61-9d13-440a-83ba-b55beb3edead-82e130a6853341b4e317926927677942-640-0.webp", "sizes": {"Negro · XXL": 1}}, {"id": 375895986, "cat": "Ropa", "name": "Body Roma", "price": 26000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/fab388e7-e8d6-4455-a06d-bfdf3381118e-df2b54c61d570435dd17926773716867-640-0.webp", "sizes": {"Beige · XXL": 2, "Negro · XXL": 2}}, {"id": 375894617, "cat": "Ropa", "name": "Top Flavia", "price": 28000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_9164-99073c37a46ec3ef4517926771059306-640-0.webp", "sizes": {"Chocolate · XXL": 2, "Negro · XXL": 2}}, {"id": 375893279, "cat": "Ropa", "name": "Body Sole", "price": 27000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/534229da-376f-4408-8360-af5f439eae1e-a0d81f462c8fdbb6d117928685220852-640-0.webp", "sizes": {"Chocolate · XXL": 2, "Negro · XXL": 2, "Beige · XXL": 2}}, {"id": 375250604, "cat": "Ropa", "name": "Short Azul Clarisa", "price": 48600, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/610fd3f8-89d2-402a-8d6b-46df4bcb27e2-78b227e0a9538b654f17924427956257-640-0.webp", "sizes": {"46": 1, "48": 1, "50": 1}}, {"id": 375249657, "cat": "Ropa", "name": "Short Nevado Celeste Botamanga", "price": 48600, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/b19d2c7c-9661-432a-9b7e-9f73e5d50a1a-c8c339c05eaf00fb2317924425796881-640-0.webp", "sizes": {"46": 1, "48": 1, "50": 1}}, {"id": 375249137, "cat": "Ropa", "name": "Short Azul Nevado Flecos Bigotes", "price": 48600, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/add77f5e-8bb5-4ac1-9859-7b65520425b3-3e15fc1e4c3650c00a17924424134901-640-0.webp", "sizes": {"46": 1, "48": 1, "50": 1}}, {"id": 374446663, "cat": "Ropa", "name": "Short Pollera Shasha", "price": 48600, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/734ddc8d-41d7-4c74-9542-9391cab0042b-6f2f67f774c0b4949517924360146384-640-0.webp", "sizes": {"48": 1, "50": 1, "52": 1, "54": 1, "56": 1, "58": 1}}, {"id": 374445116, "cat": "Ropa", "name": "Short Kiara Mom Celeste", "price": 45000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/5b1c830f-95df-419c-af56-500d08354498-c8da81db6fcb5f675617924249017043-640-0.webp", "sizes": {"48": 0, "50": 1, "52": 1, "54": 1, "56": 1, "58": 1}}, {"id": 376526783, "cat": "Combos", "name": "Combo Noche Perfecta: set pijama satén y encaje + pack de bombachas", "price": 51800, "old": 64999, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/dcf3fb8d-62fd-4b61-ae56-b1af940c8a33-4352a951bed024bd4f17928721024708-640-0.png", "sizes": {"XL": 24, "3XL": 6}}, {"id": 376522388, "cat": "Combos", "name": "Combo Renovar el Cajón: 2 pijamas + 1 pack de Bombachas", "price": 67365, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/3c340ef6-5e75-4fa5-a8c2-c22a078ee918-ca2d4d7c93e6ff450d17928702268156-640-0.webp", "sizes": {"7": 6, "8": 6, "9": 6, "10": 6}}, {"id": 360428851, "cat": "Combos", "name": "Pack X6 Regulables Tira Ancha de Morley", "price": 29999, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_8459-7010d502e7d9ab2db717864701039115-640-0.webp", "sizes": {"Único": 4}}, {"id": 356512634, "cat": "Combos", "name": "Combo Renová Tu Cajón: corpiño + pack de Bombachas", "price": 49999, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/bd81a5da-b851-4fa7-bd55-87176a59a437-f2dc6a8b5fe565c03917845664788874-640-0.webp", "sizes": {"85": 24, "90": 24, "95": 24}}, {"id": 355174192, "cat": "Combos", "name": "Pack X3 Vedetina Andress Tiro Alto de Algodón hasta el T.70 de pantalón", "price": 30900, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_8385-2ccedc40b75f92868117863117250143-640-0.webp", "sizes": {"1": 2, "2": 0, "3": 0, "4": 17}}, {"id": 329323927, "cat": "Combos", "name": "Combo X2 Trusas con Varilla · Negro + Beige (post parto)", "price": 35000, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/40efe042-1022-4022-916d-75ea2c718f27-6f83ad175c45ead4a217862956509917-640-0.webp", "sizes": {"M-L": 13, "XL-XXL": 10}}, {"id": 260051058, "cat": "Combos", "name": "Combo X3 Body Reductor Modelador Post Parto", "price": 55000, "old": 70000, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/fdcf133d-0b42-4084-b393-f74d5517379b-52bc456b1d6a4a34c117862951720606-640-0.webp", "sizes": {"M-L": 4, "XL-XXL": 0}}, {"id": 360475020, "cat": "Combos", "name": "Docena Tanga Regulable Modal Soft talle único", "price": 29999, "old": null, "img": "https://acdn-us.mitiendanube.com/stores/003/029/191/products/img_8482-aaa496803e59ebe85117864798942519-640-0.webp", "sizes": {"Único": 0}}];
-const KEY="olv-stock-v1";
+const SEED=[{"id": 1, "cat": "Maquillaje", "name": "Labial matte larga duración", "price": 8500, "sizes": {"Único": 14}, "icon": "brush", "h": 15, "old": null, "img": ""}, {"id": 2, "cat": "Maquillaje", "name": "Base líquida cobertura media", "price": 15900, "sizes": {"Único": 6}, "icon": "droplet", "h": 15, "old": null, "img": ""}, {"id": 3, "cat": "Maquillaje", "name": "Paleta de sombras 12 tonos nude", "price": 18500, "sizes": {"Único": 3}, "icon": "palette", "h": 15, "old": null, "img": ""}, {"id": 4, "cat": "Maquillaje", "name": "Máscara de pestañas volumen", "price": 9900, "sizes": {"Único": 11}, "icon": "eye", "h": 15, "old": null, "img": ""}, {"id": 5, "cat": "Maquillaje", "name": "Rubor en crema", "price": 7800, "sizes": {"Único": 0}, "icon": "heart", "h": 15, "old": null, "img": ""}, {"id": 6, "cat": "Maquillaje", "name": "Set de brochas x7 con estuche", "price": 21000, "sizes": {"Único": 4}, "icon": "pen-tool", "h": 15, "old": null, "img": ""}, {"id": 7, "cat": "Maquillaje", "name": "Iluminador en polvo", "price": 11200, "sizes": {"Único": 5}, "icon": "sparkles", "h": 15, "old": null, "img": ""}, {"id": 8, "cat": "Skincare", "name": "Sérum ácido hialurónico 30 ml", "price": 16500, "sizes": {"Único": 8}, "icon": "flask-conical", "h": 165, "old": null, "img": ""}, {"id": 9, "cat": "Skincare", "name": "Crema hidratante facial", "price": 13900, "sizes": {"Único": 9}, "icon": "flower-2", "h": 165, "old": null, "img": ""}, {"id": 10, "cat": "Skincare", "name": "Gel limpiador facial", "price": 10500, "sizes": {"Único": 2}, "icon": "waves", "h": 165, "old": null, "img": ""}, {"id": 11, "cat": "Skincare", "name": "Protector solar FPS 50", "price": 17800, "sizes": {"Único": 7}, "icon": "sun", "h": 165, "old": null, "img": ""}, {"id": 12, "cat": "Skincare", "name": "Contorno de ojos", "price": 12400, "sizes": {"Único": 4}, "icon": "eye", "h": 165, "old": null, "img": ""}, {"id": 13, "cat": "Combos y regalos", "name": "Combo skincare premium (5 productos)", "price": 54000, "sizes": {"Único": 3}, "icon": "gift", "h": 345, "old": null, "img": ""}, {"id": 14, "cat": "Combos y regalos", "name": "Combo skincare esencial (3 productos)", "price": 32000, "sizes": {"Único": 6}, "icon": "package", "h": 345, "old": null, "img": ""}, {"id": 15, "cat": "Combos y regalos", "name": "Box “Reina de la casa” con neceser", "price": 39000, "sizes": {"Único": 4}, "icon": "crown", "h": 345, "old": null, "img": ""}, {"id": 16, "cat": "Combos y regalos", "name": "Regalito personalizado con moño", "price": 18000, "sizes": {"Único": 10}, "icon": "heart-handshake", "h": 345, "old": null, "img": ""}, {"id": 17, "cat": "Outlet calzado", "name": "Sandalias Via Uno doradas (Brasil)", "price": 42000, "old": 69000, "sizes": {"35": 0, "36": 1, "37": 0, "38": 1, "39": 0, "40": 0}, "icon": "footprints", "h": 60, "img": ""}, {"id": 18, "cat": "Outlet calzado", "name": "Stilettos plateados con strass", "price": 36000, "old": 58000, "sizes": {"35": 1, "36": 0, "37": 1, "38": 0, "39": 1, "40": 0}, "icon": "sparkles", "h": 60, "img": ""}, {"id": 19, "cat": "Outlet calzado", "name": "Plataformas de gamuza rojas", "price": 39000, "old": 62000, "sizes": {"35": 0, "36": 0, "37": 1, "38": 1, "39": 0, "40": 1}, "icon": "footprints", "h": 60, "img": ""}, {"id": 20, "cat": "Outlet calzado", "name": "Chatitas de cuero nacionales", "price": 28000, "old": 41000, "sizes": {"35": 2, "36": 1, "37": 2, "38": 0, "39": 1, "40": 1}, "icon": "footprints", "h": 60, "img": ""}, {"id": 21, "cat": "Outlet calzado", "name": "Sandalias bajas nacionales", "price": 26000, "old": 38000, "sizes": {"35": 1, "36": 2, "37": 2, "38": 1, "39": 0, "40": 1}, "icon": "footprints", "h": 60, "img": ""}, {"id": 22, "cat": "Outlet calzado", "name": "Zapatillas urbanas blancas", "price": 31000, "old": 47000, "sizes": {"35": 0, "36": 0, "37": 0, "38": 0, "39": 0, "40": 0}, "icon": "footprints", "h": 60, "img": ""}];
+const KEY="isabella-stock-v2";
 const clone=o=>JSON.parse(JSON.stringify(o));
 let products=load(), cart=[], cat="Todo", query="", sort="rel", onlyStock=false;
 let view=null; // producto abierto en el modal
@@ -420,18 +425,22 @@ const avail=(p,size)=>(p.sizes[size]||0)-inCart(p.id,size);
 const off=p=>p.old?Math.round((1-p.price/p.old)*100):0;
 const icons=()=>{try{window.lucide&&lucide.createIcons()}catch(e){}};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const imgTag=(p,cls="")=>`<img src="${p.img}" alt="${esc(p.name)}" loading="lazy" class="${cls}" onerror="this.parentNode&&this.parentNode.classList.add('noimg');this.remove()">`;
+const imgTag=(p,cls="")=>p.img?`<img src="${p.img}" alt="${esc(p.name)}" loading="lazy" class="${cls}" onerror="this.parentNode&&this.parentNode.classList.add('noimg');this.remove()">`:`<div class="ico" style="--h:${p.h}"><i data-lucide="${p.icon}"></i></div>`;
+const single=p=>{const k=Object.keys(p.sizes);return k.length===1&&k[0]==="Único"};
+const sizeTxt=s=>s==="Único"?"":` (talle ${s})`;
 
-function cuotas(p){return p.price>=20000?`3 cuotas sin interés de ${money(p.price/3)}`:""}
+function cuotas(p){return ""}
+const trTxt=(p,long)=>TRANSFER?`${money(p.price*(1-TRANSFER))} ${long?"pagando":"con"} transferencia`:"";
 function badges(p){const u=units(p),b=[];
   if(!u)b.push('<span class="bdg out">Sin stock</span>');
   else{if(off(p))b.push(`<span class="bdg off">${off(p)}% OFF</span>`);if(u<=3)b.push(`<span class="bdg low">${u===1?"Última unidad":"Últimas "+u}</span>`)}
   return `<div class="badges">${b.join("")}</div>`}
 
-function renderRibbon(){const t=PROMOS.map(x=>`<span>${x}</span>`).join("");$("#ribbon").innerHTML=t+t}
+function renderRibbon(){const t=PROMOS.map(x=>`<span>${x}</span>`).join("");$("#ribbon").innerHTML=t+t+t}
+function renderShowcase(){$("#showcase").innerHTML=CATS.map(c=>`<button class="tile" data-go="${c.k}"><div class="ico" style="--h:${c.h}"><i data-lucide="${c.icon}"></i></div><span>${c.k}<small>${c.d}</small></span></button>`).join("");icons()}
 function renderCats(){
   $("#cats").innerHTML=CATS.map(c=>{const p=products.find(x=>x.cat===c.k&&units(x))||products.find(x=>x.cat===c.k);
-    return `<button class="cat" data-go="${c.k}">${p?imgTag(p):""}<span>${c.k}<small>${c.d}</small></span></button>`}).join("")}
+    return `<button class="cat" data-go="${c.k}">${p&&p.img?imgTag(p):`<div class="ico" style="--h:${c.h}"><i data-lucide="${c.icon}"></i></div>`}<span>${c.k}<small>${c.d}</small></span></button>`}).join("");icons()}
 function renderChips(){
   const all=["Todo",...CATS.map(c=>c.k)];
   $("#chips").innerHTML=all.map(c=>`<button class="chip" aria-pressed="${c===cat}" data-cat="${c}">${c}</button>`).join("")+
@@ -456,11 +465,11 @@ function renderGrid(){
         <span class="c">${p.cat}</span>
         <span class="n">${esc(p.name)}</span>
         <div class="pr">${p.old?`<s>${money(p.old)}</s>`:""}<b>${money(p.price)}</b></div>
-        <span class="tr">${money(p.price*(1-TRANSFER))} con transferencia</span>
+        <span class="tr">${trTxt(p)}</span>
         <span class="cu">${cuotas(p)}</span>
       </div>
     </button>`).join(""):`<p class="empty">No encontramos productos con esa búsqueda.<br>Probá con otra palabra o escribinos por WhatsApp.</p>`;
-}
+  icons()}
 
 /* modal */
 let pickSize=null, pickQty=1;
@@ -481,18 +490,18 @@ function renderModal(){
       <span class="eyebrow">${p.cat}</span>
       <h3 id="mTitle">${esc(p.name)}</h3>
       <div class="pr">${p.old?`<s>${money(p.old)}</s>`:""}<b>${money(p.price)}</b></div>
-      <span class="tr">${money(p.price*(1-TRANSFER))} pagando con transferencia</span>
+      <span class="tr">${trTxt(p,1)}</span>
       <span class="cu">${cuotas(p)}</span>
-      <span class="lbl">Talle${pickSize?": "+esc(pickSize):""}</span>
-      <div class="szs" role="group" aria-label="Elegí tu talle">${sz}</div>
+      ${single(p)?(u?`<span class="cu">${u<=3?`Quedan ${u} en stock`:"En stock"}</span>`:""):`<span class="lbl">Talle${pickSize?": "+esc(pickSize):""}</span>
+      <div class="szs" role="group" aria-label="Elegí tu talle">${sz}</div>`}
       ${u?`<span class="lbl">Cantidad</span>
       <div class="qty"><button data-mq="-1" aria-label="Restar"><i data-lucide="minus"></i></button><span>${pickQty}</span><button data-mq="1" aria-label="Sumar"><i data-lucide="plus"></i></button></div>
-      <button class="btn btn-rose" id="addBtn"><i data-lucide="shopping-bag"></i>Agregar al carrito</button>`
+      <button class="btn btn-rose" id="addBtn"><i data-lucide="shopping-bag"></i>Agregar al pedido</button>`
       :`<a class="btn btn-line" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent("Hola! Quería saber si va a volver a entrar: "+p.name)}"><i data-lucide="bell"></i>Avisame cuando vuelva</a>`}
       <div class="promo-box">
-        <div><i data-lucide="badge-percent"></i>20% OFF pagando con transferencia</div>
-        <div><i data-lucide="layers"></i>Llevando 3 o más, 10% OFF extra</div>
-        <div><i data-lucide="truck"></i>Envío gratis a sucursal desde $85.000</div>
+        <div><i data-lucide="store"></i>Retiro en el local, Junín 832</div>
+        <div><i data-lucide="truck"></i>Envíos en Corrientes y a todo el país</div>
+        <div><i data-lucide="message-circle"></i>Te confirmamos el pedido por WhatsApp</div>
       </div>
     </div>`;
   icons()}
@@ -501,72 +510,56 @@ function closeAll(){["#modal","#cart","#admin"].forEach(s=>$(s).classList.remove
 /* carrito */
 let step="cart";
 function totals(){
-  const ship=document.querySelector("input[name=ship]:checked")?.value||"branch";
+  const ship=document.querySelector("input[name=ship]:checked")?.value||"pickup";
   const pay=document.querySelector("input[name=pay]:checked")?.value||"transfer";
   const sub=cart.reduce((a,l)=>a+l.qty*byId(l.id).price,0);
   const n=cart.reduce((a,l)=>a+l.qty,0);
-  const multi=n>=MULTI_MIN?sub*MULTI:0;
-  const after=sub-multi;
-  const tr=pay==="transfer"?after*TRANSFER:0;
-  const total=after-tr;
-  const freeAt=ship==="home"?FREE_HOME:ship==="branch"?FREE_BRANCH:0;
-  return {ship,pay,sub,n,multi,tr,total,freeAt}}
+  const tr=pay==="transfer"?sub*TRANSFER:0;
+  return {ship,pay,sub,n,tr,total:sub-tr}}
+const SHIP={pickup:["Retiro en el local","Junín 832 · sin cargo"],city:["Envío en Corrientes Capital","Costo a coordinar"],country:["Envío al resto del país","Por correo · costo a coordinar"]};
+const PAY={transfer:["Transferencia","Te pasamos los datos por WhatsApp"],cash:["Efectivo","Al retirar en el local"],card:["Tarjeta","Débito o crédito, a coordinar"]};
 function renderCart(){
-  const n=cart.reduce((a,l)=>a+l.qty,0); $("#cartCount").textContent=n; $("#cartTitle").textContent="Tu carrito"; step="cart";
-  if(!cart.length){$("#cartBody").innerHTML=`<p class="empty">Tu carrito está vacío.<br>Elegí tu talle en cualquier producto y sumalo acá.</p>`;$("#cartFoot").hidden=true;return}
+  const n=cart.reduce((a,l)=>a+l.qty,0); $("#cartCount").textContent=n; $("#cartTitle").textContent="Tu pedido"; step="cart";
+  if(!cart.length){$("#cartBody").innerHTML=`<p class="empty">Tu bolsa está vacía.<br>Sumá productos desde la tienda.</p>`;$("#cartFoot").hidden=true;return}
   $("#cartFoot").hidden=false;
-  const prevShip=document.querySelector("input[name=ship]:checked")?.value||"branch";
+  const prevShip=document.querySelector("input[name=ship]:checked")?.value||"pickup";
   const prevPay=document.querySelector("input[name=pay]:checked")?.value||"transfer";
-  const sub=cart.reduce((a,l)=>a+l.qty*byId(l.id).price,0);
-  const goal=prevShip==="home"?FREE_HOME:FREE_BRANCH;
-  const miss=Math.max(0,goal-sub);
+  const opt=(name,key,[t,d])=>`<label class="opt"><input type="radio" name="${name}" id="${name}-${key}" value="${key}" ${(name==="ship"?prevShip:prevPay)===key?"checked":""}><div><b>${t}</b><span>${d}</span></div></label>`;
   $("#cartBody").innerHTML=`
-    ${prevShip!=="pickup"?`<div class="ship">${miss?`Te faltan <b>${money(miss)}</b> para el envío gratis ${prevShip==="home"?"a domicilio":"a sucursal"}`:`<b>¡Tenés envío gratis!</b> 🎉`}<div class="bar"><i style="width:${Math.min(100,sub/goal*100)}%"></i></div></div>`:""}
     ${cart.map((l,i)=>{const p=byId(l.id);return `<div class="ln">
       <div class="th">${imgTag(p)}</div>
-      <div class="i"><b>${esc(p.name)}</b><span>Talle ${esc(l.size)} · ${money(p.price)}</span></div>
+      <div class="i"><b>${esc(p.name)}</b><span>${l.size==="Único"?"":"Talle "+esc(l.size)+" · "}${money(p.price)}</span></div>
       <div class="qty"><button data-dec="${i}" aria-label="Restar"><i data-lucide="minus"></i></button><span>${l.qty}</span><button data-inc="${i}" aria-label="Sumar"><i data-lucide="plus"></i></button></div></div>`}).join("")}
     <div style="display:grid;gap:8px;margin-top:14px">
       <span class="lbl">Entrega</span>
-      <div class="opts">
-        <label class="opt"><input type="radio" name="ship" id="shipBranch" value="branch" ${prevShip==="branch"?"checked":""}><div><b>Envío a sucursal</b><span>Gratis desde $85.000</span></div></label>
-        <label class="opt"><input type="radio" name="ship" id="shipHome" value="home" ${prevShip==="home"?"checked":""}><div><b>Envío a domicilio</b><span>Gratis desde $150.000</span></div></label>
-        <label class="opt"><input type="radio" name="ship" id="shipPickup" value="pickup" ${prevShip==="pickup"?"checked":""}><div><b>Retiro en el local</b><span>Pasaje Álvarez 871, Corrientes</span></div></label>
-      </div>
+      <div class="opts">${Object.entries(SHIP).map(([k,v])=>opt("ship",k,v)).join("")}</div>
       <span class="lbl" style="margin-top:6px">Pago</span>
-      <div class="opts">
-        <label class="opt"><input type="radio" name="pay" id="payTransfer" value="transfer" ${prevPay==="transfer"?"checked":""}><div><b>Transferencia</b><span>20% OFF</span></div></label>
-        <label class="opt"><input type="radio" name="pay" id="payCard" value="card" ${prevPay==="card"?"checked":""}><div><b>Tarjeta</b><span>Hasta 6 cuotas sin interés</span></div></label>
-      </div>
+      <div class="opts">${Object.entries(PAY).map(([k,v])=>opt("pay",k,v)).join("")}</div>
     </div>`;
   renderFoot(); icons()}
 function renderFoot(){
   const t=totals();
-  const shipTxt=t.ship==="pickup"?"Gratis":(t.sub>=t.freeAt?"Gratis":"A cotizar");
   $("#cartFoot").innerHTML=`
     <div class="sum">
       <div><span>Subtotal (${t.n} ${t.n===1?"producto":"productos"})</span><span>${money(t.sub)}</span></div>
-      ${t.multi?`<div class="dis"><span>10% OFF llevando ${MULTI_MIN} o más</span><span>−${money(t.multi)}</span></div>`:`<div style="color:var(--muted)"><span>Sumá ${MULTI_MIN-t.n} más y tenés 10% OFF extra</span><span></span></div>`}
-      ${t.tr?`<div class="dis"><span>20% OFF por transferencia</span><span>−${money(t.tr)}</span></div>`:""}
-      <div><span>Envío</span><span>${shipTxt}</span></div>
+      ${t.tr?`<div class="dis"><span>Descuento por transferencia</span><span>−${money(t.tr)}</span></div>`:""}
+      <div><span>Envío</span><span>${t.ship==="pickup"?"Sin cargo":"A coordinar"}</span></div>
       <div class="tot"><span>Total</span><span>${money(t.total)}</span></div>
-      ${t.pay==="card"?`<div style="color:var(--muted)"><span>o 3 cuotas sin interés de</span><span>${money(t.total/3)}</span></div>`:""}
     </div>
-    <button class="btn btn-wa" id="checkout"><i data-lucide="message-circle"></i>Finalizar pedido por WhatsApp</button>
-    <p class="note">Te respondemos para confirmar stock, envío y datos de pago.</p>`;
+    <button class="btn btn-wa" id="checkout"><i data-lucide="message-circle"></i>Enviar pedido por WhatsApp</button>
+    <p class="note">Te respondemos para confirmar stock, forma de pago y envío.</p>`;
   icons()}
 function orderText(){
   const t=totals();
-  const shipL={branch:"Envío a sucursal",home:"Envío a domicilio",pickup:"Retiro en el local"}[t.ship];
-  const lines=cart.map(l=>{const p=byId(l.id);return `• ${l.qty} x ${p.name} (talle ${l.size}): ${money(p.price*l.qty)}`});
-  return `¡Hola OLV! 🩷 Quiero hacer este pedido:\n\n${lines.join("\n")}\n\nSubtotal: ${money(t.sub)}${t.multi?`\n10% OFF por ${MULTI_MIN}+ productos: −${money(t.multi)}`:""}${t.tr?`\n20% OFF transferencia: −${money(t.tr)}`:""}\nTotal: ${money(t.total)}\n\nEntrega: ${shipL}\nPago: ${t.pay==="transfer"?"Transferencia":"Tarjeta"}`}
+  const lines=cart.map(l=>{const p=byId(l.id);return `• ${l.qty} x ${p.name}${sizeTxt(l.size)}: ${money(p.price*l.qty)}`});
+  return `¡Hola Isabella! 👑 Quiero hacer este pedido:\n\n${lines.join("\n")}\n\n${t.tr?`Subtotal: ${money(t.sub)}\nDescuento transferencia: −${money(t.tr)}\n`:""}Total: ${money(t.total)}\n\nEntrega: ${SHIP[t.ship][0]}\nPago: ${PAY[t.pay][0]}`}
 function showOrder(){
   const msg=orderText(); step="order";
   $("#cartTitle").textContent="Tu pedido";
   $("#cartBody").innerHTML=`<p class="note" style="margin-bottom:10px">Revisá tu pedido. Al tocar el botón se abre WhatsApp con este mensaje listo para enviar:</p><pre class="msg" id="msg"></pre>`;
   $("#msg").textContent=msg;
   $("#cartFoot").innerHTML=`<a class="btn btn-wa" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent(msg)}"><i data-lucide="message-circle"></i>Abrir WhatsApp y enviar</a>
-    <button class="btn btn-line" id="backCart"><i data-lucide="arrow-left"></i>Volver al carrito</button>`;
+    <button class="btn btn-line" id="backCart"><i data-lucide="arrow-left"></i>Volver al pedido</button>`;
   icons()}
 
 /* panel de stock */
@@ -579,7 +572,7 @@ function renderAdmin(){
     <div class="adm"><div class="th">${imgTag(p)}</div>
       <div><div class="n">${esc(p.name)}</div><div class="c">${p.cat} · ${money(p.price)} · ${units(p)} u.</div>
       <div class="adm-s">${Object.entries(p.sizes).map(([s,n],j)=>`<label>${esc(s)}<input class="num" id="st-${p.id}-${j}" type="number" min="0" value="${n}" data-pid="${p.id}" data-s="${esc(s)}" aria-label="Stock talle ${esc(s)} de ${esc(p.name)}"></label>`).join("")}</div></div>
-    </div>`).join("")}
+    </div>`).join("");icons()}
 
 function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("on"),1900)}
 function openDrawer(id){closeAll();$(id).classList.add("on");$("#scrim").classList.add("on")}
@@ -594,10 +587,10 @@ document.addEventListener("click",e=>{
   if(t.dataset.sz){pickSize=t.dataset.sz;pickQty=Math.min(pickQty,Math.max(1,avail(view,pickSize)));renderModal();return}
   if(t.dataset.mq){const max=pickSize?avail(view,pickSize):99;pickQty=Math.max(1,Math.min(max,pickQty+(+t.dataset.mq)));if(pickSize&&pickQty===max&&+t.dataset.mq>0)toast("Es todo el stock de ese talle");renderModal();return}
   if(t.id==="addBtn"){const p=view;
-    if(!pickSize){toast("Elegí tu talle primero");return}
-    const a=avail(p,pickSize); if(a<=0){toast("Ya tenés todo el stock de ese talle");return}
+    if(!pickSize){toast(single(p)?"No hay stock de este producto":"Elegí tu talle primero");return}
+    const a=avail(p,pickSize); if(a<=0){toast("Ya tenés todo el stock disponible");return}
     const q=Math.min(pickQty,a); const l=cart.find(l=>l.id===p.id&&l.size===pickSize); l?l.qty+=q:cart.push({id:p.id,size:pickSize,qty:q});
-    closeAll(); renderCart(); toast("Agregado al carrito ✓"); return}
+    closeAll(); renderCart(); toast("Agregado a tu pedido ✓"); return}
   if(t.dataset.inc!=null){const l=cart[t.dataset.inc];if(avail(byId(l.id),l.size)>0)l.qty++;else toast("Es todo el stock de ese talle");renderCart();return}
   if(t.dataset.dec!=null){const l=cart[t.dataset.dec];l.qty--;if(!l.qty)cart.splice(t.dataset.dec,1);renderCart();return}
   if(t.id==="checkout"){showOrder();return}
@@ -618,7 +611,7 @@ $("#q").addEventListener("input",e=>{query=e.target.value;renderGrid()});
 $("#sort").addEventListener("change",e=>{sort=e.target.value;renderGrid()});
 $("#resetStock").onclick=()=>{products=clone(SEED);save();renderAdmin();renderGrid();renderCats();toast("Stock restaurado")};
 
-renderRibbon();renderCats();renderChips();renderGrid();renderCart();icons();
+renderRibbon();renderShowcase();renderCats();renderChips();renderGrid();renderCart();icons();
 </script>
 </body>
 </html>
