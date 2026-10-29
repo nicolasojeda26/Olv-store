@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Panel · Isabella Importados</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<style>
+:root{
+  --blush:#fbf6f1; --petal:#f6e5e2; --rose:#a50f1f; --berry:#6e0a15; --gold:#d9a441;
+  --ink:#26171a; --muted:#6d5b5c; --line:#ecdcd8; --paper:#fff; --ok:#1f8a55; --warn:#b5560f; --mp:#009ee3;
+  --display:Fraunces,Georgia,serif; --body:Outfit,system-ui,sans-serif; --script:Allura,cursive;
+  --ease:cubic-bezier(.23,1,.32,1);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--body);background:var(--blush);color:var(--ink);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--rose);outline-offset:2px;border-radius:8px}
+svg.lucide{width:18px;height:18px;stroke-width:1.9}
+[hidden]{display:none!important}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{background:var(--berry);color:#fff;position:sticky;top:0;z-index:10}
+.bar{display:flex;align-items:center;gap:12px;min-height:60px}
+.logo{font-family:var(--script);font-size:34px;line-height:1;padding-top:4px}
+.logo small{font-family:var(--body);font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.8;margin-left:8px}
+.sp{flex:1}
+.hbtn{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;border-radius:999px;font-size:14px;font-weight:600;color:#fff}
+@media (hover:hover){.hbtn:hover{background:rgb(255 255 255 / .12)}}
+.tabs{display:flex;gap:6px;padding-block:14px 6px;overflow-x:auto}
+.tab{min-height:42px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--paper);font-weight:600;font-size:15px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.tab[aria-selected=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tab .n{background:var(--rose);color:#fff;border-radius:999px;font-size:12px;padding:1px 7px}
+main{padding-bottom:80px}
+h1{font-family:var(--display);font-weight:500;font-size:30px;margin:16px 0 4px}
+.sub{color:var(--muted);margin:0 0 16px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;font-weight:600;font-size:15px;transition:transform .15s var(--ease),filter .2s}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.6;cursor:progress}
+.b-rose{background:var(--rose);color:#fff}
+.b-line{background:var(--paper);border:1px solid var(--line)}
+.b-mp{background:var(--mp);color:#fff}
+.b-ghost{color:var(--rose)}
+.b-sm{min-height:36px;padding:0 12px;font-size:14px}
+.card{background:var(--paper);border-radius:16px;box-shadow:0 1px 2px rgb(110 10 21 / .05),0 8px 24px -14px rgb(110 10 21 / .25)}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
+@media (max-width:700px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{padding:14px}
+.kpi b{display:block;font-size:24px;font-variant-numeric:tabular-nums}
+.kpi span{font-size:13px;color:var(--muted)}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.search{flex:1;min-width:200px;display:flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:0 14px;min-height:44px}
+.search input{border:0;outline:0;flex:1;min-width:0;background:none}
+select.f{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:0 12px;min-height:44px}
+.list{display:grid;gap:10px}
+.prod{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 12px}
+.thumb{width:56px;height:56px;border-radius:12px;background:var(--petal);overflow:hidden;display:grid;place-items:center;color:var(--rose)}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.pn{font-weight:600;line-height:1.25}
+.pm{font-size:13px;color:var(--muted);display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:2px}
+.chip{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:600;background:var(--petal);color:var(--ink)}
+.chip.ok{background:#e3f4ea;color:#1b6b43}.chip.warn{background:#fff1dc;color:#8a4a0c}.chip.bad{background:#fde3e3;color:#9b1c1c}.chip.off{background:#eee;color:#666}.chip.mp{background:#e0f3fc;color:#03678f}
+.order{padding:14px;display:grid;gap:8px}
+.oh{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline}
+.oh b{font-size:16px}
+.items{margin:0;padding-left:18px;font-size:14px;color:var(--ink)}
+.om{font-size:14px;color:var(--muted)}
+.om a{color:var(--rose);font-weight:600}
+.empty{padding:40px 0;text-align:center;color:var(--muted)}
+/* login */
+.auth{min-height:100vh;display:grid;grid-template-columns:1fr}
+@media (min-width:860px){.auth{grid-template-columns:1.1fr 1fr}}
+.auth-brand{position:relative;overflow:hidden;background:radial-gradient(120% 90% at 20% 10%,#b8172a 0%,var(--rose) 45%,var(--berry) 100%);color:#fff;padding:40px max(24px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;justify-content:space-between;gap:28px;min-height:220px}
+.auth-brand::after{content:"♛";position:absolute;right:-30px;bottom:-70px;font-size:300px;line-height:1;color:rgb(255 255 255 / .06);pointer-events:none}
+.auth-brand .logo{font-size:64px;display:flex;align-items:flex-start;gap:4px}
+.auth-brand .logo svg{width:26px;height:26px;color:var(--gold);margin-top:2px}
+.auth-brand h2{font-family:var(--display);font-weight:500;font-size:clamp(28px,3.4vw,40px);line-height:1.05;letter-spacing:-.01em;margin:0;max-width:16ch;text-wrap:balance}
+.auth-brand ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:15px;opacity:.92}
+.auth-brand li{display:flex;gap:10px;align-items:center}
+.auth-brand li svg{color:var(--gold);flex:none}
+@media (max-width:859px){.auth-brand{padding-block:24px;min-height:0}.auth-brand ul,.auth-brand h2{display:none}.auth-brand::after{font-size:180px;bottom:-40px}}
+.auth-form{display:grid;place-items:center;padding:32px max(20px,env(safe-area-inset-right,0px)) 48px}
+.login{width:100%;max-width:400px;padding:30px 28px;display:grid;gap:18px}
+.login h1{margin:0;font-size:30px}
+.login .sub{margin:-10px 0 0}
+.pw{position:relative}
+.pw .in{padding-right:48px}
+.pw button{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:10px;display:grid;place-items:center;color:var(--muted)}
+.secure{display:flex;gap:8px;align-items:center;justify-content:center;font-size:12.5px;color:var(--muted)}
+.secure svg{width:14px;height:14px}
+label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
+.in{font-size:16px;background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;min-height:46px;width:100%}
+.in:focus{outline:none;border-color:var(--rose)}
+.err{background:#fdecec;color:#9b1c1c;border-radius:10px;padding:10px 12px;font-size:14px;font-weight:600;margin:0}
+.okmsg{background:#e3f4ea;color:#1b6b43;border-radius:10px;padding:10px 12px;font-size:14px;font-weight:600;margin:0}
+/* editor */
+.scrim{position:fixed;inset:0;background:rgb(38 23 26 / .5);z-index:40}
+.sheet{position:fixed;z-index:50;right:0;top:0;height:100%;width:min(520px,100%);background:var(--paper);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.sh{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--line)}
+.sh h2{font-family:var(--display);font-weight:500;font-size:24px;margin:0}
+.sb{flex:1;overflow:auto;padding:16px 18px;display:grid;gap:14px;align-content:start}
+.sf{padding:12px 18px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.photo{display:flex;gap:12px;align-items:center}
+.photo .thumb{width:84px;height:84px}
+.sizes{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
+.szr{display:grid;gap:4px;background:var(--blush);border-radius:12px;padding:8px}
+.szr .in{min-height:38px;padding:6px 8px;font-size:15px;text-align:center}
+.szr button{font-size:12px;color:var(--rose);font-weight:600}
+.seg{display:inline-flex;background:var(--blush);border-radius:999px;padding:4px;gap:4px}
+.seg button{min-height:36px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:600}
+.seg button[aria-pressed=true]{background:var(--paper);box-shadow:0 1px 3px rgb(0 0 0 / .12)}
+.mpbox{padding:22px;display:grid;gap:14px;max-width:620px}
+.mpstate{display:flex;gap:12px;align-items:center}
+.dot{width:12px;height:12px;border-radius:50%;background:#bbb;flex:none}
+.dot.on{background:var(--ok)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:999px;font-size:14px;font-weight:600;z-index:80;opacity:0;transition:opacity .2s;pointer-events:none;white-space:nowrap}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div id="loginView" class="auth" hidden>
+  <div class="auth-brand">
+    <div class="logo"><i data-lucide="crown"></i>Isabella</div>
+    <h2>Tu tienda, en tus manos</h2>
+    <ul>
+      <li><i data-lucide="receipt"></i>Pedidos y pagos en un solo lugar</li>
+      <li><i data-lucide="package"></i>Productos, fotos y stock por talle</li>
+      <li><i data-lucide="credit-card"></i>Cobros con Mercado Pago</li>
+    </ul>
+  </div>
+  <div class="auth-form">
+  <form class="card login" id="loginForm" novalidate>
+    <div><h1>Hola de nuevo</h1></div>
+    <p class="sub">Entrá al panel de Isabella Importados.</p>
+    <div style="display:grid;gap:12px">
+      <label class="fl" for="lEmail">Email<input class="in" id="lEmail" type="email" autocomplete="username" placeholder="tu@email.com" required></label>
+      <label class="fl" for="lPass">Contraseña<span class="pw"><input class="in" id="lPass" type="password" autocomplete="current-password" required><button type="button" data-eye="lPass" aria-label="Mostrar contraseña"><i data-lucide="eye"></i></button></span></label>
+      <p class="err" id="lErr" hidden></p>
+      <button class="btn b-rose" id="lBtn" type="submit">Entrar</button>
+      <button class="btn b-ghost b-sm" id="forgot" type="button">Olvidé mi contraseña</button>
+      <p class="okmsg" id="lOk" hidden></p>
+    </div>
+    <div class="secure"><i data-lucide="lock"></i>Acceso privado para la dueña de la tienda</div>
+  </form>
+  </div>
+</div>
+
+<div id="passView" class="auth" hidden>
+  <div class="auth-brand">
+    <div class="logo"><i data-lucide="crown"></i>Isabella</div>
+    <h2>Tu tienda, en tus manos</h2>
+    <ul>
+      <li><i data-lucide="receipt"></i>Pedidos y pagos en un solo lugar</li>
+      <li><i data-lucide="package"></i>Productos, fotos y stock por talle</li>
+      <li><i data-lucide="credit-card"></i>Cobros con Mercado Pago</li>
+    </ul>
+  </div>
+  <div class="auth-form">
+  <form class="card login" id="passForm" novalidate>
+    <div><h1>Bienvenida</h1></div>
+    <p class="sub">Elegí tu contraseña para entrar al panel.</p>
+    <div style="display:grid;gap:12px">
+      <label class="fl" for="nPass">Contraseña nueva (mínimo 8 caracteres)<input class="in" id="nPass" type="password" autocomplete="new-password" minlength="8" required></label>
+      <label class="fl" for="nPass2">Repetila<input class="in" id="nPass2" type="password" autocomplete="new-password" minlength="8" required></label>
+      <p class="err" id="nErr" hidden></p>
+      <button class="btn b-rose" id="nBtn" type="submit">Guardar y entrar</button>
+    </div>
+  </form>
+  </div>
+</div>
+
+<div id="appView" hidden>
+  <header>
+    <div class="wrap bar">
+      <div class="logo">Isabella<small>Panel</small></div>
+      <div class="sp"></div>
+      <a class="hbtn" href="/" target="_blank" rel="noopener"><i data-lucide="store"></i><span>Ver tienda</span></a>
+      <button class="hbtn" id="logout"><i data-lucide="log-out"></i><span>Salir</span></button>
+    </div>
+  </header>
+  <main class="wrap">
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" data-tab="orders" aria-selected="true"><i data-lucide="receipt"></i>Pedidos <span class="n" id="pendN" hidden></span></button>
+      <button class="tab" role="tab" data-tab="products" aria-selected="false"><i data-lucide="package"></i>Productos</button>
+      <button class="tab" role="tab" data-tab="mp" aria-selected="false"><i data-lucide="credit-card"></i>Mercado Pago</button>
+    </div>
+
+    <section id="tab-orders">
+      <h1>Pedidos</h1>
+      <p class="sub">Los pagos con Mercado Pago se marcan como pagados solos y descuentan el stock. Los de transferencia o efectivo, marcalos cuando cobres.</p>
+      <div class="tools">
+        <select class="f" id="oFilter" aria-label="Filtrar pedidos">
+          <option value="all">Todos</option><option value="pending">Pendientes</option><option value="paid">Pagados</option><option value="delivered">Entregados</option><option value="other">Rechazados / cancelados</option>
+        </select>
+        <button class="btn b-line b-sm" id="oReload"><i data-lucide="refresh-cw"></i>Actualizar</button>
+      </div>
+      <div class="list" id="orders"></div>
+    </section>
+
+    <section id="tab-products" hidden>
+      <h1>Productos</h1>
+      <p class="sub">Lo que cambies acá se ve al instante en la tienda.</p>
+      <div class="kpis" id="kpis"></div>
+      <div class="tools">
+        <label class="search"><i data-lucide="search"></i><input id="pq" type="search" placeholder="Buscar producto" aria-label="Buscar producto"></label>
+        <select class="f" id="pCat" aria-label="Categoría"><option value="">Todas</option></select>
+        <button class="btn b-rose" id="newProd"><i data-lucide="plus"></i>Nuevo producto</button>
+      </div>
+      <div class="list" id="products"></div>
+    </section>
+
+    <section id="tab-mp" hidden>
+      <h1>Mercado Pago</h1>
+      <p class="sub">Conectá tu cuenta para cobrar con tarjeta, cuotas y dinero en cuenta. La plata va directo a tu Mercado Pago.</p>
+      <div class="card mpbox" id="mpBox"><p class="sub">Revisando la conexión…</p></div>
+    </section>
+  </main>
+</div>
+
+<div id="editor" hidden></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const CATS={"Maquillaje":"brush","Skincare":"flask-conical","Combos y regalos":"gift","Outlet calzado":"footprints"};
+const SHIP={pickup:"Retiro en el local",city:"Envío en Corrientes Capital",country:"Envío al resto del país"};
+const PAYM={mercadopago:"Mercado Pago",transfer:"Transferencia",cash:"Efectivo"};
+const ST={pending:["Pendiente","warn"],paid:["Pagado","ok"],delivered:["Entregado","mp"],rejected:["Rechazado","bad"],cancelled:["Cancelado","off"]};
+let sb=null, session=null, products=[], orders=[], editing=null;
+const $=s=>document.querySelector(s);
+const money=n=>"$"+Math.round(n||0).toLocaleString("es-AR");
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const units=p=>Object.values(p.sizes||{}).reduce((a,b)=>a+(+b||0),0);
+const icons=()=>{try{lucide.createIcons()}catch(e){}};
+function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("on"),2200)}
+async function api(path,opt={}){
+  const {data:{session:s}}=await sb.auth.getSession();
+  const r=await fetch(path,{...opt,headers:{"Content-Type":"application/json",Authorization:`Bearer ${s?.access_token||""}`,...(opt.headers||{})}});
+  const d=await r.json().catch(()=>({}));
+  if(!r.ok)throw new Error(d.error||"Error del servidor");
+  return d}
+
+/* ---------- sesión ---------- */
+const AUTH_TYPE=new URLSearchParams(location.hash.slice(1)).get("type");
+async function boot(){
+  try{
+    const cfg=await fetch("/api/config").then(r=>r.json());
+    if(!cfg.supabaseUrl)throw new Error(cfg.error||"config");
+    sb=supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey);
+  }catch(e){document.body.innerHTML=`<p class="empty">Falta configurar la tienda. Revisá las variables de entorno en Vercel.</p>`;return}
+  const {data}=await sb.auth.getSession(); session=data.session;
+  sb.auth.onAuthStateChange((ev,s)=>{session=s;if(ev==="PASSWORD_RECOVERY")return showPass();if(!s)showLogin()});
+  if(session&&(AUTH_TYPE==="invite"||AUTH_TYPE==="recovery"))return showPass();
+  session?showApp():showLogin();
+}
+function showLogin(){$("#appView").hidden=true;$("#passView").hidden=true;$("#loginView").hidden=false;icons()}
+function showPass(){$("#appView").hidden=true;$("#loginView").hidden=true;$("#passView").hidden=false;icons();history.replaceState(null,"",location.pathname)}
+$("#passForm").addEventListener("submit",async e=>{
+  e.preventDefault();const a=$("#nPass").value,b=$("#nPass2").value,err=$("#nErr");err.hidden=true;
+  if(a.length<8){err.textContent="La contraseña tiene que tener al menos 8 caracteres.";err.hidden=false;return}
+  if(a!==b){err.textContent="Las contraseñas no coinciden.";err.hidden=false;return}
+  $("#nBtn").disabled=true;const {error}=await sb.auth.updateUser({password:a});$("#nBtn").disabled=false;
+  if(error){err.textContent="No se pudo guardar. Pedí un mail nuevo y probá otra vez.";err.hidden=false;return}
+  $("#passView").hidden=true;showApp();
+});
+$("#forgot").onclick=async()=>{
+  const email=$("#lEmail").value.trim();
+  if(!email){$("#lErr").textContent="Escribí tu email y tocá de nuevo.";$("#lErr").hidden=false;return}
+  await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+"/admin.html"});
+  $("#lErr").hidden=true;$("#lOk").textContent="Si el email es correcto, te llegó un mail para elegir una contraseña nueva.";$("#lOk").hidden=false};
+async function showApp(){
+  $("#loginView").hidden=true;$("#passView").hidden=true;$("#appView").hidden=false;icons();
+  const q=new URLSearchParams(location.search).get("mp");
+  if(q){history.replaceState(null,"",location.pathname);selectTab("mp");
+    toast({conectado:"¡Mercado Pago conectado!",cancelado:"Cancelaste la conexión",invalido:"La conexión venció, probá de nuevo",error:"No se pudo conectar, probá de nuevo"}[q]||"")}
+  await Promise.all([loadOrders(),loadProducts()]); if(!q)renderOrders(); renderMp();
+}
+$("#loginForm").addEventListener("submit",async e=>{
+  e.preventDefault();const btn=$("#lBtn");btn.disabled=true;$("#lErr").hidden=true;
+  const {error}=await sb.auth.signInWithPassword({email:$("#lEmail").value.trim(),password:$("#lPass").value});
+  btn.disabled=false;
+  if(error){$("#lErr").textContent="Email o contraseña incorrectos.";$("#lErr").hidden=false;return}
+  const {data}=await sb.auth.getSession();session=data.session;showApp();
+});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-eye]");if(!b)return;const i=document.getElementById(b.dataset.eye);const show=i.type==="password";i.type=show?"text":"password";b.setAttribute("aria-label",show?"Ocultar contraseña":"Mostrar contraseña");b.innerHTML=`<i data-lucide="${show?"eye-off":"eye"}"></i>`;icons()});
+$("#logout").onclick=async()=>{await sb.auth.signOut();location.reload()};
+
+/* ---------- pestañas ---------- */
+function selectTab(t){
+  document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===t));
+  ["orders","products","mp"].forEach(x=>$("#tab-"+x).hidden=x!==t);
+  if(t==="mp")renderMp(); if(t==="orders")renderOrders(); if(t==="products")renderProducts();
+}
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>selectTab(b.dataset.tab));
+
+/* ---------- pedidos ---------- */
+async function loadOrders(){
+  const {data,error}=await sb.from("orders").select("*").order("created_at",{ascending:false}).limit(200);
+  if(error){$("#orders").innerHTML=`<p class="empty">No pudimos cargar los pedidos.</p>`;return}
+  orders=data;
+  const n=orders.filter(o=>o.status==="pending").length; $("#pendN").textContent=n; $("#pendN").hidden=!n;
+}
+function renderOrders(){
+  const f=$("#oFilter").value;
+  const list=orders.filter(o=>f==="all"||(f==="other"?["rejected","cancelled"].includes(o.status):o.status===f));
+  $("#orders").innerHTML=list.length?list.map(o=>{
+    const [lbl,cls]=ST[o.status]||[o.status,""]; const nro=o.id.slice(0,8).toUpperCase();
+    const d=new Date(o.created_at).toLocaleString("es-AR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
+    const phone=String(o.buyer_phone||"").replace(/\D/g,""); const wa=phone.length===10?"549"+phone:phone;
+    return `<article class="card order">
+      <div class="oh"><b>${esc(o.buyer_name)} · ${money(o.total)}</b><span class="chip ${cls}">${lbl}</span></div>
+      <div class="om">N° ${nro} · ${d} · ${PAYM[o.pay_method]||o.pay_method} · ${SHIP[o.shipping]||o.shipping}</div>
+      <ul class="items">${(o.items||[]).map(i=>`<li>${i.qty} × ${esc(i.name)}${i.size&&i.size!=="Único"?` (talle ${esc(i.size)})`:""} · ${money(i.price*i.qty)}</li>`).join("")}</ul>
+      <div class="om">WhatsApp: <a href="https://wa.me/${wa}" target="_blank" rel="noopener">${esc(o.buyer_phone)}</a>${o.buyer_email?` · ${esc(o.buyer_email)}`:""}${o.buyer_address?`<br>Envío a: ${esc(o.buyer_address)}`:""}</div>
+      ${o.stock_issue?`<p class="err">Se pagó algo que ya no tenía stock. Revisá el pedido con la clienta.</p>`:""}
+      ${o.notes?`<div class="om">Nota: ${esc(o.notes)}</div>`:""}
+      <div class="row">
+        ${o.status==="pending"&&o.pay_method!=="mercadopago"?`<button class="btn b-rose b-sm" data-oact="paid" data-id="${o.id}"><i data-lucide="check"></i>Marcar pagado</button>`:""}
+        ${o.status==="paid"?`<button class="btn b-line b-sm" data-oact="delivered" data-id="${o.id}"><i data-lucide="package-check"></i>Marcar entregado</button>`:""}
+        ${o.status==="pending"?`<button class="btn b-ghost b-sm" data-oact="cancelled" data-id="${o.id}">Cancelar</button>`:""}
+      </div>
+    </article>`}).join(""):`<p class="empty">No hay pedidos${f==="all"?" todavía":" en este estado"}.</p>`;
+  icons()}
+$("#oFilter").onchange=renderOrders;
+$("#oReload").onclick=async()=>{await loadOrders();renderOrders();toast("Pedidos actualizados")};
+document.addEventListener("click",async e=>{
+  const b=e.target.closest("[data-oact]"); if(!b)return;
+  b.disabled=true;
+  try{const r=await api("/api/orders-admin",{method:"POST",body:JSON.stringify({id:b.dataset.id,action:b.dataset.oact})});
+    toast(b.dataset.oact==="paid"?(r.result==="paid_stock_issue"?"Pagado, pero faltaba stock":"Pagado · stock descontado"):"Pedido actualizado");
+    await Promise.all([loadOrders(),loadProducts()]);renderOrders();
+  }catch(err){toast(err.message);b.disabled=false}
+});
+
+/* ---------- productos ---------- */
+Object.keys(CATS).forEach(c=>$("#pCat").insertAdjacentHTML("beforeend",`<option>${c}</option>`));
+async function loadProducts(){
+  const {data,error}=await sb.from("products").select("*").order("sort").order("id");
+  if(!error)products=data; renderProducts();
+}
+function renderProducts(){
+  const q=$("#pq").value.trim().toLowerCase(), c=$("#pCat").value;
+  const act=products.filter(p=>p.active);
+  $("#kpis").innerHTML=`
+    <div class="card kpi"><b>${act.length}</b><span>publicados</span></div>
+    <div class="card kpi"><b>${act.reduce((a,p)=>a+units(p),0)}</b><span>unidades en stock</span></div>
+    <div class="card kpi"><b>${act.filter(p=>{const u=units(p);return u>0&&u<=3}).length}</b><span>stock bajo (3 o menos)</span></div>
+    <div class="card kpi"><b>${act.filter(p=>!units(p)).length}</b><span>agotados</span></div>`;
+  const list=products.filter(p=>(!c||p.category===c)&&(!q||p.name.toLowerCase().includes(q)));
+  $("#products").innerHTML=list.length?list.map(p=>{const u=units(p);
+    const st=!p.active?`<span class="chip off">Oculto</span>`:!u?`<span class="chip bad">Agotado</span>`:u<=3?`<span class="chip warn">Quedan ${u}</span>`:`<span class="chip ok">${u} en stock</span>`;
+    const sz=Object.keys(p.sizes||{}).length>1||!("Único" in (p.sizes||{}))?` · talles ${Object.entries(p.sizes).map(([s,n])=>`${s}:${n}`).join(" ")}`:"";
+    return `<article class="card prod">
+      <div class="thumb">${p.image_url?`<img src="${esc(p.image_url)}" alt="" loading="lazy">`:`<i data-lucide="${esc(p.icon||"sparkles")}"></i>`}</div>
+      <div><div class="pn">${esc(p.name)}</div><div class="pm">${st}<span>${p.category} · ${money(p.price)}${p.old_price?` <s>${money(p.old_price)}</s>`:""}${sz}</span></div></div>
+      <button class="btn b-line b-sm" data-edit="${p.id}"><i data-lucide="pencil"></i><span>Editar</span></button>
+    </article>`}).join(""):`<p class="empty">No hay productos${q||c?" con ese filtro":""}.</p>`;
+  icons()}
+$("#pq").oninput=renderProducts; $("#pCat").onchange=renderProducts;
+$("#newProd").onclick=()=>openEditor(null);
+document.addEventListener("click",e=>{const b=e.target.closest("[data-edit]");if(b)openEditor(+b.dataset.edit)});
+
+/* ---------- editor de producto ---------- */
+function openEditor(id){
+  const p=id?products.find(x=>x.id===id):{name:"",category:"Maquillaje",price:"",old_price:"",sizes:{"Único":1},image_url:"",icon:"brush",active:true,sort:(products.length+1)*10};
+  editing={...p,sizes:{...p.sizes},mode:Object.keys(p.sizes).length===1&&"Único" in p.sizes?"single":"sizes",file:null,confirmDel:false};
+  renderEditor();
+}
+function renderEditor(){
+  const e=editing;
+  $("#editor").hidden=false;
+  $("#editor").innerHTML=`<div class="scrim" data-eclose></div>
+  <aside class="sheet" role="dialog" aria-modal="true" aria-labelledby="eTitle">
+    <div class="sh"><h2 id="eTitle">${e.id?"Editar producto":"Nuevo producto"}</h2><button class="btn b-ghost b-sm" data-eclose aria-label="Cerrar"><i data-lucide="x"></i></button></div>
+    <div class="sb">
+      <label class="fl" for="eName">Nombre<input class="in" id="eName" value="${esc(e.name)}" placeholder="Ej: Labial matte larga duración"></label>
+      <div class="grid2">
+        <label class="fl" for="eCat">Categoría<select class="in" id="eCat">${Object.keys(CATS).map(c=>`<option ${c===e.category?"selected":""}>${c}</option>`).join("")}</select></label>
+        <label class="fl" for="eSort">Orden en la tienda<input class="in" id="eSort" type="number" value="${e.sort??0}"></label>
+        <label class="fl" for="ePrice">Precio ($)<input class="in" id="ePrice" type="number" min="1" inputmode="numeric" value="${e.price??""}"></label>
+        <label class="fl" for="eOld">Precio anterior ($, opcional)<input class="in" id="eOld" type="number" min="1" inputmode="numeric" value="${e.old_price??""}" placeholder="Para mostrar oferta"></label>
+      </div>
+      <div class="fl">Foto
+        <div class="photo"><div class="thumb" id="ePrev">${e.file?`<img src="${URL.createObjectURL(e.file)}" alt="">`:e.image_url?`<img src="${esc(e.image_url)}" alt="">`:`<i data-lucide="${CATS[e.category]}"></i>`}</div>
+          <div class="row"><label class="btn b-line b-sm" for="eFile"><i data-lucide="image-plus"></i>${e.image_url||e.file?"Cambiar foto":"Subir foto"}</label>
+          <input id="eFile" type="file" accept="image/*" hidden>
+          ${e.image_url||e.file?`<button class="btn b-ghost b-sm" id="eNoPhoto">Quitar</button>`:""}</div></div></div>
+      <div class="fl">Stock
+        <div class="seg" role="group" aria-label="Tipo de stock"><button type="button" data-mode="single" aria-pressed="${e.mode==="single"}">Talle único</button><button type="button" data-mode="sizes" aria-pressed="${e.mode==="sizes"}">Por talle</button></div>
+        ${e.mode==="single"?`<input class="in" id="eStock" type="number" min="0" inputmode="numeric" value="${e.sizes["Único"]??0}" style="max-width:160px" aria-label="Unidades en stock">`
+        :`<div class="sizes">${Object.entries(e.sizes).filter(([s])=>s!=="Único").map(([s,n])=>`<div class="szr"><span style="text-align:center;font-weight:700;color:var(--ink)">${esc(s)}</span><input class="in" type="number" min="0" inputmode="numeric" value="${n}" data-sz="${esc(s)}" aria-label="Stock talle ${esc(s)}"><button type="button" data-rmsz="${esc(s)}">Quitar</button></div>`).join("")}</div>
+          <div class="row"><input class="in" id="eNewSz" placeholder="Nuevo talle (ej: 41)" style="max-width:200px"><button type="button" class="btn b-line b-sm" id="eAddSz"><i data-lucide="plus"></i>Agregar talle</button></div>`}
+      </div>
+      <label class="row" style="font-weight:600"><input type="checkbox" id="eActive" ${e.active?"checked":""}> Visible en la tienda</label>
+      <p class="err" id="eErr" hidden></p>
+    </div>
+    <div class="sf">
+      ${e.id?(e.confirmDel?`<span class="row"><span style="font-size:14px">¿Borrar este producto?</span><button class="btn b-rose b-sm" id="eDelYes">Sí, borrar</button><button class="btn b-line b-sm" id="eDelNo">No</button></span>`:`<button class="btn b-ghost" id="eDel"><i data-lucide="trash-2"></i>Borrar</button>`):"<span></span>"}
+      <button class="btn b-rose" id="eSave"><i data-lucide="check"></i>Guardar</button>
+    </div>
+  </aside>`;
+  icons();
+}
+function syncEditor(){
+  const e=editing; if(!e||!$("#eName"))return;
+  e.name=$("#eName").value; e.category=$("#eCat").value; e.sort=+$("#eSort").value||0;
+  e.price=$("#ePrice").value; e.old_price=$("#eOld").value; e.active=$("#eActive").checked;
+  if(e.mode==="single")e.sizes={"Único":Math.max(0,parseInt($("#eStock").value)||0)};
+  else document.querySelectorAll("[data-sz]").forEach(i=>e.sizes[i.dataset.sz]=Math.max(0,parseInt(i.value)||0));
+}
+function closeEditor(){editing=null;$("#editor").hidden=true;$("#editor").innerHTML=""}
+document.addEventListener("click",async ev=>{
+  const t=ev.target.closest("button,[data-eclose]"); if(!t||!editing)return;
+  if(t.hasAttribute("data-eclose"))return closeEditor();
+  const e=editing;
+  if(t.dataset.mode){syncEditor();
+    if(t.dataset.mode==="sizes"&&e.mode==="single"){e.sizes=e.category==="Outlet calzado"?{"35":0,"36":0,"37":0,"38":0,"39":0,"40":0}:{}}
+    if(t.dataset.mode==="single"&&e.mode==="sizes"){e.sizes={"Único":Object.values(e.sizes).reduce((a,b)=>a+b,0)}}
+    e.mode=t.dataset.mode;renderEditor();return}
+  if(t.id==="eAddSz"){syncEditor();const v=$("#eNewSz").value.trim();if(v&&!(v in e.sizes)){delete e.sizes["Único"];e.sizes[v]=0}renderEditor();return}
+  if(t.dataset.rmsz){syncEditor();delete e.sizes[t.dataset.rmsz];renderEditor();return}
+  if(t.id==="eNoPhoto"){syncEditor();e.image_url="";e.file=null;renderEditor();return}
+  if(t.id==="eDel"){syncEditor();e.confirmDel=true;renderEditor();return}
+  if(t.id==="eDelNo"){syncEditor();e.confirmDel=false;renderEditor();return}
+  if(t.id==="eDelYes"){const {error}=await sb.from("products").delete().eq("id",e.id);
+    if(error){toast("No se pudo borrar. Si tiene pedidos, ocultalo en vez de borrarlo.");return}
+    closeEditor();toast("Producto borrado");loadProducts();return}
+  if(t.id==="eSave")return saveProduct(t);
+});
+document.addEventListener("change",ev=>{
+  if(ev.target.id==="eFile"&&editing){syncEditor();const f=ev.target.files[0];
+    if(f&&f.size>8*1024*1024){toast("La foto pesa más de 8 MB");return}
+    editing.file=f||null;renderEditor()}
+  if(ev.target.id==="eCat"&&editing){syncEditor();if(!editing.image_url&&!editing.file)editing.icon=CATS[editing.category];renderEditor()}
+});
+async function shrink(file){ // achica la foto a 1200px para que la tienda cargue rápido
+  try{const img=await createImageBitmap(file);const k=Math.min(1,1200/Math.max(img.width,img.height));
+    const c=document.createElement("canvas");c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);
+    c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+    return await new Promise(r=>c.toBlob(b=>r(b||file),"image/jpeg",.85))}catch(e){return file}}
+async function saveProduct(btn){
+  syncEditor(); const e=editing, err=$("#eErr");
+  const fail=m=>{err.textContent=m;err.hidden=false};
+  const price=parseInt(e.price), old=e.old_price?parseInt(e.old_price):null;
+  if(e.name.trim().length<2)return fail("Poné el nombre del producto.");
+  if(!(price>0))return fail("Poné un precio válido.");
+  if(old!==null&&!(old>price))return fail("El precio anterior tiene que ser mayor al precio actual.");
+  if(!Object.keys(e.sizes).length)return fail("Agregá al menos un talle.");
+  btn.disabled=true;btn.textContent="Guardando…";
+  try{
+    let image_url=e.image_url||null;
+    if(e.file){
+      const blob=await shrink(e.file);
+      const path=`${crypto.randomUUID()}.jpg`;
+      const {error:upErr}=await sb.storage.from("productos").upload(path,blob,{contentType:"image/jpeg",cacheControl:"31536000"});
+      if(upErr)throw upErr;
+      image_url=sb.storage.from("productos").getPublicUrl(path).data.publicUrl;
+    }
+    const row={name:e.name.trim(),category:e.category,price,old_price:old,sizes:e.sizes,image_url,icon:CATS[e.category]||e.icon,active:e.active,sort:e.sort};
+    const q=e.id?sb.from("products").update(row).eq("id",e.id):sb.from("products").insert(row);
+    const {error}=await q; if(error)throw error;
+    closeEditor();toast("Producto guardado");loadProducts();
+  }catch(x){btn.disabled=false;btn.innerHTML="Guardar";fail("No se pudo guardar: "+(x.message||"error"))}
+}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&editing)closeEditor()});
+
+/* ---------- Mercado Pago ---------- */
+let mpConfirm=false;
+async function renderMp(){
+  const box=$("#mpBox");
+  try{
+    const s=await api("/api/mp-admin?action=status");
+    const exp=s.expires_at?new Date(s.expires_at).toLocaleDateString("es-AR"):"";
+    box.innerHTML=s.connected?`
+      <div class="mpstate"><span class="dot on"></span><b>Cuenta conectada</b>${s.test_mode?`<span class="chip warn">Modo prueba</span>`:""}</div>
+      <p class="sub" style="margin:0">Cuenta de Mercado Pago N° ${esc(s.mp_user_id||"")}. Las clientas ya pueden pagar online y los pagos aprobados descuentan el stock solos.${exp?` La conexión se renueva sola (vence el ${exp}).`:""}</p>
+      <div class="row">${mpConfirm?`<span>¿Desconectar? La tienda deja de cobrar con Mercado Pago.</span><button class="btn b-rose b-sm" id="mpOff">Sí, desconectar</button><button class="btn b-line b-sm" id="mpCancel">No</button>`
+        :`<button class="btn b-line b-sm" id="mpAsk"><i data-lucide="unplug"></i>Desconectar</button>`}</div>`
+    :`<div class="mpstate"><span class="dot"></span><b>Sin conectar</b>${s.test_mode?`<span class="chip warn">Modo prueba</span>`:""}</div>
+      <p class="sub" style="margin:0">Tocá el botón, entrá a Mercado Pago con tu usuario de siempre y tocá <b>Autorizar</b>. Nadie ve tu contraseña: la tienda solo recibe permiso para cobrar en tu nombre, y lo podés quitar cuando quieras.</p>
+      <div><button class="btn b-mp" id="mpOn"><i data-lucide="link"></i>Conectar con Mercado Pago</button></div>`;
+  }catch(e){box.innerHTML=`<p class="err">${esc(e.message)}</p>`}
+  icons()}
+document.addEventListener("click",async e=>{
+  const t=e.target.closest("button"); if(!t)return;
+  if(t.id==="mpOn"){t.disabled=true;try{const {url}=await api("/api/mp-admin?action=connect");location.href=url}catch(x){toast(x.message);t.disabled=false}}
+  if(t.id==="mpAsk"){mpConfirm=true;renderMp()}
+  if(t.id==="mpCancel"){mpConfirm=false;renderMp()}
+  if(t.id==="mpOff"){try{await api("/api/mp-admin?action=disconnect",{method:"POST"});mpConfirm=false;toast("Mercado Pago desconectado");renderMp()}catch(x){toast(x.message)}}
+});
+
+boot();
+</script>
+</body>
+</html>

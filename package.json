@@ -1,0 +1,6 @@
+{
+  "name": "isabella-tienda",
+  "private": true,
+  "description": "Tienda online de Isabella Importados con Mercado Pago",
+  "engines": { "node": ">=18" }
+}

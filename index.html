@@ -82,6 +82,17 @@ header{position:sticky;top:0;z-index:30;background:rgb(251 246 241 / .92);backdr
 .btn-rose{background:var(--rose);color:#fff;box-shadow:0 8px 20px -8px rgb(165 15 31 / .6)}
 .btn-line{background:var(--paper);border:1px solid var(--line);color:var(--ink)}
 .btn-wa{background:#1fa855;color:#fff;width:100%}
+.btn-mp{background:#009ee3;color:#fff;width:100%}
+.btn:disabled{opacity:.7;cursor:progress}
+.fields{display:grid;gap:8px}
+.fld{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
+.fld input{font:inherit;font-size:16px;font-weight:400;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;min-height:46px}
+.fld input:focus{outline:none;border-color:var(--rose)}
+.err{margin:0;background:#fdecec;color:#9b1c1c;border-radius:10px;padding:10px 12px;font-size:14px;font-weight:600}
+.modal.result{width:min(460px,calc(100% - 24px));grid-template-columns:1fr}
+.res-ico{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;color:#fff;margin-top:8px}
+.res-ico svg{width:32px;height:32px}
+.res-ico.ok{background:#1f8a55}.res-ico.pend{background:#c47f12}.res-ico.bad{background:var(--rose)}
 .btn-ink{background:var(--ink);color:#fff;width:100%}
 @media (hover:hover){.btn:hover{filter:brightness(1.05)}}
 .sizes-strip{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:22px;font-size:13px;color:var(--muted)}
@@ -285,7 +296,6 @@ footer{background:var(--berry);color:#f6e5e2;font-size:14px;margin-top:20px}
       <button data-go="Outlet calzado">Outlet calzado</button>
     </nav>
     <div class="sp"></div>
-    <button class="ibtn" id="openAdmin" aria-label="Panel de stock"><i data-lucide="clipboard-list"></i><span class="hide-sm">Stock</span></button>
     <button class="ibtn" id="openCart" aria-label="Abrir tu pedido"><i data-lucide="shopping-bag"></i><span class="count" id="cartCount">0</span></button>
   </div>
 </header>
@@ -371,7 +381,7 @@ footer{background:var(--berry);color:#f6e5e2;font-size:14px;margin-top:20px}
       <a href="https://www.instagram.com/isabella.importados/" target="_blank" rel="noopener">Instagram @isabella.importados</a>
       <span>Junín 832, Corrientes Capital</span></div></div>
   </div>
-  <div class="wrap" style="padding-bottom:24px;font-size:12px;opacity:.75">© 2026 Isabella Importados. Precios en pesos argentinos. Catálogo de muestra: se reemplaza por el real al cargar los productos.</div>
+  <div class="wrap" style="padding-bottom:24px;font-size:12px;opacity:.75">© 2026 Isabella Importados. Precios en pesos argentinos. Pagos online procesados por Mercado Pago. <a href="/admin.html" style="opacity:.6">Acceso dueña</a></div>
 </footer>
 
 <a class="wa-float" href="https://wa.me/5493794717236" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp"><i data-lucide="message-circle"></i></a>
@@ -379,6 +389,7 @@ footer{background:var(--berry);color:#f6e5e2;font-size:14px;margin-top:20px}
 <div class="scrim" id="scrim"></div>
 
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle"></div>
+<div class="modal result" id="result" role="dialog" aria-modal="true" aria-labelledby="rTitle"></div>
 
 <aside class="drawer" id="cart" aria-label="Tu carrito">
   <div class="dh"><h3 id="cartTitle">Tu pedido</h3><button class="ibtn" data-close aria-label="Cerrar"><i data-lucide="x"></i></button></div>
@@ -386,21 +397,11 @@ footer{background:var(--berry);color:#f6e5e2;font-size:14px;margin-top:20px}
   <div class="df" id="cartFoot"></div>
 </aside>
 
-<aside class="drawer" id="admin" aria-label="Panel de stock">
-  <div class="dh"><h3>Panel de stock</h3><button class="ibtn" data-close aria-label="Cerrar"><i data-lucide="x"></i></button></div>
-  <div class="db">
-    <div class="kpis" id="kpis"></div>
-    <p class="note" style="margin-bottom:10px">Vista para la dueña. Cambiá las unidades (y en calzado, por talle) y la tienda se actualiza al instante. Lo agotado se marca solo.</p>
-    <div class="adm-filter" id="admFilter"></div>
-    <div id="adminList"></div>
-  </div>
-  <div class="df"><button class="btn btn-ink" id="resetStock"><i data-lucide="rotate-ccw"></i>Restaurar stock inicial</button></div>
-</aside>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-const WA="5493794717236";
+let WA="5493794717236", CFG=null;
 const TRANSFER=0; // poner 0.10 si hay 10% OFF por transferencia
 const PROMOS=["Envíos en Corrientes y a todo el país","Retiro en el local: Junín 832","Outlet de calzado: pares únicos","Combos de skincare personalizados para regalar","Consultas al 3794-717236"];
 const CATS=[
@@ -409,13 +410,26 @@ const CATS=[
   {k:"Combos y regalos",d:"Armados a mano",icon:"gift",h:345},
   {k:"Outlet calzado",d:"Pares únicos del 35 al 40",icon:"footprints",h:60}
 ];
-const SEED=[{"id": 1, "cat": "Maquillaje", "name": "Labial matte larga duración", "price": 8500, "sizes": {"Único": 14}, "icon": "brush", "h": 15, "old": null, "img": ""}, {"id": 2, "cat": "Maquillaje", "name": "Base líquida cobertura media", "price": 15900, "sizes": {"Único": 6}, "icon": "droplet", "h": 15, "old": null, "img": ""}, {"id": 3, "cat": "Maquillaje", "name": "Paleta de sombras 12 tonos nude", "price": 18500, "sizes": {"Único": 3}, "icon": "palette", "h": 15, "old": null, "img": ""}, {"id": 4, "cat": "Maquillaje", "name": "Máscara de pestañas volumen", "price": 9900, "sizes": {"Único": 11}, "icon": "eye", "h": 15, "old": null, "img": ""}, {"id": 5, "cat": "Maquillaje", "name": "Rubor en crema", "price": 7800, "sizes": {"Único": 0}, "icon": "heart", "h": 15, "old": null, "img": ""}, {"id": 6, "cat": "Maquillaje", "name": "Set de brochas x7 con estuche", "price": 21000, "sizes": {"Único": 4}, "icon": "pen-tool", "h": 15, "old": null, "img": ""}, {"id": 7, "cat": "Maquillaje", "name": "Iluminador en polvo", "price": 11200, "sizes": {"Único": 5}, "icon": "sparkles", "h": 15, "old": null, "img": ""}, {"id": 8, "cat": "Skincare", "name": "Sérum ácido hialurónico 30 ml", "price": 16500, "sizes": {"Único": 8}, "icon": "flask-conical", "h": 165, "old": null, "img": ""}, {"id": 9, "cat": "Skincare", "name": "Crema hidratante facial", "price": 13900, "sizes": {"Único": 9}, "icon": "flower-2", "h": 165, "old": null, "img": ""}, {"id": 10, "cat": "Skincare", "name": "Gel limpiador facial", "price": 10500, "sizes": {"Único": 2}, "icon": "waves", "h": 165, "old": null, "img": ""}, {"id": 11, "cat": "Skincare", "name": "Protector solar FPS 50", "price": 17800, "sizes": {"Único": 7}, "icon": "sun", "h": 165, "old": null, "img": ""}, {"id": 12, "cat": "Skincare", "name": "Contorno de ojos", "price": 12400, "sizes": {"Único": 4}, "icon": "eye", "h": 165, "old": null, "img": ""}, {"id": 13, "cat": "Combos y regalos", "name": "Combo skincare premium (5 productos)", "price": 54000, "sizes": {"Único": 3}, "icon": "gift", "h": 345, "old": null, "img": ""}, {"id": 14, "cat": "Combos y regalos", "name": "Combo skincare esencial (3 productos)", "price": 32000, "sizes": {"Único": 6}, "icon": "package", "h": 345, "old": null, "img": ""}, {"id": 15, "cat": "Combos y regalos", "name": "Box “Reina de la casa” con neceser", "price": 39000, "sizes": {"Único": 4}, "icon": "crown", "h": 345, "old": null, "img": ""}, {"id": 16, "cat": "Combos y regalos", "name": "Regalito personalizado con moño", "price": 18000, "sizes": {"Único": 10}, "icon": "heart-handshake", "h": 345, "old": null, "img": ""}, {"id": 17, "cat": "Outlet calzado", "name": "Sandalias Via Uno doradas (Brasil)", "price": 42000, "old": 69000, "sizes": {"35": 0, "36": 1, "37": 0, "38": 1, "39": 0, "40": 0}, "icon": "footprints", "h": 60, "img": ""}, {"id": 18, "cat": "Outlet calzado", "name": "Stilettos plateados con strass", "price": 36000, "old": 58000, "sizes": {"35": 1, "36": 0, "37": 1, "38": 0, "39": 1, "40": 0}, "icon": "sparkles", "h": 60, "img": ""}, {"id": 19, "cat": "Outlet calzado", "name": "Plataformas de gamuza rojas", "price": 39000, "old": 62000, "sizes": {"35": 0, "36": 0, "37": 1, "38": 1, "39": 0, "40": 1}, "icon": "footprints", "h": 60, "img": ""}, {"id": 20, "cat": "Outlet calzado", "name": "Chatitas de cuero nacionales", "price": 28000, "old": 41000, "sizes": {"35": 2, "36": 1, "37": 2, "38": 0, "39": 1, "40": 1}, "icon": "footprints", "h": 60, "img": ""}, {"id": 21, "cat": "Outlet calzado", "name": "Sandalias bajas nacionales", "price": 26000, "old": 38000, "sizes": {"35": 1, "36": 2, "37": 2, "38": 1, "39": 0, "40": 1}, "icon": "footprints", "h": 60, "img": ""}, {"id": 22, "cat": "Outlet calzado", "name": "Zapatillas urbanas blancas", "price": 31000, "old": 47000, "sizes": {"35": 0, "36": 0, "37": 0, "38": 0, "39": 0, "40": 0}, "icon": "footprints", "h": 60, "img": ""}];
-const KEY="isabella-stock-v2";
-const clone=o=>JSON.parse(JSON.stringify(o));
-let products=load(), cart=[], cat="Todo", query="", sort="rel", onlyStock=false;
-let view=null; // producto abierto en el modal
-function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(Array.isArray(s)&&s.length===SEED.length)return s}catch(e){}return clone(SEED)}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(products))}catch(e){}}
+const HUE={"Maquillaje":15,"Skincare":165,"Combos y regalos":345,"Outlet calzado":60};
+const CART_KEY="isabella-carrito";
+let products=[], cart=[], cat="Todo", query="", sort="rel", onlyStock=false, loading=true, loadError="";
+let buyer={name:"",phone:"",email:"",address:""};
+try{const b=JSON.parse(localStorage.getItem("isabella-datos")||"null");if(b)buyer={...buyer,...b}}catch(e){}
+function saveCart(){try{localStorage.setItem(CART_KEY,JSON.stringify(cart))}catch(e){}}
+function loadCart(){try{const c=JSON.parse(localStorage.getItem(CART_KEY)||"[]");return Array.isArray(c)?c:[]}catch(e){return []}}
+const fromDb=p=>({id:p.id,cat:p.category,name:p.name,price:p.price,old:p.old_price,sizes:p.sizes||{"Único":0},img:p.image_url||"",icon:p.icon||"sparkles",h:HUE[p.category]??15});
+async function loadProducts(){
+  try{
+    CFG=await fetch("/api/config").then(r=>{if(!r.ok)throw new Error("config");return r.json()});
+    if(CFG.whatsapp)WA=CFG.whatsapp;
+    const r=await fetch(`${CFG.supabaseUrl}/rest/v1/products?select=*&active=eq.true&order=sort.asc,id.asc`,{headers:{apikey:CFG.supabaseAnonKey,Authorization:`Bearer ${CFG.supabaseAnonKey}`}});
+    if(!r.ok)throw new Error("productos");
+    products=(await r.json()).map(fromDb); loadError="";
+  }catch(e){loadError="No pudimos cargar los productos. Revisá tu conexión y recargá la página."}
+  loading=false;
+  cart=loadCart().filter(l=>{const p=byId(l.id);return p&&l.size in p.sizes&&l.qty>0});
+}
+
 const $=s=>document.querySelector(s);
 const money=n=>"$"+Math.round(n).toLocaleString("es-AR");
 const units=p=>Object.values(p.sizes).reduce((a,b)=>a+b,0);
@@ -455,6 +469,7 @@ function list(){
   if(sort==="rel")l=[...l].sort((a,b)=>(units(b)>0)-(units(a)>0));
   return l}
 function renderGrid(){
+  if(loading||loadError){$("#grid").innerHTML=`<p class="empty">${loading?"Cargando productos…":loadError}</p>`;$("#secCount").textContent="";return}
   const l=list();
   $("#secTitle").textContent=cat==="Todo"?"Todo":cat;
   $("#secCount").textContent=l.length+(l.length===1?" producto":" productos");
@@ -505,25 +520,27 @@ function renderModal(){
       </div>
     </div>`;
   icons()}
-function closeAll(){["#modal","#cart","#admin"].forEach(s=>$(s).classList.remove("on"));$("#scrim").classList.remove("on");view=null}
+function closeAll(){["#modal","#cart","#result"].forEach(s=>$(s).classList.remove("on"));$("#scrim").classList.remove("on");view=null}
 
 /* carrito */
-let step="cart";
+let step="cart", sending=false;
+const SHIP={pickup:["Retiro en el local","Junín 832 · sin cargo"],city:["Envío en Corrientes Capital","Costo a coordinar por WhatsApp"],country:["Envío al resto del país","Por correo · costo a coordinar"]};
+const PAY={mercadopago:["Mercado Pago","Tarjeta de crédito o débito, cuotas o dinero en cuenta"],transfer:["Transferencia","Te pasamos los datos por WhatsApp"],cash:["Efectivo","Al retirar en el local"]};
 function totals(){
   const ship=document.querySelector("input[name=ship]:checked")?.value||"pickup";
-  const pay=document.querySelector("input[name=pay]:checked")?.value||"transfer";
+  const pay=document.querySelector("input[name=pay]:checked")?.value||"mercadopago";
   const sub=cart.reduce((a,l)=>a+l.qty*byId(l.id).price,0);
   const n=cart.reduce((a,l)=>a+l.qty,0);
   const tr=pay==="transfer"?sub*TRANSFER:0;
   return {ship,pay,sub,n,tr,total:sub-tr}}
-const SHIP={pickup:["Retiro en el local","Junín 832 · sin cargo"],city:["Envío en Corrientes Capital","Costo a coordinar"],country:["Envío al resto del país","Por correo · costo a coordinar"]};
-const PAY={transfer:["Transferencia","Te pasamos los datos por WhatsApp"],cash:["Efectivo","Al retirar en el local"],card:["Tarjeta","Débito o crédito, a coordinar"]};
+function field(id,label,type,val,ph,auto){return `<label class="fld" for="${id}"><span>${label}</span><input id="${id}" name="${id}" type="${type}" value="${esc(val)}" placeholder="${ph}" autocomplete="${auto}"></label>`}
 function renderCart(){
+  saveCart();
   const n=cart.reduce((a,l)=>a+l.qty,0); $("#cartCount").textContent=n; $("#cartTitle").textContent="Tu pedido"; step="cart";
   if(!cart.length){$("#cartBody").innerHTML=`<p class="empty">Tu bolsa está vacía.<br>Sumá productos desde la tienda.</p>`;$("#cartFoot").hidden=true;return}
   $("#cartFoot").hidden=false;
   const prevShip=document.querySelector("input[name=ship]:checked")?.value||"pickup";
-  const prevPay=document.querySelector("input[name=pay]:checked")?.value||"transfer";
+  const prevPay=document.querySelector("input[name=pay]:checked")?.value||"mercadopago";
   const opt=(name,key,[t,d])=>`<label class="opt"><input type="radio" name="${name}" id="${name}-${key}" value="${key}" ${(name==="ship"?prevShip:prevPay)===key?"checked":""}><div><b>${t}</b><span>${d}</span></div></label>`;
   $("#cartBody").innerHTML=`
     ${cart.map((l,i)=>{const p=byId(l.id);return `<div class="ln">
@@ -535,10 +552,17 @@ function renderCart(){
       <div class="opts">${Object.entries(SHIP).map(([k,v])=>opt("ship",k,v)).join("")}</div>
       <span class="lbl" style="margin-top:6px">Pago</span>
       <div class="opts">${Object.entries(PAY).map(([k,v])=>opt("pay",k,v)).join("")}</div>
+      <span class="lbl" style="margin-top:6px">Tus datos</span>
+      <div class="fields">
+        ${field("bName","Nombre y apellido","text",buyer.name,"Ej: María López","name")}
+        ${field("bPhone","WhatsApp","tel",buyer.phone,"Ej: 3794 123456","tel")}
+        ${field("bEmail","Email (opcional)","email",buyer.email,"Para el comprobante","email")}
+        ${prevShip==="pickup"?"":field("bAddress","Dirección de envío","text",buyer.address,"Calle, número, ciudad","street-address")}
+      </div>
     </div>`;
   renderFoot(); icons()}
 function renderFoot(){
-  const t=totals();
+  const t=totals(), mpay=t.pay==="mercadopago";
   $("#cartFoot").innerHTML=`
     <div class="sum">
       <div><span>Subtotal (${t.n} ${t.n===1?"producto":"productos"})</span><span>${money(t.sub)}</span></div>
@@ -546,33 +570,65 @@ function renderFoot(){
       <div><span>Envío</span><span>${t.ship==="pickup"?"Sin cargo":"A coordinar"}</span></div>
       <div class="tot"><span>Total</span><span>${money(t.total)}</span></div>
     </div>
-    <button class="btn btn-wa" id="checkout"><i data-lucide="message-circle"></i>Enviar pedido por WhatsApp</button>
-    <p class="note">Te respondemos para confirmar stock, forma de pago y envío.</p>`;
+    <p class="err" id="cartErr" role="alert" hidden></p>
+    ${mpay?`<button class="btn btn-mp" id="checkout"><i data-lucide="credit-card"></i>Pagar con Mercado Pago</button>
+      <p class="note">Te llevamos a Mercado Pago para pagar de forma segura.${t.ship==="pickup"?"":" El envío se coordina por WhatsApp."}</p>`
+    :`<button class="btn btn-wa" id="checkout"><i data-lucide="message-circle"></i>Enviar pedido por WhatsApp</button>
+      <p class="note">Te respondemos para confirmar stock, forma de pago y envío.</p>`}`;
   icons()}
-function orderText(){
+function cartErr(msg){const e=$("#cartErr");if(e){e.textContent=msg;e.hidden=!msg}}
+function readBuyer(){[["bName","name"],["bPhone","phone"],["bEmail","email"],["bAddress","address"]].forEach(([id,k])=>{const el=document.getElementById(id);if(el)buyer[k]=el.value.trim()});try{localStorage.setItem("isabella-datos",JSON.stringify(buyer))}catch(e){}}
+function orderText(orderId){
   const t=totals();
   const lines=cart.map(l=>{const p=byId(l.id);return `• ${l.qty} x ${p.name}${sizeTxt(l.size)}: ${money(p.price*l.qty)}`});
-  return `¡Hola Isabella! 👑 Quiero hacer este pedido:\n\n${lines.join("\n")}\n\n${t.tr?`Subtotal: ${money(t.sub)}\nDescuento transferencia: −${money(t.tr)}\n`:""}Total: ${money(t.total)}\n\nEntrega: ${SHIP[t.ship][0]}\nPago: ${PAY[t.pay][0]}`}
-function showOrder(){
-  const msg=orderText(); step="order";
-  $("#cartTitle").textContent="Tu pedido";
-  $("#cartBody").innerHTML=`<p class="note" style="margin-bottom:10px">Revisá tu pedido. Al tocar el botón se abre WhatsApp con este mensaje listo para enviar:</p><pre class="msg" id="msg"></pre>`;
+  return `¡Hola Isabella! 👑 Quiero hacer este pedido${orderId?` (N° ${orderId.slice(0,8).toUpperCase()})`:""}:\n\n${lines.join("\n")}\n\n${t.tr?`Subtotal: ${money(t.sub)}\nDescuento transferencia: −${money(t.tr)}\n`:""}Total: ${money(t.total)}\n\nEntrega: ${SHIP[t.ship][0]}${t.ship!=="pickup"&&buyer.address?` (${buyer.address})`:""}\nPago: ${PAY[t.pay][0]}\nA nombre de: ${buyer.name}`}
+async function checkout(){
+  if(sending)return;
+  readBuyer(); const t=totals();
+  if(buyer.name.length<2)return cartErr("Completá tu nombre.");
+  if(buyer.phone.replace(/\D/g,"").length<8)return cartErr("Completá tu WhatsApp para que podamos contactarte.");
+  if(t.ship!=="pickup"&&buyer.address.length<5)return cartErr("Completá la dirección de envío.");
+  cartErr(""); sending=true;
+  const btn=$("#checkout"); btn.disabled=true; btn.textContent=t.pay==="mercadopago"?"Conectando con Mercado Pago…":"Registrando tu pedido…";
+  try{
+    const r=await fetch("/api/checkout",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({items:cart.map(l=>({id:l.id,size:l.size,qty:l.qty})),shipping:t.ship,pay_method:t.pay,buyer})});
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok)throw new Error(d.error||"No pudimos procesar el pedido. Probá de nuevo.");
+    if(t.pay==="mercadopago"&&d.init_point){location.href=d.init_point;return}
+    showOrder(d.order_id);
+  }catch(e){renderFoot();cartErr(e.message)}
+  finally{sending=false}
+}
+function showOrder(orderId){
+  const msg=orderText(orderId); step="order";
+  $("#cartTitle").textContent="Pedido registrado";
+  $("#cartBody").innerHTML=`<p class="note" style="margin-bottom:10px">Ya guardamos tu pedido. Tocá el botón para enviarlo por WhatsApp y coordinar el pago:</p><pre class="msg" id="msg"></pre>`;
   $("#msg").textContent=msg;
-  $("#cartFoot").innerHTML=`<a class="btn btn-wa" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent(msg)}"><i data-lucide="message-circle"></i>Abrir WhatsApp y enviar</a>
-    <button class="btn btn-line" id="backCart"><i data-lucide="arrow-left"></i>Volver al pedido</button>`;
+  $("#cartFoot").innerHTML=`<a class="btn btn-wa" id="waSend" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent(msg)}"><i data-lucide="message-circle"></i>Abrir WhatsApp y enviar</a>`;
+  cart=[]; saveCart(); $("#cartCount").textContent=0;
   icons()}
 
-/* panel de stock */
-let admCat="Todo";
-function renderAdmin(){
-  const total=products.reduce((a,p)=>a+units(p),0),out=products.filter(p=>!units(p)).length,low=products.filter(p=>{const u=units(p);return u&&u<=3}).length;
-  $("#kpis").innerHTML=`<div class="kpi"><b>${total}</b><span>unidades</span></div><div class="kpi"><b>${low}</b><span>stock bajo</span></div><div class="kpi"><b>${out}</b><span>agotados</span></div>`;
-  $("#admFilter").innerHTML=["Todo",...CATS.map(c=>c.k)].map(c=>`<button class="chip" aria-pressed="${c===admCat}" data-adm="${c}">${c}</button>`).join("");
-  $("#adminList").innerHTML=products.filter(p=>admCat==="Todo"||p.cat===admCat).map(p=>`
-    <div class="adm"><div class="th">${imgTag(p)}</div>
-      <div><div class="n">${esc(p.name)}</div><div class="c">${p.cat} · ${money(p.price)} · ${units(p)} u.</div>
-      <div class="adm-s">${Object.entries(p.sizes).map(([s,n],j)=>`<label>${esc(s)}<input class="num" id="st-${p.id}-${j}" type="number" min="0" value="${n}" data-pid="${p.id}" data-s="${esc(s)}" aria-label="Stock talle ${esc(s)} de ${esc(p.name)}"></label>`).join("")}</div></div>
-    </div>`).join("");icons()}
+/* resultado del pago al volver de Mercado Pago */
+async function showPaymentResult(){
+  const q=new URLSearchParams(location.search), estado=q.get("pago"), id=q.get("pedido")||"";
+  if(!estado)return;
+  history.replaceState(null,"",location.pathname);
+  let status=null; try{const r=await fetch(`/api/order-status?id=${encodeURIComponent(id)}`);if(r.ok)status=(await r.json()).status}catch(e){}
+  const ok=estado==="aprobado"||status==="paid", pend=!ok&&estado==="pendiente";
+  if(ok){cart=[];renderCart()}
+  const nro=id?id.slice(0,8).toUpperCase():"";
+  $("#result").innerHTML=`<div class="md" style="text-align:center;align-items:center">
+    <button class="ibtn x" data-close aria-label="Cerrar"><i data-lucide="x"></i></button>
+    <div class="res-ico ${ok?"ok":pend?"pend":"bad"}"><i data-lucide="${ok?"check":pend?"clock":"x"}"></i></div>
+    <h3 id="rTitle">${ok?"¡Gracias por tu compra!":pend?"Tu pago está pendiente":"El pago no se completó"}</h3>
+    <p class="note" style="font-size:15px;max-width:36ch">${ok?`Recibimos tu pago${nro?` del pedido N° ${nro}`:""}. Te escribimos por WhatsApp para coordinar la entrega.`
+      :pend?"Mercado Pago está procesando el pago. Apenas se acredite te avisamos por WhatsApp.":"No se hizo ningún cobro. Tu pedido sigue en la bolsa para que lo intentes de nuevo o elijas otra forma de pago."}</p>
+    ${ok||pend?`<a class="btn btn-wa" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent(`Hola Isabella! Hice el pedido N° ${nro}`)}"><i data-lucide="message-circle"></i>Escribir por WhatsApp</a>`
+      :`<button class="btn btn-rose" id="retryPay"><i data-lucide="shopping-bag"></i>Ver mi pedido</button>`}
+  </div>`;
+  $("#result").classList.add("on"); $("#scrim").classList.add("on"); icons();
+}
 
 function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("on"),1900)}
 function openDrawer(id){closeAll();$(id).classList.add("on");$("#scrim").classList.add("on")}
@@ -593,25 +649,24 @@ document.addEventListener("click",e=>{
     closeAll(); renderCart(); toast("Agregado a tu pedido ✓"); return}
   if(t.dataset.inc!=null){const l=cart[t.dataset.inc];if(avail(byId(l.id),l.size)>0)l.qty++;else toast("Es todo el stock de ese talle");renderCart();return}
   if(t.dataset.dec!=null){const l=cart[t.dataset.dec];l.qty--;if(!l.qty)cart.splice(t.dataset.dec,1);renderCart();return}
-  if(t.id==="checkout"){showOrder();return}
+  if(t.id==="checkout"){checkout();return}
+  if(t.id==="retryPay"){closeAll();renderCart();openDrawer("#cart");return}
   if(t.id==="backCart"){renderCart();return}
-  if(t.dataset.adm){admCat=t.dataset.adm;renderAdmin();return}
   if(t.hasAttribute("data-close")){closeAll();return}
 });
 document.addEventListener("change",e=>{
-  if(e.target.name==="ship"){renderCart();return}
+  if(e.target.name==="ship"){readBuyer();renderCart();return}
   if(e.target.name==="pay"){renderFoot();return}
-  if(e.target.dataset.pid){const p=byId(+e.target.dataset.pid);p.sizes[e.target.dataset.s]=Math.max(0,parseInt(e.target.value)||0);save();renderAdmin();renderGrid();renderCats();toast("Stock actualizado")}
+  if(e.target.closest&&e.target.closest(".fields"))readBuyer();
 });
 $("#scrim").onclick=closeAll;
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAll()});
 $("#openCart").onclick=()=>{renderCart();openDrawer("#cart")};
-$("#openAdmin").onclick=()=>{renderAdmin();openDrawer("#admin")};
 $("#q").addEventListener("input",e=>{query=e.target.value;renderGrid()});
 $("#sort").addEventListener("change",e=>{sort=e.target.value;renderGrid()});
-$("#resetStock").onclick=()=>{products=clone(SEED);save();renderAdmin();renderGrid();renderCats();toast("Stock restaurado")};
 
-renderRibbon();renderShowcase();renderCats();renderChips();renderGrid();renderCart();icons();
+renderRibbon();renderShowcase();renderCats();renderChips();renderGrid();icons();
+loadProducts().then(()=>{renderCats();renderGrid();renderCart();showPaymentResult()});
 </script>
 </body>
 </html>
