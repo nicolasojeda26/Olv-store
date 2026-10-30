@@ -143,7 +143,7 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
     <div><h1>Hola de nuevo</h1></div>
     <p class="sub">Entrá al panel de Isabella Importados.</p>
     <div style="display:grid;gap:12px">
-      <label class="fl" for="lEmail">Email<input class="in" id="lEmail" type="email" autocomplete="username" placeholder="tu@email.com" required></label>
+      <label class="fl" for="lEmail">Usuario<input class="in" id="lEmail" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Isabella" required></label>
       <label class="fl" for="lPass">Contraseña<span class="pw"><input class="in" id="lPass" type="password" autocomplete="current-password" required><button type="button" data-eye="lPass" aria-label="Mostrar contraseña"><i data-lucide="eye"></i></button></span></label>
       <p class="err" id="lErr" hidden></p>
       <button class="btn b-rose" id="lBtn" type="submit">Entrar</button>
@@ -280,8 +280,12 @@ $("#passForm").addEventListener("submit",async e=>{
   if(error){err.textContent="No se pudo guardar. Pedí un mail nuevo y probá otra vez.";err.hidden=false;return}
   $("#passView").hidden=true;showApp();
 });
+// "Isabella" → isabella@isabella-importados.vercel.app (usuario interno de Supabase). Un email se usa tal cual.
+const LOGIN_DOMAIN="isabella-importados.vercel.app";
+const toEmail=v=>{v=v.trim();return v.includes("@")?v:`${v.toLowerCase().replace(/[^a-z0-9._-]/g,"")}@${LOGIN_DOMAIN}`};
 $("#forgot").onclick=async()=>{
   const email=$("#lEmail").value.trim();
+  if(email&&!email.includes("@")){$("#lOk").hidden=true;$("#lErr").textContent="Para cambiar la contraseña de este usuario, escribile a quien armó la tienda.";$("#lErr").hidden=false;return}
   if(!email){$("#lErr").textContent="Escribí tu email y tocá de nuevo.";$("#lErr").hidden=false;return}
   await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+"/admin.html"});
   $("#lErr").hidden=true;$("#lOk").textContent="Si el email es correcto, te llegó un mail para elegir una contraseña nueva.";$("#lOk").hidden=false};
@@ -294,9 +298,9 @@ async function showApp(){
 }
 $("#loginForm").addEventListener("submit",async e=>{
   e.preventDefault();const btn=$("#lBtn");btn.disabled=true;$("#lErr").hidden=true;
-  const {error}=await sb.auth.signInWithPassword({email:$("#lEmail").value.trim(),password:$("#lPass").value});
+  const {error}=await sb.auth.signInWithPassword({email:toEmail($("#lEmail").value),password:$("#lPass").value});
   btn.disabled=false;
-  if(error){$("#lErr").textContent="Email o contraseña incorrectos.";$("#lErr").hidden=false;return}
+  if(error){$("#lErr").textContent="Usuario o contraseña incorrectos.";$("#lErr").hidden=false;return}
   const {data}=await sb.auth.getSession();session=data.session;showApp();
 });
 document.addEventListener("click",e=>{const b=e.target.closest("[data-eye]");if(!b)return;const i=document.getElementById(b.dataset.eye);const show=i.type==="password";i.type=show?"text":"password";b.setAttribute("aria-label",show?"Ocultar contraseña":"Mostrar contraseña");b.innerHTML=`<i data-lucide="${show?"eye-off":"eye"}"></i>`;icons()});
