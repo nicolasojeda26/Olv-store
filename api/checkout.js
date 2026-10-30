@@ -96,7 +96,7 @@ module.exports = async (req, res) => {
         notification_url: `${base}/api/mp-webhook`,
         back_urls: { success: back("aprobado"), pending: back("pendiente"), failure: back("rechazado") },
         auto_return: "approved",
-        statement_descriptor: "ISABELLA",
+        statement_descriptor: "SOS COSMETICOS",
         metadata: { order_id: order.id, shipping: SHIPPING[shipping] },
       },
     });

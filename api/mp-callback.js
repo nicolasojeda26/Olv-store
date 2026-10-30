@@ -1,4 +1,4 @@
-// /api/mp-callback — Mercado Pago vuelve acá después de que Isabella autoriza la conexión.
+// /api/mp-callback — Mercado Pago vuelve acá después de que la dueña autoriza la conexión.
 const { verifyState, mpToken, saveConnection, siteUrl } = require("../lib/shared");
 
 module.exports = async (req, res) => {

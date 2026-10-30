@@ -1,11 +1,11 @@
-# Tienda online · Isabella Importados
+# Tienda online · S.O.S Cosméticos
 
 Tienda con catálogo, stock por talle, pago con **Mercado Pago** (tarjeta, cuotas y dinero en cuenta), pedidos por WhatsApp para transferencia o efectivo y un panel para la dueña.
 
 | Parte | Qué es |
 | --- | --- |
 | `index.html` | La tienda (lo que ven las clientas) |
-| `admin.html` | Panel de Isabella: pedidos, productos con fotos y stock, conexión con Mercado Pago |
+| `admin.html` | Panel de la dueña: pedidos, productos con fotos y stock, conexión con Mercado Pago |
 | `arrepentimiento.html`, `cambios.html` | Botón de arrepentimiento y política de cambios |
 | `api/` | Funciones del servidor en Vercel (pago, aviso de Mercado Pago, conexión, arrepentimiento) |
 | `lib/notify.js` | Avisos por email (Resend) |
@@ -24,7 +24,7 @@ Cómo funciona un pago: la clienta arma el pedido → el servidor revisa precios
 2. Andá a **SQL Editor → New query**, pegá todo el contenido de `supabase/schema.sql` y tocá **Run**. (Si la base ya estaba creada de antes, ejecutá solo `supabase/02-arrepentimiento.sql`.) Crea las tablas, los permisos, la carpeta de fotos y 12 productos de ejemplo.
 3. **Authentication → Sign In / Providers → Email**: desactivá **Allow new users to sign up** (así nadie más puede crearse una cuenta).
 4. **Authentication → URL Configuration**: Site URL `https://isabella-importados.vercel.app/admin.html` y en Redirect URLs `https://isabella-importados.vercel.app/**`.
-5. **Authentication → Users → Add user → Send invitation**: el email de Isabella. Le llega un mail, entra y elige su contraseña en el panel.
+5. **Authentication → Users → Add user → Send invitation**: el email de la dueña. Le llega un mail, entra y elige su contraseña en el panel.
 6. **Project Settings → API**: copiá **Project URL**, la clave **anon public** y la clave **service_role** (esta última es secreta: va solo en Vercel).
 
 ### 2. Aplicación en Mercado Pago (la creás vos, sirve para todos tus clientes)
@@ -52,7 +52,7 @@ Proyecto `isabella-importados` → **Settings → Environment Variables**. Carg�
 | `MP_SANDBOX` | `true` mientras prueban, `false` para cobrar de verdad |
 | `RESEND_API_KEY` | opcional: clave de [Resend](https://resend.com) para mandar avisos por email (secreta) |
 | `NOTIFY_EMAIL` | a quién avisar de ventas nuevas y arrepentimientos (se pueden poner varios separados por coma) |
-| `MAIL_FROM` | opcional: remitente, ej. `Isabella Importados <avisos@su-dominio.com>`. Sin dominio propio, Resend solo deja mandar al email de la cuenta de Resend |
+| `MAIL_FROM` | opcional: remitente, ej. `S.O.S Cosméticos <avisos@su-dominio.com>`. Sin dominio propio, Resend solo deja mandar al email de la cuenta de Resend |
 
 Después: **Deployments → ⋯ → Redeploy** para que tome las variables.
 
@@ -72,16 +72,16 @@ Reemplazá el contenido del repo por los archivos de esta carpeta (mantené la e
 ## Pasar a producción
 
 1. En Vercel cambiá `MP_SANDBOX` a `false` y hacé **Redeploy**.
-2. En el panel → **Mercado Pago → Desconectar**, y que **Isabella** toque **Conectar** con su propia cuenta.
+2. En el panel → **Mercado Pago → Desconectar**, y que **la dueña** toque **Conectar** con su propia cuenta.
 3. Borrá los productos de ejemplo y cargá los reales desde **Productos → Nuevo producto**.
 
 ## Legales (Argentina)
 
 - **Botón de arrepentimiento** (Res. 424/2020): en el pie de todas las páginas, lleva a `/arrepentimiento.html`. Sin registro; da un código de trámite al instante y lo manda por email. Los pedidos aparecen en el panel → **Arrepentimientos**.
 - **Defensa de las y los Consumidores** (Res. 274/2021): link al formulario de la Ventanilla Única Federal en el pie.
-- **Cambios y devoluciones**: `/cambios.html`. Confirmar con Isabella el plazo de cambio (puesto en 30 días).
+- **Cambios y devoluciones**: `/cambios.html`. Confirmar con la dueña el plazo de cambio (puesto en 30 días).
 
-## Uso diario (para Isabella)
+## Uso diario (para la dueña)
 
 - **Pedidos**: los pagados por Mercado Pago aparecen solos como *Pagado*. Los de transferencia o efectivo quedan *Pendiente*: cuando cobra, toca **Marcar pagado** y se descuenta el stock. Después, **Marcar entregado**.
 - **Productos**: nombre, precio, precio anterior (muestra la oferta), foto, stock único o por talle y si se ve en la tienda.

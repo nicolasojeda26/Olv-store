@@ -3,39 +3,39 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Isabella Importados · Maquillaje, skincare y calzado</title>
-<meta name="description" content="Maquillaje, skincare, combos para regalar y outlet de calzado. Local en Junín 832, Corrientes Capital, y envíos a todo el país.">
-<meta name="theme-color" content="#a50f1f">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23a50f1f'/%3E%3Cpath d='M14 44l-2-22 12 10 8-16 8 16 12-10-2 22z' fill='%23d9a441'/%3E%3C/svg%3E">
+<title>S.O.S Cosméticos · Maquillaje, skincare, uñas y pestañas en Corrientes</title>
+<meta name="description" content="Skincare personalizado, maquillaje, insumos de uñas, pestañas y accesorios nacionales e importados. Outlet de calzado. Local en Junín 830, Corrientes, y envíos a todo el país.">
+<meta name="theme-color" content="#d6246e">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23d6246e'/%3E%3Cpath d='M14 44l-2-22 12 10 8-16 8 16 12-10-2 22z' fill='%23ffffff'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Isabella Importados">
-<meta property="og:title" content="Isabella Importados · Maquillaje, skincare y calzado">
-<meta property="og:description" content="Maquillaje, skincare, combos para regalar y outlet de calzado. Retiro en Junín 832, Corrientes, o envío a todo el país.">
+<meta property="og:site_name" content="S.O.S Cosméticos">
+<meta property="og:title" content="S.O.S Cosméticos · Maquillaje, skincare, uñas y pestañas">
+<meta property="og:description" content="Skincare personalizado, maquillaje, uñas, pestañas y accesorios. Retiro en Junín 830, Corrientes, o envío a todo el país.">
 <meta property="og:url" content="https://isabella-importados.vercel.app/">
 <meta property="og:locale" content="es_AR">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Allura&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 <style>
 /* Layout: cinta de avisos + header; hero con vitrina de categorías; categorías con foto; catálogo con filtros; ficha en modal; carrito con promos calculadas y pedido por WhatsApp */
 :root{
-  --blush: #fbf6f1;      /* fondo crema */
-  --petal: #f6e5e2;      /* superficies suaves */
-  --rose: #a50f1f;       /* rojo Isabella */
-  --berry: #6e0a15;      /* rojo profundo */
-  --gold: #d9a441;       /* dorado de la corona */
-  --ink: #26171a;        /* texto */
-  --muted: #6d5b5c;
-  --line: #ecdcd8;
+  --blush: #fff5f8;      /* fondo rosado */
+  --petal: #fde3ec;      /* superficies suaves */
+  --rose: #d6246e;       /* fucsia principal */
+  --berry: #8f1a4b;      /* bordó */
+  --gold: #ffb3cf;       /* rosa de acento */
+  --ink: #2c1520;        /* texto */
+  --muted: #7d5a68;
+  --line: #f3d2de;
   --paper: #ffffff;
   --mint: #1f7a55;       /* precio con transferencia */
   --warn: #b5560f;
-  --display: Fraunces, Georgia, "Times New Roman", serif;
-  --body: Outfit, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --script: Allura, "Brush Script MT", cursive;
+  --display:"DM Serif Display",Georgia,"Times New Roman",serif;
+  --body:Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --script:"DM Serif Display",Georgia,serif;
   --radius: 18px;
-  --shadow: 0 1px 2px rgb(110 10 21 / .06), 0 10px 30px -12px rgb(110 10 21 / .22);
+  --shadow: 0 1px 2px rgb(143 26 75 / .06), 0 10px 30px -12px rgb(143 26 75 / .22);
   --ease: cubic-bezier(0.23, 1, 0.32, 1);
 }
 *{box-sizing:border-box}
@@ -53,15 +53,15 @@ svg.lucide{width:20px;height:20px;stroke-width:1.8}
 .ribbon{background:var(--berry);color:#fff;font-size:13px;font-weight:600;letter-spacing:.02em;overflow:hidden;white-space:nowrap}
 .ribbon-track{display:inline-flex;gap:48px;padding-block:9px;animation:marquee 38s linear infinite}
 .ribbon-track span{display:inline-flex;align-items:center;gap:8px}
-.ribbon-track span::before{content:"♛";color:var(--gold)}
+.ribbon-track span::before{content:"✦";color:var(--gold)}
 @keyframes marquee{to{transform:translateX(-50%)}}
 
 /* header */
-header{position:sticky;top:0;z-index:30;background:rgb(251 246 241 / .92);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+header{position:sticky;top:0;z-index:30;background:rgb(255 245 248 / .92);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
 .nav{display:flex;align-items:center;gap:12px;min-height:68px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
 .brand img{width:46px;height:46px;border-radius:50%;object-fit:cover}
-.brand b{font-family:var(--script);font-weight:400;font-size:40px;color:var(--rose);line-height:1;display:flex;align-items:flex-start;gap:2px;padding-top:6px}
+.brand b{font-family:var(--display);font-weight:400;font-size:26px;color:var(--berry);line-height:1;display:flex;align-items:flex-start;gap:2px}
 .brand b svg{width:16px;height:16px;color:var(--gold);margin-top:-4px}
 .brand small{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
 .links{display:none;gap:4px;margin-left:16px}
@@ -79,14 +79,14 @@ header{position:sticky;top:0;z-index:30;background:rgb(251 246 241 / .92);backdr
 .hero{padding-block:40px 24px;display:grid;gap:36px;align-items:center}
 @media (min-width:920px){.hero{grid-template-columns:1.05fr 1fr;padding-block:56px 40px}}
 .kicker{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--line);padding:6px 12px;border-radius:999px;font-size:13px;font-weight:600;color:var(--berry)}
-.kicker svg{width:16px;height:16px;color:var(--gold)}
-.hero h1{font-family:var(--display);font-weight:500;font-size:clamp(44px,7.4vw,86px);line-height:.95;letter-spacing:-.02em;margin:18px 0 18px;text-wrap:balance;color:var(--ink)}
-.hero h1 em{color:var(--rose);font-family:var(--script);font-style:normal;font-weight:400;font-size:1.3em;line-height:.8}
+.kicker svg{width:16px;height:16px;color:#e3a008;fill:#e3a008}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(44px,7.4vw,86px);line-height:.95;letter-spacing:-.02em;margin:18px 0 18px;text-wrap:balance;color:var(--ink)}
+.hero h1 em{color:var(--rose);font-style:italic}
 .hero p{max-width:46ch;margin:0;font-size:18px;color:var(--muted)}
 .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 24px;border-radius:999px;font-weight:700;text-decoration:none;transition:transform .15s var(--ease),filter .2s var(--ease),background .2s var(--ease)}
 .btn:active{transform:scale(.97)}
-.btn-rose{background:var(--rose);color:#fff;box-shadow:0 8px 20px -8px rgb(165 15 31 / .6)}
+.btn-rose{background:var(--rose);color:#fff;box-shadow:0 8px 20px -8px rgb(214 36 110 / .6)}
 .btn-line{background:var(--paper);border:1px solid var(--line);color:var(--ink)}
 .btn-wa{background:#1fa855;color:#fff;width:100%}
 .btn-mp{background:#009ee3;color:#fff;width:100%}
@@ -107,7 +107,7 @@ header{position:sticky;top:0;z-index:30;background:rgb(251 246 241 / .92);backdr
 .showcase{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:540px;width:100%;margin-inline:auto}
 .tile{position:relative;aspect-ratio:1;border-radius:24px;overflow:hidden;text-align:left;box-shadow:var(--shadow)}
 .tile:nth-child(2){transform:translateY(22px)}.tile:nth-child(3){transform:translateY(-6px)}.tile:nth-child(4){transform:translateY(16px)}
-.tile span{position:absolute;left:16px;bottom:14px;z-index:1;font-family:var(--display);font-size:20px;font-weight:600;color:var(--ink);line-height:1.05}
+.tile span{position:absolute;left:16px;bottom:14px;z-index:1;font-family:var(--display);font-size:20px;font-weight:400;color:var(--ink);line-height:1.05}
 .tile span small{display:block;font-family:var(--body);font-size:12px;font-weight:600;color:var(--muted);margin-top:3px}
 .tile .ico svg{width:38%;height:38%;margin-bottom:18%}
 .collage{position:relative;aspect-ratio:1/0.92;max-width:560px;width:100%;margin-inline:auto}
@@ -135,16 +135,18 @@ header{position:sticky;top:0;z-index:30;background:rgb(251 246 241 / .92);backdr
 .cats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 
 @media (min-width:1100px){.cats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.cat:last-child:nth-child(odd){grid-column:span 2;aspect-ratio:auto;min-height:150px}
 .cat{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3;background:var(--petal);text-align:left}
 .cat img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
 @media (hover:hover){.cat:hover img{transform:scale(1.04)}}
 .cat .ico{place-items:start center;padding-top:14%}
 .cat .ico svg{width:34%;height:34%}
-@media (max-width:699px){.cat{aspect-ratio:1/1}.cat span{font-size:20px}.cat .ico{padding-top:16%}.cat .ico svg{width:30%;height:30%}}
-.cat:has(img)::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgb(60 10 20 / .62))}
+
+.cat:has(img)::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgb(60 10 32 / .62))}
 .cat:not(:has(img)) span{color:var(--ink)}
 .cat:not(:has(img)) span small{color:var(--ink);opacity:.78}
 .cat span{position:absolute;left:14px;right:14px;bottom:12px;z-index:1;color:#fff;font-family:var(--display);font-size:24px;line-height:1.05}
+@media (max-width:699px){.cat{aspect-ratio:1/1}.cat span{font-size:19px;left:12px;right:10px;bottom:10px}.cat .ico{padding-top:12%}.cat .ico svg{width:28%;height:28%}.cat small{font-size:11px}}
 .cat small{display:block;font-family:var(--body);font-size:12px;font-weight:600;opacity:.9;margin-top:4px}
 
 /* catálogo */
@@ -173,7 +175,7 @@ header{position:sticky;top:0;z-index:30;background:rgb(251 246 241 / .92);backdr
 .ico{position:absolute;inset:0;display:grid;place-items:center;background:oklch(0.93 0.045 var(--h))}
 .ico svg.lucide{width:42%;height:42%;stroke-width:1.15;color:oklch(0.45 0.13 var(--h))}
 .th{position:relative;overflow:hidden}
-.ph.noimg::after{content:"♛";position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-size:42px;color:var(--rose);opacity:.5}
+.ph.noimg::after{content:"✦";position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-size:42px;color:var(--rose);opacity:.5}
 .badges{position:absolute;left:10px;top:10px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;z-index:1}
 .bdg{font-size:11.5px;font-weight:700;padding:4px 9px;border-radius:999px;background:var(--paper);color:var(--ink)}
 .bdg.off{background:var(--rose);color:#fff}
@@ -202,7 +204,7 @@ header{position:sticky;top:0;z-index:30;background:rgb(251 246 241 / .92);backdr
 .visit b{display:block}
 .visit span{color:var(--muted);font-size:15px}
 
-footer{background:var(--berry);color:#f6e5e2;font-size:14px;margin-top:20px}
+footer{background:var(--berry);color:#fde3ec;font-size:14px;margin-top:20px}
 .foot{display:grid;gap:24px;padding-block:40px calc(40px + env(safe-area-inset-bottom,0px))}
 @media (min-width:800px){.foot{grid-template-columns:1.4fr 1fr 1fr 1.1fr}}
 .arr-btn{display:inline-flex!important;align-items:center;gap:8px;background:#fff;color:var(--berry);font-weight:700;border-radius:999px;padding:10px 16px!important;margin:4px 0 8px;text-decoration:none!important}
@@ -210,7 +212,7 @@ footer{background:var(--berry);color:#f6e5e2;font-size:14px;margin-top:20px}
 .consumo b{display:block;color:#fff}
 .foot h3{color:#fff;margin:0 0 6px;font-size:15px;font-family:var(--body);font-weight:700}
 .foot p{margin:0;max-width:40ch;opacity:.9}
-.foot .big{font-family:var(--script);font-size:48px;color:#fff;line-height:1;margin-bottom:10px}
+.foot .big{font-family:var(--display);font-size:34px;color:#fff;line-height:1;margin-bottom:10px}
 .foot a{text-decoration:none;display:inline-block;padding-block:6px}
 @media (hover:hover){.foot a:hover{text-decoration:underline}}
 .foot small{display:block;margin-top:20px;opacity:.7}
@@ -301,13 +303,15 @@ footer{background:var(--berry);color:#f6e5e2;font-size:14px;margin-top:20px}
 
 <header>
   <div class="wrap nav">
-    <a class="brand" href="#top" aria-label="Isabella Importados, inicio">
-      <div><b><i data-lucide="crown"></i>Isabella</b><small>Importados</small></div>
+    <a class="brand" href="#top" aria-label="S.O.S Cosméticos, inicio">
+      <div><b>S.O.S</b><small>Cosméticos</small></div>
     </a>
     <nav class="links" aria-label="Categorías">
       <button data-go="Maquillaje">Maquillaje</button>
       <button data-go="Skincare">Skincare</button>
-      <button data-go="Combos y regalos">Combos y regalos</button>
+      <button data-go="Uñas">Uñas</button>
+      <button data-go="Pestañas">Pestañas</button>
+      <button data-go="Accesorios">Accesorios</button>
       <button data-go="Outlet calzado">Outlet calzado</button>
     </nav>
     <div class="sp"></div>
@@ -318,9 +322,9 @@ footer{background:var(--berry);color:#f6e5e2;font-size:14px;margin-top:20px}
 <main id="top">
   <section class="wrap hero">
     <div>
-      <span class="kicker"><i data-lucide="crown"></i>Más de 10 años atendiendo en Corrientes</span>
-      <h1>Todo para sentirte la <em>reina</em> de la casa</h1>
-      <p>Maquillaje, rutinas de skincare, combos para regalar armados a mano y el outlet de zapatos con pares únicos. Elegí online, te confirmamos por WhatsApp y retirás en el local o te lo enviamos.</p>
+      <span class="kicker"><i data-lucide="star"></i>Nacionales e importados · Corrientes</span>
+      <h1>Tu <em>S.O.S</em> de belleza, en un solo lugar</h1>
+      <p>Skincare personalizado, maquillaje, insumos de uñas, pestañas y accesorios. Y el outlet de calzado con pares únicos. Elegí online, te confirmamos por WhatsApp y retirás en el local o te lo enviamos.</p>
       <div class="cta">
         <a class="btn btn-rose" href="#catalogo"><i data-lucide="sparkles"></i>Ver productos</a>
         <button class="btn btn-line" data-go="Outlet calzado"><i data-lucide="tag"></i>Outlet de calzado</button>
@@ -332,9 +336,9 @@ footer{background:var(--berry);color:#f6e5e2;font-size:14px;margin-top:20px}
 
   <section class="wrap perks" aria-label="Beneficios">
     <div class="perk"><i data-lucide="truck"></i><div><b>Envíos</b><span>en Corrientes y a todo el país</span></div></div>
-    <div class="perk"><i data-lucide="store"></i><div><b>Retiro en el local</b><span>Junín 832, Corrientes</span></div></div>
-    <div class="perk"><i data-lucide="gift"></i><div><b>Regalos armados</b><span>con los colores que elijas</span></div></div>
-    <div class="perk"><i data-lucide="message-circle"></i><div><b>Atención por WhatsApp</b><span>te asesoramos antes de comprar</span></div></div>
+    <div class="perk"><i data-lucide="store"></i><div><b>Retiro en el local</b><span>Junín 830, Corrientes</span></div></div>
+    <div class="perk"><i data-lucide="boxes"></i><div><b>Venta mayorista</b><span>consultá precios por cantidad</span></div></div>
+    <div class="perk"><i data-lucide="message-circle"></i><div><b>Asesoramiento</b><span>te armamos tu rutina por WhatsApp</span></div></div>
   </section>
 
   <section class="wrap sec" aria-labelledby="catsTitle">
@@ -343,10 +347,10 @@ footer{background:var(--berry);color:#f6e5e2;font-size:14px;margin-top:20px}
   </section>
 
   <section class="wrap sec" id="catalogo" aria-labelledby="catTitle">
-    <div class="sec-h"><div><h2 id="catTitle">La tienda</h2><p>Mirá qué hay en stock y, en calzado, qué talles quedan de cada par.</p></div></div>
+    <div class="sec-h"><div><h2 id="catTitle">La tienda</h2><p>Mirá qué hay en stock y, en el outlet de calzado, qué talles quedan de cada par.</p></div></div>
     <div class="toolbar">
       <div class="row">
-        <label class="search"><i data-lucide="search"></i><span class="sr">Buscar</span><input id="q" type="search" placeholder="Buscar labial, sérum, sandalias…" autocomplete="off"></label>
+        <label class="search"><i data-lucide="search"></i><span class="sr">Buscar</span><input id="q" type="search" placeholder="Buscar sombras, sérum, esmaltes…" autocomplete="off"></label>
         <label class="sr" for="sort">Ordenar</label>
         <select class="sort" id="sort">
           <option value="rel">Destacados</option>
@@ -365,16 +369,16 @@ footer{background:var(--berry);color:#f6e5e2;font-size:14px;margin-top:20px}
     <div class="story">
       <div>
         <span class="eyebrow">Nuestra historia</span>
-        <h2>Vender lo llevamos en la sangre</h2>
-        <p>Isabella es un emprendimiento correntino con más de 10 años de experiencia en ventas y un local a la calle. Empezamos con calzado, sumamos maquillaje y skincare, y hoy volvimos con el outlet de zapatos.</p>
-        <p>Armamos cada regalo a mano y te asesoramos como si estuvieras en el local. Gracias por elegirnos y por acompañarnos en cada etapa.</p>
+        <h2>De un hobby a tu local de belleza</h2>
+        <p>S.O.S Cosméticos empezó como un hobby, pasó por una estética y por una zapatería (de ahí nuestro outlet de calzado) y hoy es un local de insumos de belleza en el centro de Corrientes.</p>
+        <p>Te ayudamos a armar tu rutina de skincare, elegir tu maquillaje y conseguir todo para uñas y pestañas. Venite al local o escribinos: te asesoramos como a una amiga.</p>
       </div>
       <div class="visit">
         <span class="eyebrow">Visitanos</span>
-        <div><i data-lucide="map-pin"></i><span><b>Junín 832</b>entre Salta y Buenos Aires · Corrientes Capital</span></div>
-        <div><i data-lucide="clock"></i><span><b>Horarios</b>9:30 a 13 y 17:30 a 21 hs</span></div>
+        <div><i data-lucide="map-pin"></i><span><b>Junín 830</b>entre Salta y Buenos Aires · Corrientes Capital</span></div>
+        <div><i data-lucide="clock"></i><span><b>Horarios</b>Lunes a sábados, 9:30 a 12:30 y 17:30 a 21 hs</span></div>
         <div><i data-lucide="message-circle"></i><span><b>WhatsApp</b>3794-717236</span></div>
-        <a class="btn btn-rose" href="https://www.google.com/maps/search/?api=1&query=Jun%C3%ADn+832+Corrientes+Capital" target="_blank" rel="noopener"><i data-lucide="navigation"></i>Cómo llegar</a>
+        <a class="btn btn-rose" href="https://www.google.com/maps/search/?api=1&query=Jun%C3%ADn+830+Corrientes+Capital" target="_blank" rel="noopener"><i data-lucide="navigation"></i>Cómo llegar</a>
       </div>
     </div>
   </section>
@@ -383,24 +387,27 @@ footer{background:var(--berry);color:#f6e5e2;font-size:14px;margin-top:20px}
 <footer>
   <div class="wrap foot">
     <div>
-      <div class="big">Isabella</div>
-      <p>Prendas, calzados y belleza, nacionales e importados. Más de 10 años atendiendo en Corrientes.</p>
+      <div class="big">S.O.S Cosméticos</div>
+      <p>Skincare personalizado, maquillaje, uñas, pestañas y accesorios, nacionales e importados. Outlet de calzado. Corrientes Capital.</p>
     </div>
     <div><h3>Comprá</h3><div style="display:grid;gap:0">
       <a href="#catalogo" data-go="Maquillaje">Maquillaje</a>
       <a href="#catalogo" data-go="Skincare">Skincare</a>
+      <a href="#catalogo" data-go="Uñas">Uñas</a>
+      <a href="#catalogo" data-go="Pestañas">Pestañas</a>
+      <a href="#catalogo" data-go="Accesorios">Accesorios</a>
       <a href="#catalogo" data-go="Combos y regalos">Combos y regalos</a>
       <a href="#catalogo" data-go="Outlet calzado">Outlet calzado</a></div></div>
     <div><h3>Contacto</h3><div style="display:grid;gap:0">
       <a href="https://wa.me/5493794717236" target="_blank" rel="noopener">WhatsApp 3794-717236</a>
-      <a href="https://www.instagram.com/isabella.importados/" target="_blank" rel="noopener">Instagram @isabella.importados</a>
-      <span>Junín 832, Corrientes Capital</span></div></div>
+      <a href="https://www.instagram.com/s.o.scosmeticos_ctes/" target="_blank" rel="noopener">Instagram @s.o.scosmeticos_ctes</a>
+      <span>Junín 830, Corrientes Capital</span></div></div>
     <div><h3>Ayuda</h3><div style="display:grid;gap:0;justify-items:start">
       <a class="arr-btn" href="/arrepentimiento.html"><i data-lucide="undo-2" aria-hidden="true"></i>Botón de arrepentimiento</a>
       <a href="/cambios.html">Cambios y devoluciones</a>
       <a class="consumo" href="https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario" target="_blank" rel="noopener"><b>Defensa de las y los Consumidores</b>Para reclamos <u>ingrese aquí</u></a></div></div>
   </div>
-  <div class="wrap" style="padding-bottom:24px;font-size:12px;opacity:.75">© 2026 Isabella Importados. Precios en pesos argentinos. Pagos online procesados por Mercado Pago. <a href="/admin.html" style="color:#f0c9cd">Acceso dueña</a></div>
+  <div class="wrap" style="padding-bottom:24px;font-size:12px;opacity:.75">© 2026 S.O.S Cosméticos. Precios en pesos argentinos. Pagos online procesados por Mercado Pago. <a href="/admin.html" style="color:#ffd1e1">Acceso dueña</a></div>
 </footer>
 
 <aside aria-label="Contacto rápido"><a class="wa-float" href="https://wa.me/5493794717236" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp"><i data-lucide="message-circle"></i></a></aside>
@@ -422,14 +429,17 @@ footer{background:var(--berry);color:#f6e5e2;font-size:14px;margin-top:20px}
 <script>
 let WA="5493794717236", CFG=null;
 const TRANSFER=0; // poner 0.10 si hay 10% OFF por transferencia
-const PROMOS=["Envíos en Corrientes y a todo el país","Retiro en el local: Junín 832","Outlet de calzado: pares únicos","Combos de skincare personalizados para regalar","Consultas al 3794-717236"];
+const PROMOS=["Envíos a todo el país","Retiro en el local: Junín 830","Nueva colección de sombras Ruby Rose","Outlet de calzado: pares únicos","Venta mayorista","Consultas al 3794-717236"];
 const CATS=[
   {k:"Maquillaje",d:"Labiales, bases y paletas",icon:"palette",h:15},
   {k:"Skincare",d:"Tu rutina de cuidado",icon:"flask-conical",h:165},
-  {k:"Combos y regalos",d:"Armados a mano",icon:"gift",h:345},
+  {k:"Uñas",d:"Esmaltes e insumos",icon:"paintbrush",h:330},
+  {k:"Pestañas",d:"Extensiones e insumos",icon:"eye",h:285},
+  {k:"Accesorios",d:"Brochas, neceseres y más",icon:"gem",h:220},
+  {k:"Combos y regalos",d:"Ramos y combos armados",icon:"gift",h:345},
   {k:"Outlet calzado",d:"Pares únicos del 35 al 40",icon:"footprints",h:60}
 ];
-const HUE={"Maquillaje":15,"Skincare":165,"Combos y regalos":345,"Outlet calzado":60};
+const HUE=Object.fromEntries(CATS.map(c=>[c.k,c.h]));
 const CART_KEY="isabella-carrito";
 let products=[], cart=[], cat="Todo", query="", sort="rel", onlyStock=false, loading=true, loadError="";
 let buyer={name:"",phone:"",email:"",address:""};
@@ -470,7 +480,8 @@ function badges(p){const u=units(p),b=[];
   return `<div class="badges">${b.join("")}</div>`}
 
 function renderRibbon(){const t=PROMOS.map(x=>`<span>${x}</span>`).join("");$("#ribbon").innerHTML=t+t+t}
-function renderShowcase(){$("#showcase").innerHTML=CATS.map(c=>`<button class="tile" data-go="${c.k}"><div class="ico" style="--h:${c.h}"><i data-lucide="${c.icon}"></i></div><span>${c.k}<small>${c.d}</small></span></button>`).join("");icons()}
+const SHOW=["Skincare","Maquillaje","Uñas","Outlet calzado"];
+function renderShowcase(){$("#showcase").innerHTML=CATS.filter(c=>SHOW.includes(c.k)).sort((a,b)=>SHOW.indexOf(a.k)-SHOW.indexOf(b.k)).map(c=>`<button class="tile" data-go="${c.k}"><div class="ico" style="--h:${c.h}"><i data-lucide="${c.icon}"></i></div><span>${c.k}<small>${c.d}</small></span></button>`).join("");icons()}
 function renderCats(){
   $("#cats").innerHTML=CATS.map(c=>{const p=products.find(x=>x.cat===c.k&&units(x))||products.find(x=>x.cat===c.k);
     return `<button class="cat" data-go="${c.k}">${p&&p.img?imgTag(p):`<div class="ico" style="--h:${c.h}"><i data-lucide="${c.icon}"></i></div>`}<span>${c.k}<small>${c.d}</small></span></button>`}).join("");icons()}
@@ -533,7 +544,7 @@ function renderModal(){
       <button class="btn btn-rose" id="addBtn"><i data-lucide="shopping-bag"></i>Agregar al pedido</button>`
       :`<a class="btn btn-line" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent("Hola! Quería saber si va a volver a entrar: "+p.name)}"><i data-lucide="bell"></i>Avisame cuando vuelva</a>`}
       <div class="promo-box">
-        <div><i data-lucide="store"></i>Retiro en el local, Junín 832</div>
+        <div><i data-lucide="store"></i>Retiro en el local, Junín 830</div>
         <div><i data-lucide="truck"></i>Envíos en Corrientes y a todo el país</div>
         <div><i data-lucide="message-circle"></i>Te confirmamos el pedido por WhatsApp</div>
       </div>
@@ -543,7 +554,7 @@ function closeAll(){["#modal","#cart","#result"].forEach(s=>$(s).classList.remov
 
 /* carrito */
 let step="cart", sending=false;
-const SHIP={pickup:["Retiro en el local","Junín 832 · sin cargo"],city:["Envío en Corrientes Capital","Costo a coordinar por WhatsApp"],country:["Envío al resto del país","Por correo · costo a coordinar"]};
+const SHIP={pickup:["Retiro en el local","Junín 830 · sin cargo"],city:["Envío en Corrientes Capital","Costo a coordinar por WhatsApp"],country:["Envío al resto del país","Por correo · costo a coordinar"]};
 const PAY={mercadopago:["Mercado Pago","Tarjeta de crédito o débito, cuotas o dinero en cuenta"],transfer:["Transferencia","Te pasamos los datos por WhatsApp"],cash:["Efectivo","Al retirar en el local"]};
 function totals(){
   const ship=document.querySelector("input[name=ship]:checked")?.value||"pickup";
@@ -600,7 +611,7 @@ function readBuyer(){[["bName","name"],["bPhone","phone"],["bEmail","email"],["b
 function orderText(orderId){
   const t=totals();
   const lines=cart.map(l=>{const p=byId(l.id);return `• ${l.qty} x ${p.name}${sizeTxt(l.size)}: ${money(p.price*l.qty)}`});
-  return `¡Hola Isabella! 👑 Quiero hacer este pedido${orderId?` (N° ${orderId.slice(0,8).toUpperCase()})`:""}:\n\n${lines.join("\n")}\n\n${t.tr?`Subtotal: ${money(t.sub)}\nDescuento transferencia: −${money(t.tr)}\n`:""}Total: ${money(t.total)}\n\nEntrega: ${SHIP[t.ship][0]}${t.ship!=="pickup"&&buyer.address?` (${buyer.address})`:""}\nPago: ${PAY[t.pay][0]}\nA nombre de: ${buyer.name}`}
+  return `¡Hola S.O.S! 💗 Quiero hacer este pedido${orderId?` (N° ${orderId.slice(0,8).toUpperCase()})`:""}:\n\n${lines.join("\n")}\n\n${t.tr?`Subtotal: ${money(t.sub)}\nDescuento transferencia: −${money(t.tr)}\n`:""}Total: ${money(t.total)}\n\nEntrega: ${SHIP[t.ship][0]}${t.ship!=="pickup"&&buyer.address?` (${buyer.address})`:""}\nPago: ${PAY[t.pay][0]}\nA nombre de: ${buyer.name}`}
 async function checkout(){
   if(sending)return;
   readBuyer(); const t=totals();
@@ -643,7 +654,7 @@ async function showPaymentResult(){
     <h3 id="rTitle">${ok?"¡Gracias por tu compra!":pend?"Tu pago está pendiente":"El pago no se completó"}</h3>
     <p class="note" style="font-size:15px;max-width:36ch">${ok?`Recibimos tu pago${nro?` del pedido N° ${nro}`:""}. Te escribimos por WhatsApp para coordinar la entrega.`
       :pend?"Mercado Pago está procesando el pago. Apenas se acredite te avisamos por WhatsApp.":"No se hizo ningún cobro. Tu pedido sigue en la bolsa para que lo intentes de nuevo o elijas otra forma de pago."}</p>
-    ${ok||pend?`<a class="btn btn-wa" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent(`Hola Isabella! Hice el pedido N° ${nro}`)}"><i data-lucide="message-circle"></i>Escribir por WhatsApp</a>`
+    ${ok||pend?`<a class="btn btn-wa" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent(`¡Hola S.O.S! Hice el pedido N° ${nro}`)}"><i data-lucide="message-circle"></i>Escribir por WhatsApp</a>`
       :`<button class="btn btn-rose" id="retryPay"><i data-lucide="shopping-bag"></i>Ver mi pedido</button>`}
   </div>`;
   $("#result").classList.add("on"); $("#scrim").classList.add("on"); icons();
