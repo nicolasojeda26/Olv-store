@@ -1,8 +1,25 @@
 {
   "rewrites": [
-    { "source": "/p/:slug", "destination": "/api/producto?slug=:slug" }
+    {
+      "source": "/p/:slug",
+      "destination": "/api/producto?slug=:slug"
+    }
   ],
   "functions": {
-    "api/producto.js": { "includeFiles": "index.html" }
-  }
+    "api/producto.js": {
+      "includeFiles": "index.html"
+    }
+  },
+  "redirects": [
+    {
+      "source": "/admin",
+      "destination": "/admin.html",
+      "permanent": false
+    },
+    {
+      "source": "/panel",
+      "destination": "/admin.html",
+      "permanent": false
+    }
+  ]
 }
