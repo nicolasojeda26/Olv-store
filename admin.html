@@ -14,7 +14,7 @@
 <style>
 :root{
   --blush:#fff5f8; --petal:#fde3ec; --rose:#d6246e; --berry:#8f1a4b; --gold:#ffb3cf;
-  --ink:#2c1520; --muted:#7d5a68; --line:#f3d2de; --paper:#fff; --ok:#1f8a55; --warn:#b5560f; --mp:#009ee3;
+  --ink:#2c1520; --muted:#7d5a68; --line:#f3d2de; --paper:#fff; --ok:#1f8a55; --warn:#b5560f; --mp:#0074b8;
   --display:"DM Serif Display",Georgia,"Times New Roman",serif; --body:Figtree,system-ui,-apple-system,"Segoe UI",sans-serif; --script:"DM Serif Display",Georgia,serif;
   --ease:cubic-bezier(.23,1,.32,1);
 }
@@ -121,7 +121,7 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
 .mpstate{display:flex;gap:12px;align-items:center}
 .dot{width:12px;height:12px;border-radius:50%;background:#bbb;flex:none}
 .dot.on{background:var(--ok)}
-.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:999px;font-size:14px;font-weight:600;z-index:80;opacity:0;transition:opacity .2s;pointer-events:none;white-space:nowrap}
+.toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:999px;font-size:14px;font-weight:600;z-index:80;opacity:0;transition:opacity .2s;pointer-events:none;white-space:nowrap}
 .toast.on{opacity:1}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>

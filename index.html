@@ -90,7 +90,7 @@ header{position:sticky;top:0;z-index:30;background:rgb(255 245 248 / .92);backdr
 .btn-rose{background:var(--rose);color:#fff;box-shadow:0 8px 20px -8px rgb(214 36 110 / .6)}
 .btn-line{background:var(--paper);border:1px solid var(--line);color:var(--ink)}
 .btn-wa{background:#1fa855;color:#fff;width:100%}
-.btn-mp{background:#009ee3;color:#fff;width:100%}
+.btn-mp{background:#0074b8;color:#fff;width:100%}
 .btn:disabled{opacity:.7;cursor:progress}
 .fields{display:grid;gap:8px}
 .fld{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
@@ -411,7 +411,7 @@ footer{background:var(--berry);color:#fde3ec;font-size:14px;margin-top:20px}
       <a href="/cambios.html">Cambios y devoluciones</a>
       <a class="consumo" href="https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario" target="_blank" rel="noopener"><b>Defensa de las y los Consumidores</b>Para reclamos <u>ingrese aquí</u></a></div></div>
   </div>
-  <div class="wrap" style="padding-bottom:24px;font-size:12px;opacity:.75">© 2026 SOS Cosméticos. Precios en pesos argentinos. Pagos online procesados por Mercado Pago. <a href="/admin.html" style="color:#ffd1e1">Acceso dueña</a></div>
+  <div class="wrap" style="padding-bottom:24px;font-size:12px;opacity:.75">© 2026 SOS Cosméticos. Precios en pesos argentinos. Pagos online procesados por Mercado Pago. <a href="/admin.html" style="color:#fff">Acceso dueña</a></div>
 </footer>
 
 <aside aria-label="Contacto rápido"><a class="wa-float" href="https://wa.me/5493794717236" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp"><i data-lucide="message-circle"></i></a></aside>
@@ -703,7 +703,7 @@ document.addEventListener("change",e=>{
 $("#scrim").onclick=closeAll;
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAll()});
 $("#openCart").onclick=()=>{renderCart();openDrawer("#cart")};
-$("#q").addEventListener("input",e=>{query=e.target.value;renderGrid()});
+$("#q").addEventListener("input",e=>{query=e.target.value;if(query.trim()&&cat!=="Todo"){cat="Todo";renderChips()}renderGrid()});
 $("#sort").addEventListener("change",e=>{sort=e.target.value;renderGrid()});
 
 renderRibbon();renderShowcase();renderCats();renderChips();renderGrid();icons();
