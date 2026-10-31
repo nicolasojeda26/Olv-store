@@ -397,7 +397,9 @@ async function api(path,opt={}){
   return d}
 
 /* ---------- sesión ---------- */
-const AUTH_TYPE=new URLSearchParams(location.hash.slice(1)).get("type");
+const AUTH_HASH=new URLSearchParams(location.hash.slice(1)), AUTH_TYPE=AUTH_HASH.get("type");
+// Si el enlace del correo ya se usó o venció, Supabase vuelve con #error=... : se lo explicamos claro.
+const AUTH_ERR=AUTH_HASH.get("error_code")||AUTH_HASH.get("error");
 async function boot(){
   try{
     const cfg=await fetch("/api/config").then(r=>r.json());
@@ -408,6 +410,11 @@ async function boot(){
   sb.auth.onAuthStateChange((ev,s)=>{session=s;if(ev==="PASSWORD_RECOVERY")return showPass();if(!s)showLogin()});
   if(session&&(AUTH_TYPE==="invite"||AUTH_TYPE==="recovery"))return showPass();
   session?showApp():showLogin();
+  if(AUTH_ERR&&!session){history.replaceState(null,"",location.pathname);
+    $("#lOk").hidden=true;$("#lErr").innerHTML=AUTH_ERR==="otp_expired"||/expired|invalid/i.test(AUTH_HASH.get("error_description")||"")
+      ?"Ese enlace ya no sirve: venció o se pidió otro correo después. Escribí tu correo, tocá <b>Olvidé mi contraseña</b> una sola vez y abrí <b>solo el último correo</b> que te llegue."
+      :"No se pudo abrir el enlace del correo. Pedí uno nuevo con <b>Olvidé mi contraseña</b>.";
+    $("#lErr").hidden=false}
 }
 function showLogin(){$("#appView").hidden=true;$("#passView").hidden=true;$("#loginView").hidden=false;icons()}
 function showPass(){$("#appView").hidden=true;$("#loginView").hidden=true;$("#passView").hidden=false;icons();history.replaceState(null,"",location.pathname)}
@@ -421,13 +428,16 @@ $("#passForm").addEventListener("submit",async e=>{
 });
 // Usuario "Isabella" → isabella@isabella-importados.vercel.app (usuario interno de Supabase). Un email se usa tal cual.
 const LOGIN_DOMAIN="isabella-importados.vercel.app";
-const toEmail=v=>{v=v.trim();return v.includes("@")?v:`${v.toLowerCase().replace(/[^a-z0-9._-]/g,"")}@${LOGIN_DOMAIN}`};
+const toEmail=v=>{v=v.trim();return v.includes("@")?v.toLowerCase():`${v.toLowerCase().replace(/[^a-z0-9._-]/g,"")}@${LOGIN_DOMAIN}`};
 $("#forgot").onclick=async()=>{
-  const email=$("#lEmail").value.trim();
+  const fb=$("#forgot"); if(fb.disabled)return;
+  const email=$("#lEmail").value.trim().toLowerCase();
   if(email&&!email.includes("@")){$("#lOk").hidden=true;$("#lErr").textContent="Para cambiar la contraseña de este usuario, escribile a quien armó la tienda.";$("#lErr").hidden=false;return}
   if(!email){$("#lErr").textContent="Escribí tu email y tocá de nuevo.";$("#lErr").hidden=false;return}
-  await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+"/admin.html"});
-  $("#lErr").hidden=true;$("#lOk").textContent="Si el email es correcto, te llegó un mail para elegir una contraseña nueva.";$("#lOk").hidden=false};
+  fb.disabled=true; setTimeout(()=>fb.disabled=false,60000); // un solo correo por minuto: cada correo nuevo anula el anterior
+  const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+"/admin.html"});
+  if(error&&/rate|seconds|many/i.test(error.message)){$("#lOk").hidden=true;$("#lErr").textContent="Ya pediste un correo hace poco. Esperá unos minutos y abrí el último que te llegó.";$("#lErr").hidden=false;return}
+  $("#lErr").hidden=true;$("#lOk").innerHTML="Listo: te mandamos un correo (mirá también en Spam). Abrilo y tocá el enlace <b>en la próxima hora</b>. No pidas otro: cada correo nuevo anula el anterior.";$("#lOk").hidden=false};
 async function showApp(){
   $("#loginView").hidden=true;$("#passView").hidden=true;$("#appView").hidden=false;icons();
   const q=new URLSearchParams(location.search).get("mp");
