@@ -7,6 +7,7 @@ Tienda con catálogo, stock por talle, pago con **Mercado Pago** (tarjeta, cuota
 | `index.html` | La tienda (lo que ven las clientas) |
 | `admin.html` | Panel de la dueña: pedidos, productos con fotos y stock, conexión con Mercado Pago |
 | `arrepentimiento.html`, `cambios.html` | Botón de arrepentimiento y política de cambios |
+| `api/producto.js`, `vercel.json` | Link propio de cada producto (`/p/12-nombre`) con foto y precio al compartir |
 | `api/` | Funciones del servidor en Vercel (pago, aviso de Mercado Pago, conexión, arrepentimiento) |
 | `lib/notify.js` | Avisos por email (Resend) |
 | `lib/shared.js` | Código compartido de las funciones |

@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    { "source": "/p/:slug", "destination": "/api/producto?slug=:slug" }
+  ],
+  "functions": {
+    "api/producto.js": { "includeFiles": "index.html" }
+  }
+}
