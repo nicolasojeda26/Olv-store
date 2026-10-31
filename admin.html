@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
 <title>Panel · SOS Cosméticos</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23d6246e'/%3E%3Cpath d='M14 44l-2-22 12 10 8-16 8 16 12-10-2 22z' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23da3d98'/%3E%3Cpath d='M14 44l-2-22 12 10 8-16 8 16 12-10-2 22z' fill='%23ffffff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,8 +13,8 @@
 <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 <style>
 :root{
-  --blush:#fff5f8; --petal:#fde3ec; --rose:#d6246e; --berry:#8f1a4b; --gold:#ffb3cf;
-  --ink:#2c1520; --muted:#7d5a68; --line:#f3d2de; --paper:#fff; --ok:#1f8a55; --warn:#b5560f; --mp:#0074b8;
+  --blush:#fff5fb; --petal:#ffe0f7; --rose:#c42a85; --berry:#7a1b5e; --gold:#fea6e2;
+  --ink:#2c1520; --muted:#7d5a68; --line:#f6cdea; --paper:#fff; --ok:#1f8a55; --warn:#b5560f; --mp:#0074b8;
   --display:"DM Serif Display",Georgia,"Times New Roman",serif; --body:Figtree,system-ui,-apple-system,"Segoe UI",sans-serif; --script:"DM Serif Display",Georgia,serif;
   --ease:cubic-bezier(.23,1,.32,1);
 }
@@ -49,7 +49,7 @@ h1{font-family:var(--display);font-weight:400;font-size:30px;margin:16px 0 4px}
 .b-mp{background:var(--mp);color:#fff}
 .b-ghost{color:var(--rose)}
 .b-sm{min-height:36px;padding:0 12px;font-size:14px}
-.card{background:var(--paper);border-radius:16px;box-shadow:0 1px 2px rgb(143 26 75 / .05),0 8px 24px -14px rgb(143 26 75 / .25)}
+.card{background:var(--paper);border-radius:16px;box-shadow:0 1px 2px rgb(122 27 94 / .05),0 8px 24px -14px rgb(122 27 94 / .25)}
 .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
 @media (max-width:700px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .kpi{padding:14px}
@@ -77,7 +77,7 @@ select.f{border:1px solid var(--line);background:var(--paper);border-radius:999p
 /* login */
 .auth{min-height:100vh;min-height:100dvh;display:grid;grid-template-columns:1fr;grid-template-rows:auto 1fr;padding:0!important;margin:0!important}
 @media (min-width:860px){.auth{grid-template-columns:1.1fr 1fr;grid-template-rows:1fr}}
-.auth-brand{position:relative;overflow:hidden;background:radial-gradient(120% 90% at 20% 10%,#ec4d8e 0%,var(--rose) 45%,var(--berry) 100%);color:#fff;padding:40px max(24px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;justify-content:space-between;gap:28px;min-height:220px}
+.auth-brand{position:relative;overflow:hidden;background:radial-gradient(120% 90% at 20% 10%,#f848b4 0%,var(--rose) 40%,#5a2a8f 100%);color:#fff;padding:40px max(24px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;justify-content:space-between;gap:28px;min-height:220px}
 .auth-brand::after{content:"✦";position:absolute;right:-30px;bottom:-70px;font-size:300px;line-height:1;color:rgb(255 255 255 / .06);pointer-events:none}
 .auth-brand .logo{font-size:64px;display:flex;align-items:flex-start;gap:4px}
 
@@ -130,7 +130,7 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
 
 <main id="loginView" class="auth" hidden>
   <div class="auth-brand">
-    <div class="logo">SOS <small style="font-family:var(--body);font-size:14px;letter-spacing:.2em;text-transform:uppercase;opacity:.85">Cosméticos</small></div>
+    <div class="logo">SOS <small style="font-family:var(--body);font-size:14px;letter-spacing:.2em;text-transform:uppercase;opacity:.85;align-self:center;margin-left:10px">Cosméticos</small></div>
     <h2>Tu tienda, en tus manos</h2>
     <ul>
       <li><i data-lucide="receipt"></i>Pedidos y pagos en un solo lugar</li>
@@ -157,7 +157,7 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
 
 <main id="passView" class="auth" hidden>
   <div class="auth-brand">
-    <div class="logo">SOS <small style="font-family:var(--body);font-size:14px;letter-spacing:.2em;text-transform:uppercase;opacity:.85">Cosméticos</small></div>
+    <div class="logo">SOS <small style="font-family:var(--body);font-size:14px;letter-spacing:.2em;text-transform:uppercase;opacity:.85;align-self:center;margin-left:10px">Cosméticos</small></div>
     <h2>Tu tienda, en tus manos</h2>
     <ul>
       <li><i data-lucide="receipt"></i>Pedidos y pagos en un solo lugar</li>
