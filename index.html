@@ -136,7 +136,10 @@ header{position:sticky;top:0;z-index:30;background:rgb(255 245 251 / .92);backdr
 .collage .tile.b{right:0;top:0;width:46%;aspect-ratio:1;transform:rotate(3deg)}
 .collage .tile.c{right:8%;bottom:0;width:44%;aspect-ratio:1;transform:rotate(-2deg)}
 @media (hover:hover){.collage .tile:hover{transform:rotate(0) scale(1.03);z-index:2}}
-.collage .tile .ico svg{width:40%;height:40%;margin-bottom:16%}
+.collage .tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.collage .tile::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 52%,rgb(60 10 40 / .66))}
+.collage .tile span{z-index:1;color:#fff;text-shadow:0 1px 8px rgb(0 0 0 / .25)}
+.collage .tile span small{color:#fff;opacity:.92}
 .collage .stamp{z-index:3;left:-3%;top:-3%;bottom:auto}
 @media (max-width:699px){.collage .stamp{width:92px;height:92px;font-size:16px}.collage .stamp small{font-size:9px}.collage .tile{border-width:4px;border-radius:18px}.collage .tile span{left:10px;bottom:8px;right:8px;font-size:15px}.collage .tile span small{font-size:10px}.collage .tile .ico{place-items:start center;padding-top:14%}.collage .tile .ico svg{width:32%;height:32%;margin:0}.collage .tile.a .ico{padding-top:26%}}
 .collage .stamp small{display:block;font-family:var(--body);font-size:11px;font-weight:700;letter-spacing:.08em;margin-top:4px}
@@ -168,7 +171,7 @@ header{position:sticky;top:0;z-index:30;background:rgb(255 245 251 / .92);backdr
 .cat span{position:absolute;left:14px;right:14px;bottom:12px;z-index:1;color:#fff;font-family:var(--display);font-size:24px;line-height:1.05}
 @media (max-width:699px){.cats{grid-template-columns:none;grid-auto-flow:column;grid-template-rows:repeat(2,auto);grid-auto-columns:42%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-inline:-16px;padding-inline:16px;scroll-padding-inline:16px}.cats::-webkit-scrollbar{display:none}.cat{scroll-snap-align:start}.cat:last-child:nth-child(odd){grid-column:auto;min-height:0;aspect-ratio:1/1}.cat{aspect-ratio:1/1}.cat span{font-size:19px;left:12px;right:10px;bottom:10px}.cat .ico{padding-top:12%}.cat .ico svg{width:28%;height:28%}.cat small{font-size:11px}}
 @media (min-width:700px) and (max-width:1099px){.cats{grid-template-columns:repeat(4,minmax(0,1fr))}.cat{aspect-ratio:1/1}.cat span{font-size:18px}}
-@media (min-width:1100px){.cats{grid-template-columns:repeat(7,minmax(0,1fr))}.cat{aspect-ratio:3/4}.cat span{font-size:19px}.cat small{font-size:11px}}
+@media (min-width:1100px){.cats{grid-template-columns:repeat(var(--n,7),minmax(0,1fr))}.cat{aspect-ratio:3/4}.cat span{font-size:19px}.cat small{font-size:11px}}
 .cat:last-child:nth-child(odd){grid-column:span 2;aspect-ratio:auto;min-height:150px}
 @media (min-width:700px) and (max-width:1099px){.cat:nth-last-child(2):nth-child(4n+1),.cat:last-child:nth-child(4n+2){grid-column:span 2;aspect-ratio:auto;min-height:160px}}
 .cat small{display:block;font-family:var(--body);font-size:12px;font-weight:600;opacity:.9;margin-top:4px}
@@ -517,13 +520,17 @@ function badges(p){const u=units(p),b=[];
   return `<div class="badges">${b.join("")}</div>`}
 
 function renderRibbon(){const t=PROMOS.map(x=>`<span>${x}</span>`).join("");$("#ribbon").innerHTML=t+t+t}
-const SHOW=["Skincare","Maquillaje","Insumos de uñas"];
-function renderShowcase(){$("#showcase").innerHTML=CATS.filter(c=>SHOW.includes(c.k)).sort((a,b)=>SHOW.indexOf(a.k)-SHOW.indexOf(b.k)).map((c,i)=>`<button class="tile ${"abc"[i]}" data-go="${c.k}"><div class="ico" style="--h:${c.h}"><i data-lucide="${c.icon}"></i></div><span>${c.k}<small>${c.d}</small></span></button>`).join("")+`<div class="stamp" aria-hidden="true"><div>Envíos<small>A TODO EL PAÍS</small></div></div>`;icons()}
+const SHOW=[["Skincare","/img/productos/hero-a.jpg","Mascarillas, vinchas y rutina"],["Maquillaje","/img/productos/13.jpg","Ruby Rose y más"],["Brochas y pinceles","/img/productos/07.jpg","Para maquillaje y skincare"]];
+function renderShowcase(){$("#showcase").innerHTML=SHOW.map(([k,img,d],i)=>`<button class="tile ${"abc"[i]}" data-go="${k}"><img src="${img}" alt="" width="675" height="900" ${i?'loading="lazy"':'fetchpriority="high"'}><span>${k}<small>${d}</small></span></button>`).join("")+`<div class="stamp" aria-hidden="true"><div>Envíos<small>A TODO EL PAÍS</small></div></div>`;icons()}
+const liveCats=()=>loading||!products.length?CATS:CATS.filter(c=>products.some(p=>p.cat===c.k));
+function syncCatLinks(){if(loading)return;const ok=new Set(liveCats().map(c=>c.k));
+  document.querySelectorAll(".links [data-go],footer [data-go]").forEach(b=>{b.hidden=!ok.has(b.dataset.go)})}
 function renderCats(){
-  $("#cats").innerHTML=CATS.map(c=>{const p=products.find(x=>x.cat===c.k&&units(x))||products.find(x=>x.cat===c.k);
+  const n=liveCats().length;$("#cats").style.setProperty("--n",n<=8?n:7);
+  $("#cats").innerHTML=liveCats().map(c=>{const p=products.find(x=>x.cat===c.k&&units(x))||products.find(x=>x.cat===c.k);
     return `<button class="cat" data-go="${c.k}">${p&&p.img?imgTag(p):`<div class="ico" style="--h:${c.h}"><i data-lucide="${c.icon}"></i></div>`}<span>${c.k}<small>${c.d}</small></span></button>`}).join("");icons()}
 function renderChips(){
-  const all=["Todo",...CATS.map(c=>c.k)];
+  const all=["Todo",...liveCats().map(c=>c.k)];
   $("#chips").innerHTML=all.map(c=>`<button class="chip" aria-pressed="${c===cat}" data-cat="${c}">${c}</button>`).join("")+
     `<button class="chip stock" aria-pressed="${onlyStock}" id="onlyStock"><i data-lucide="check"></i>Solo con stock</button>`;
   icons()}
@@ -747,7 +754,7 @@ $("#q").addEventListener("input",e=>{query=e.target.value;if(query.trim()&&cat!=
 $("#sort").addEventListener("change",e=>{sort=e.target.value;renderGrid()});
 
 renderRibbon();renderShowcase();renderCats();renderChips();renderGrid();icons();
-loadProducts().then(()=>{renderCats();renderGrid();renderCart();showPaymentResult()});
+loadProducts().then(()=>{renderCats();renderChips();syncCatLinks();renderGrid();renderCart();showPaymentResult()});
 </script>
 </body>
 </html>
