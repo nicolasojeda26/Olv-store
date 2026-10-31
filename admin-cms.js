@@ -333,6 +333,35 @@ async function savePage(btn) {
   btn.disabled = false;
 }
 
+/* ============ CAMBIAR MI CONTRASEÑA (por mail) ============ */
+async function openMyPass() {
+  const { data } = await sb.auth.getSession();
+  const email = (data.session && data.session.user && data.session.user.email) || "";
+  const fake = !email || email.endsWith("@" + LOGIN_DOMAIN);
+  cms = { kind: "pass", email };
+  sheet("Cambiar mi contraseña", fake
+    ? `<p class="typeinfo">Este usuario no tiene un correo de verdad, así que no podemos mandarle el mail para cambiar la contraseña.</p>
+       <p class="hint">Pedile el cambio a quien armó la tienda, o entrá con tu usuario de correo.</p>`
+    : `<ol class="steps">
+        <li><span>Tocá <b>Enviarme el correo</b>. Te mandamos un mail a <b>${esc(email)}</b>.</span></li>
+        <li><span>Abrí ese mail (si no aparece en unos minutos, fijate en <b>Spam</b> o <b>Promociones</b>) y tocá el enlace <b>Reset Password</b>.</span></li>
+        <li><span>Se abre el panel: escribí tu contraseña nueva dos veces y tocá <b>Guardar y entrar</b>. ¡Listo!</span></li></ol>
+       <p class="tip"><i data-lucide="lightbulb"></i><span>Elegí una contraseña de al menos 8 letras o números que no uses en otro lado. Hasta que no la cambies, la anterior sigue funcionando.</span></p>
+       <p class="okmsg" id="mpOk" hidden></p><p class="err" id="mpErr" hidden></p>`,
+    `<span></span>${fake ? "" : `<button class="btn b-rose" id="mpSend"><i data-lucide="mail"></i>Enviarme el correo</button>`}`);
+}
+async function sendMyPass(btn) {
+  btn.disabled = true; $("#mpErr").hidden = true;
+  const { error } = await sb.auth.resetPasswordForEmail(cms.email, { redirectTo: location.origin + "/admin.html" });
+  if (error) {
+    btn.disabled = false;
+    $("#mpErr").textContent = /rate|seconds|many/i.test(error.message) ? "Ya te mandamos un correo hace poco. Esperá unos minutos y probá de nuevo." : "No se pudo enviar el correo. Probá de nuevo en un rato.";
+    $("#mpErr").hidden = false; return;
+  }
+  btn.innerHTML = '<i data-lucide="check"></i>Correo enviado'; icons();
+  $("#mpOk").textContent = `Listo: revisá tu correo ${cms.email}.`; $("#mpOk").hidden = false;
+}
+
 /* ============ hoja lateral compartida ============ */
 function sheet(title, body, foot) {
   $("#editor").hidden = false;
@@ -347,6 +376,8 @@ function closeSheet() { cms = null; $("#editor").hidden = true; $("#editor").inn
 /* ============ eventos ============ */
 document.addEventListener("click", async (ev) => {
   const t = ev.target.closest("button,[data-cclose]"); if (!t) return;
+  if (t.id === "myPass") return openMyPass();
+  if (t.id === "mpSend" && cms && cms.kind === "pass") return sendMyPass(t);
   if (t.id === "newCat") return openCat(null);
   if (t.dataset.cedit) return openCat(t.dataset.cedit);
   if (t.dataset.cmove) return moveCat(+t.dataset.cmove, +t.dataset.dir);
