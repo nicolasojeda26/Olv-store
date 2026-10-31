@@ -23,7 +23,7 @@ Cómo funciona un pago: la clienta arma el pedido → el servidor revisa precios
 1. Entrá a [supabase.com](https://supabase.com) → **New project**. Nombre: `isabella-tienda`. Región: **South America (São Paulo)**. Guardá la contraseña de la base en un lugar seguro.
 2. Andá a **SQL Editor → New query**, pegá todo el contenido de `supabase/schema.sql` y tocá **Run**. (Si la base ya estaba creada de antes, ejecutá solo `supabase/02-arrepentimiento.sql`.) Crea las tablas, los permisos, la carpeta de fotos y 12 productos de ejemplo.
 3. **Authentication → Sign In / Providers → Email**: desactivá **Allow new users to sign up** (así nadie más puede crearse una cuenta).
-4. **Authentication → URL Configuration**: Site URL `https://isabella-importados.vercel.app/admin.html` y en Redirect URLs `https://isabella-importados.vercel.app/**`.
+4. **Authentication → URL Configuration**: Site URL `https://soscosmeticos.vercel.app/admin.html` y en Redirect URLs `https://soscosmeticos.vercel.app/**`.
 5. **Authentication → Users → Add user → Send invitation**: el email de la dueña. Le llega un mail, entra y elige su contraseña en el panel.
 6. **Project Settings → API**: copiá **Project URL**, la clave **anon public** y la clave **service_role** (esta última es secreta: va solo en Vercel).
 
@@ -31,7 +31,7 @@ Cómo funciona un pago: la clienta arma el pedido → el servidor revisa precios
 
 1. Entrá a [mercadopago.com.ar/developers/panel](https://www.mercadopago.com.ar/developers/panel) con **tu** cuenta → **Crear aplicación**. Tipo: pagos online, producto **Checkout Pro**.
 2. En la aplicación → **Editar** → **URL de redireccionamiento**:
-   `https://isabella-importados.vercel.app/api/mp-callback`
+   `https://soscosmeticos.vercel.app/api/mp-callback`
    (si después usan dominio propio, cambiala por `https://SU-DOMINIO/api/mp-callback`).
 3. En **Credenciales de producción** copiá el **Client ID** y el **Client Secret**.
 
@@ -47,7 +47,7 @@ Proyecto `isabella-importados` → **Settings → Environment Variables**. Carg�
 | `MP_CLIENT_ID` | Client ID de tu aplicación de Mercado Pago |
 | `MP_CLIENT_SECRET` | Client Secret (secreto) |
 | `ADMIN_EMAILS` | opcional: email de Isabella. Si está vacío, entra cualquier usuaria creada en Supabase |
-| `SITE_URL` | `https://isabella-importados.vercel.app` |
+| `PUBLIC_SITE_URL` | opcional: dirección pública si cambia (por defecto `https://soscosmeticos.vercel.app`) |
 | `WHATSAPP_NUMBER` | `5493794717236` |
 | `MP_SANDBOX` | `true` mientras prueban, `false` para cobrar de verdad |
 | `RESEND_API_KEY` | opcional: clave de [Resend](https://resend.com) para mandar avisos por email (secreta) |
