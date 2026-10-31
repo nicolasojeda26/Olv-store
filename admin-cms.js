@@ -237,8 +237,8 @@ async function saveCoupon(btn) {
 // Valores por defecto: los mismos textos que trae la tienda.
 const PAGE_DEFAULTS = {
   ribbon: ["Envíos a todo el país", "Retiro en el local: Junín 830", "Nueva colección de sombras Ruby Rose", "Outlet de calzado: pares únicos", "Venta mayorista", "Consultas al 3794-717236"],
-  hero: { kicker: "Nacionales e importados · Corrientes", title: "Tu *Sos* de belleza, en un solo lugar",
-    text: "Skincare personalizado, maquillaje, insumos de uñas, pestañas y accesorios. Y el outlet de calzado con pares únicos. Elegí online, te confirmamos por WhatsApp y retirás en el local o te lo enviamos.",
+  hero: { kicker: "Nacionales e importados · Corrientes", title: "SOS única, SOS hermosa, SOS una *Reina* 👑",
+    text: "Y aquí tenemos todo para tu ritual de belleza: skincare personalizado, maquillaje, insumos de uñas, pestañas y accesorios, más el outlet de calzado con pares únicos. Elegí online, te confirmamos por WhatsApp y retirás en el local o te lo enviamos.",
     cta2_label: "Outlet de calzado", cta2_cat: "Outlet calzado", cta2_hide: false, note: "Calzado del 35 al 40 · nacional y brasilero 🇦🇷 🇧🇷",
     stamp_big: "Envíos", stamp_small: "A TODO EL PAÍS",
     collage: [{ cat: "Skincare", label: "Skincare", desc: "Mascarillas, vinchas y rutina", img: "/img/productos/hero-a.jpg" },
@@ -271,7 +271,7 @@ function drawPage() {
     ${fld("gRibbon", "Un aviso por renglón", P.ribbon.join("\n"), { area: 1, rows: 6, max: 800, hint: "Es la franja rosa que se mueve arriba de todo. Escribí cada aviso en un renglón distinto (tecla Enter para bajar). Las promociones encendidas y el descuento por transferencia se agregan solos." })}</details>
   <details class="card pgs" open><summary><i data-lucide="sparkles"></i>Inicio</summary>
     <p class="hint">Es lo primero que se ve al entrar a la tienda.</p>${fld("gKicker", "Frase chica de arriba del título", h.kicker)}
-    ${fld("gTitle", "Título grande", h.title, { hint: "Encerrá entre asteriscos la palabra que va en cursiva rosa. Ej: Tu *Sos* de belleza" })}
+    ${fld("gTitle", "Título grande", h.title, { hint: "Encerrá entre asteriscos la palabra que va en cursiva rosa. Ej: SOS una *Reina*" })}
     ${fld("gText", "Texto debajo del título", h.text, { area: 1, max: 400 })}
     <div class="grid2">${fld("gCta2", "Segundo botón: texto", h.cta2_label, { max: 30 })}
       <label class="fl" for="gCta2Cat">Segundo botón: lleva a<select class="in" id="gCta2Cat">${catOpts(h.cta2_cat)}</select></label></div>
