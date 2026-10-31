@@ -124,6 +124,10 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
 .mpstate{display:flex;gap:12px;align-items:center}
 .dot{width:12px;height:12px;border-radius:50%;background:#bbb;flex:none}
 .dot.on{background:var(--ok)}
+.cfg{padding:18px;display:grid;gap:18px;max-width:560px}
+.cfg small{display:block;font-weight:400;color:var(--muted);font-size:13px;margin-top:6px;line-height:1.4}
+.cfg-in{display:flex;align-items:center;gap:8px;max-width:240px}
+.cfg-in b{color:var(--muted)}
 .toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:999px;font-size:14px;font-weight:600;z-index:80;opacity:0;transition:opacity .2s;pointer-events:none;white-space:nowrap}
 .toast.on{opacity:1}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -197,6 +201,7 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
       <button class="tab" role="tab" data-tab="products" aria-selected="false"><i data-lucide="package"></i>Productos</button>
       <button class="tab" role="tab" data-tab="arr" aria-selected="false"><i data-lucide="undo-2"></i>Arrepentimientos <span class="n" id="arrN" hidden></span></button>
       <button class="tab" role="tab" data-tab="mp" aria-selected="false"><i data-lucide="credit-card"></i>Mercado Pago</button>
+      <button class="tab" role="tab" data-tab="cfg" aria-selected="false"><i data-lucide="settings"></i>Ajustes</button>
     </div>
 
     <section id="tab-orders">
@@ -227,6 +232,24 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
       <h1>Arrepentimientos</h1>
       <p class="sub">Pedidos hechos con el botón de arrepentimiento de la tienda. La clienta tiene 10 días corridos desde que recibió el producto; contactala, coordiná la devolución y reintegrá el dinero por el mismo medio de pago.</p>
       <div class="list" id="arrs"></div>
+    </section>
+
+    <section id="tab-cfg" hidden>
+      <h1>Ajustes</h1>
+      <p class="sub">Lo que cambies acá se ve al instante en la tienda.</p>
+      <form class="card cfg" id="cfgForm" novalidate>
+        <label class="fl" for="cTr">Descuento pagando con transferencia
+          <span class="cfg-in"><input class="in" id="cTr" type="number" inputmode="numeric" min="0" max="50" step="1"><b>%</b></span>
+          <small>Se muestra en cada producto ("$X con transferencia") y se descuenta del pedido. Poné 0 para no ofrecerlo.</small></label>
+        <label class="fl" for="cCu">Cuotas sin interés con Mercado Pago
+          <select class="in" id="cCu"><option value="0">No ofrezco</option><option value="3">3 cuotas</option><option value="6">6 cuotas</option><option value="12">12 cuotas</option></select>
+          <small>Antes de activarlas acá, configuralas en tu cuenta de Mercado Pago (el costo de las cuotas lo paga la tienda).</small></label>
+        <label class="fl" for="cFs">Envío gratis en Corrientes Capital desde
+          <span class="cfg-in"><b>$</b><input class="in" id="cFs" type="number" inputmode="numeric" min="0" step="1000" placeholder="Vacío = no ofrezco"></span>
+          <small>En el carrito aparece "te faltan $X para el envío gratis". Dejalo vacío para no ofrecerlo.</small></label>
+        <p class="err" id="cErr" hidden></p>
+        <div><button class="btn b-rose" id="cSave" type="submit"><i data-lucide="save"></i>Guardar ajustes</button></div>
+      </form>
     </section>
 
     <section id="tab-mp" hidden>
@@ -312,7 +335,8 @@ $("#logout").onclick=async()=>{await sb.auth.signOut();location.reload()};
 /* ---------- pestañas ---------- */
 function selectTab(t){
   document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===t));
-  ["orders","products","arr","mp"].forEach(x=>$("#tab-"+x).hidden=x!==t);
+  ["orders","products","arr","mp","cfg"].forEach(x=>$("#tab-"+x).hidden=x!==t);
+  if(t==="cfg")loadCfg();
   if(t==="arr")renderArrs(); if(t==="mp")renderMp(); if(t==="orders")renderOrders(); if(t==="products")renderProducts();
 }
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>selectTab(b.dataset.tab));
@@ -335,6 +359,7 @@ function renderOrders(){
       <div class="oh"><b>${esc(o.buyer_name)} · ${money(o.total)}</b><span class="chip ${cls}">${lbl}</span></div>
       <div class="om">N° ${nro} · ${d} · ${PAYM[o.pay_method]||o.pay_method} · ${SHIP[o.shipping]||o.shipping}</div>
       <ul class="items">${(o.items||[]).map(i=>`<li>${i.qty} × ${esc(i.name)}${i.size&&i.size!=="Único"?` (talle ${esc(i.size)})`:""} · ${money(i.price*i.qty)}</li>`).join("")}</ul>
+      ${o.discount?`<div class="om" style="color:var(--ok);font-weight:600">Descuento por transferencia: −${money(o.discount)}</div>`:""}
       <div class="om">WhatsApp: <a href="https://wa.me/${wa}" target="_blank" rel="noopener">${esc(o.buyer_phone)}</a>${o.buyer_email?` · ${esc(o.buyer_email)}`:""}${o.buyer_address?`<br>Envío a: ${esc(o.buyer_address)}`:""}</div>
       ${o.stock_issue?`<p class="err">Se pagó algo que ya no tenía stock. Revisá el pedido con la clienta.</p>`:""}
       ${o.notes?`<div class="om">Nota: ${esc(o.notes)}</div>`:""}
@@ -354,6 +379,24 @@ document.addEventListener("click",async e=>{
     toast(b.dataset.oact==="paid"?(r.result==="paid_stock_issue"?"Pagado, pero faltaba stock":"Pagado · stock descontado"):"Pedido actualizado");
     await Promise.all([loadOrders(),loadProducts()]);renderOrders();
   }catch(err){toast(err.message);b.disabled=false}
+});
+
+/* ---------- ajustes ---------- */
+async function loadCfg(){
+  const {data,error}=await sb.from("settings").select("*").eq("id",1).maybeSingle();
+  if(error||!data){$("#cErr").textContent="No pudimos cargar los ajustes.";$("#cErr").hidden=false;return}
+  $("#cErr").hidden=true;$("#cTr").value=data.transfer_pct;$("#cCu").value=String(data.installments);$("#cFs").value=data.free_ship_min||"";
+}
+$("#cfgForm").addEventListener("submit",async e=>{
+  e.preventDefault();const err=$("#cErr");err.hidden=true;
+  const tr=parseInt($("#cTr").value||"0",10),cu=parseInt($("#cCu").value,10),fsRaw=$("#cFs").value.trim(),fs=fsRaw?parseInt(fsRaw,10):null;
+  if(!(tr>=0&&tr<=50)){err.textContent="El descuento tiene que estar entre 0 y 50%.";err.hidden=false;return}
+  if(fs!==null&&!(fs>0)){err.textContent="El monto para envío gratis tiene que ser mayor a 0, o dejalo vacío.";err.hidden=false;return}
+  const b=$("#cSave");b.disabled=true;
+  const {error}=await sb.from("settings").update({transfer_pct:tr,installments:cu,free_ship_min:fs,updated_at:new Date().toISOString()}).eq("id",1);
+  b.disabled=false;
+  if(error){err.textContent="No se pudo guardar. Probá de nuevo.";err.hidden=false;return}
+  toast("Ajustes guardados");
 });
 
 /* ---------- arrepentimientos ---------- */

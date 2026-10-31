@@ -182,3 +182,22 @@ select * from (values
   ('Stilettos plateados con strass',       'Outlet calzado',   36000, 58000, '{"35":1,"36":0,"37":1,"38":0,"39":1,"40":0}', 'sparkles',   12)
 ) as v(name, category, price, old_price, sizes, icon, sort)
 where not exists (select 1 from public.products);
+
+-- ---------- Ajustes de la tienda (ver 05-ajustes.sql) ----------
+create table if not exists public.settings (
+  id               int primary key default 1 check (id = 1),
+  transfer_pct     int not null default 10 check (transfer_pct between 0 and 50),   -- % OFF pagando con transferencia
+  installments     int not null default 0  check (installments between 0 and 12),   -- cuotas sin interés (0 = no ofrece)
+  free_ship_min    int          check (free_ship_min is null or free_ship_min > 0), -- envío gratis en Corrientes Capital desde este monto (null = no)
+  updated_at       timestamptz not null default now()
+);
+insert into public.settings (id) values (1) on conflict (id) do nothing;
+
+alter table public.settings enable row level security;
+drop policy if exists "todos ven los ajustes" on public.settings;
+drop policy if exists "dueña edita los ajustes" on public.settings;
+create policy "todos ven los ajustes" on public.settings for select to anon, authenticated using (true);
+create policy "dueña edita los ajustes" on public.settings for update to authenticated using (true) with check (true);
+
+-- descuento aplicado al pedido (por transferencia)
+alter table public.orders add column if not exists discount integer not null default 0;

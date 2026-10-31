@@ -53,7 +53,18 @@ module.exports = async (req, res) => {
         return send(res, 409, { error: stock ? `De ${what} quedan ${stock}.` : `${what} se quedó sin stock.` });
       }
     }
-    const total = lines.reduce((a, l) => a + l.qty * l.price, 0);
+    const subtotal = lines.reduce((a, l) => a + l.qty * l.price, 0);
+
+    // ---- Descuento por transferencia (lo define la dueña en Ajustes) ----
+    let pct = 0;
+    if (payMethod === "transfer") {
+      try {
+        const [cfg] = await sb("settings?id=eq.1&select=transfer_pct");
+        pct = Math.min(50, Math.max(0, Number(cfg && cfg.transfer_pct) || 0));
+      } catch (e) { console.error("settings", e.message); }
+    }
+    const discount = Math.round(subtotal * pct / 100);
+    const total = subtotal - discount;
 
     // ---- Mercado Pago tiene que estar conectado antes de crear el pedido ----
     let token = null;
@@ -66,7 +77,7 @@ module.exports = async (req, res) => {
       method: "POST",
       prefer: "return=representation",
       body: {
-        items: lines, total, shipping, pay_method: payMethod,
+        items: lines, total, discount, shipping, pay_method: payMethod,
         buyer_name: name, buyer_phone: phone, buyer_email: email || null,
         buyer_address: shipping === "pickup" ? null : address,
         notes: clean(b.notes, 300) || null,
@@ -75,7 +86,7 @@ module.exports = async (req, res) => {
 
     if (payMethod !== "mercadopago") {
       await notifyOrder(order, { paid: false });
-      return send(res, 200, { order_id: order.id, total });
+      return send(res, 200, { order_id: order.id, total, discount });
     }
 
     const base = siteUrl(req);

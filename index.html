@@ -461,7 +461,8 @@ footer{background:linear-gradient(135deg,var(--berry) 0%,#5a2a8f 100%);color:#ff
 
 <script>
 let WA="5493794717236", CFG=null;
-const TRANSFER=0; // poner 0.10 si hay 10% OFF por transferencia
+// Ajustes de la tienda (los cambia la dueña desde el panel → Ajustes)
+let TRANSFER=0, CUOTAS=0, FREE_SHIP=0;
 const PROMOS=["Envíos a todo el país","Retiro en el local: Junín 830","Nueva colección de sombras Ruby Rose","Outlet de calzado: pares únicos","Venta mayorista","Consultas al 3794-717236"];
 const CATS=[
   {k:"Maquillaje",d:"Labiales, bases y paletas",icon:"palette",h:15},
@@ -491,8 +492,11 @@ async function loadProducts(){
   try{
     CFG=await fetch("/api/config").then(r=>{if(!r.ok)throw new Error("config");return r.json()});
     if(CFG.whatsapp)WA=CFG.whatsapp;
-    const r=await fetch(`${CFG.supabaseUrl}/rest/v1/products?select=*&active=eq.true&order=sort.asc,id.asc`,{headers:{apikey:CFG.supabaseAnonKey,Authorization:`Bearer ${CFG.supabaseAnonKey}`}});
+    const H={headers:{apikey:CFG.supabaseAnonKey,Authorization:`Bearer ${CFG.supabaseAnonKey}`}};
+    const [r,rs]=await Promise.all([fetch(`${CFG.supabaseUrl}/rest/v1/products?select=*&active=eq.true&order=sort.asc,id.asc`,H),
+      fetch(`${CFG.supabaseUrl}/rest/v1/settings?id=eq.1&select=transfer_pct,installments,free_ship_min`,H).catch(()=>null)]);
     if(!r.ok)throw new Error("productos");
+    try{if(rs&&rs.ok){const [st]=await rs.json();if(st){TRANSFER=(+st.transfer_pct||0)/100;CUOTAS=+st.installments||0;FREE_SHIP=+st.free_ship_min||0}}}catch(e){}
     products=(await r.json()).map(fromDb); loadError="";
   }catch(e){loadError="No pudimos cargar los productos. Revisá tu conexión y recargá la página."}
   loading=false;
@@ -512,14 +516,14 @@ const imgTag=(p,cls="")=>p.img?`<img src="${p.img}" alt="${esc(p.name)}" loading
 const single=p=>{const k=Object.keys(p.sizes);return k.length===1&&k[0]==="Único"};
 const sizeTxt=s=>s==="Único"?"":` (talle ${s})`;
 
-function cuotas(p){return ""}
+function cuotas(p){return CUOTAS>1?`${CUOTAS} cuotas sin interés de ${money(p.price/CUOTAS)}`:""}
 const trTxt=(p,long)=>TRANSFER?`${money(p.price*(1-TRANSFER))} ${long?"pagando":"con"} transferencia`:"";
 function badges(p){const u=units(p),b=[];
   if(!u)b.push('<span class="bdg out">Sin stock</span>');
   else{if(off(p))b.push(`<span class="bdg off">${off(p)}% OFF</span>`);if(u<=3)b.push(`<span class="bdg low">${u===1?"Última unidad":"Últimas "+u}</span>`)}
   return `<div class="badges">${b.join("")}</div>`}
 
-function renderRibbon(){const t=PROMOS.map(x=>`<span>${x}</span>`).join("");$("#ribbon").innerHTML=t+t+t}
+function renderRibbon(){const extra=[TRANSFER?`${Math.round(TRANSFER*100)}% OFF pagando con transferencia`:"",CUOTAS>1?`Hasta ${CUOTAS} cuotas sin interés`:"",FREE_SHIP?`Envío gratis en Corrientes Capital desde ${money(FREE_SHIP)}`:""].filter(Boolean);const t=[...extra,...PROMOS].map(x=>`<span>${x}</span>`).join("");$("#ribbon").innerHTML=t+t+t}
 const SHOW=[["Skincare","/img/productos/hero-a.jpg","Mascarillas, vinchas y rutina"],["Maquillaje","/img/productos/13.jpg","Ruby Rose y más"],["Brochas y pinceles","/img/productos/07.jpg","Para maquillaje y skincare"]];
 function renderShowcase(){$("#showcase").innerHTML=SHOW.map(([k,img,d],i)=>`<button class="tile ${"abc"[i]}" data-go="${k}"><img src="${img}" alt="" width="675" height="900" ${i?'loading="lazy"':'fetchpriority="high"'}><span>${k}<small>${d}</small></span></button>`).join("")+`<div class="stamp" aria-hidden="true"><div>Envíos<small>A TODO EL PAÍS</small></div></div>`;icons()}
 const liveCats=()=>loading||!products.length?CATS:CATS.filter(c=>products.some(p=>p.cat===c.k));
@@ -609,7 +613,7 @@ function totals(){
   const pay=document.querySelector("input[name=pay]:checked")?.value||"mercadopago";
   const sub=cart.reduce((a,l)=>a+l.qty*byId(l.id).price,0);
   const n=cart.reduce((a,l)=>a+l.qty,0);
-  const tr=pay==="transfer"?sub*TRANSFER:0;
+  const tr=pay==="transfer"?Math.round(sub*TRANSFER):0;
   return {ship,pay,sub,n,tr,total:sub-tr}}
 function field(id,label,type,val,ph,auto){return `<label class="fld" for="${id}"><span>${label}</span><input id="${id}" name="${id}" type="${type}" value="${esc(val)}" placeholder="${ph}" autocomplete="${auto}"></label>`}
 function renderCart(){
@@ -629,7 +633,7 @@ function renderCart(){
       <span class="lbl">Entrega</span>
       <div class="opts">${Object.entries(SHIP).map(([k,v])=>opt("ship",k,v)).join("")}</div>
       <span class="lbl" style="margin-top:6px">Pago</span>
-      <div class="opts">${Object.entries(PAY).map(([k,v])=>opt("pay",k,v)).join("")}</div>
+      <div class="opts">${Object.entries(PAY).map(([k,v])=>opt("pay",k,k==="transfer"&&TRANSFER?[v[0]+` · ${Math.round(TRANSFER*100)}% OFF`,v[1]]:v)).join("")}</div>
       <span class="lbl" style="margin-top:6px">Tus datos</span>
       <div class="fields">
         ${field("bName","Nombre y apellido","text",buyer.name,"Ej: María López","name")}
@@ -641,11 +645,13 @@ function renderCart(){
   renderFoot(); icons()}
 function renderFoot(){
   const t=totals(), mpay=t.pay==="mercadopago";
+  const falta=FREE_SHIP&&t.ship==="city"?Math.max(0,FREE_SHIP-t.sub):null;
   $("#cartFoot").innerHTML=`
+    ${falta===null?"":`<div class="ship">${falta?`Te faltan <b>${money(falta)}</b> para el envío gratis en Corrientes Capital`:`<b>¡Tenés envío gratis en Corrientes Capital!</b>`}<div class="bar"><i style="width:${Math.min(100,Math.round(t.sub/FREE_SHIP*100))}%"></i></div></div>`}
     <div class="sum">
       <div><span>Subtotal (${t.n} ${t.n===1?"producto":"productos"})</span><span>${money(t.sub)}</span></div>
       ${t.tr?`<div class="dis"><span>Descuento por transferencia</span><span>−${money(t.tr)}</span></div>`:""}
-      <div><span>Envío</span><span>${t.ship==="pickup"?"Sin cargo":"A coordinar"}</span></div>
+      <div><span>Envío</span><span>${t.ship==="pickup"?"Sin cargo":t.ship==="city"&&FREE_SHIP&&t.sub>=FREE_SHIP?"Gratis":"A coordinar"}</span></div>
       <div class="tot"><span>Total</span><span>${money(t.total)}</span></div>
     </div>
     <p class="err" id="cartErr" role="alert" hidden></p>
@@ -754,7 +760,7 @@ $("#q").addEventListener("input",e=>{query=e.target.value;if(query.trim()&&cat!=
 $("#sort").addEventListener("change",e=>{sort=e.target.value;renderGrid()});
 
 renderRibbon();renderShowcase();renderCats();renderChips();renderGrid();icons();
-loadProducts().then(()=>{renderCats();renderChips();syncCatLinks();renderGrid();renderCart();showPaymentResult()});
+loadProducts().then(()=>{renderRibbon();renderCats();renderChips();syncCatLinks();renderGrid();renderCart();showPaymentResult()});
 </script>
 </body>
 </html>
