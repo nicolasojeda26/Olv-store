@@ -251,7 +251,7 @@ const PAGE_DEFAULTS = {
   story: { eyebrow: "Nuestra historia", title: "De un hobby a tu local de belleza",
     p1: "SOS Cosméticos empezó como un hobby, pasó por una estética y por una zapatería (de ahí nuestro outlet de calzado) y hoy es un local de insumos de belleza en el centro de Corrientes.",
     p2: "Te ayudamos a armar tu rutina de skincare, elegir tu maquillaje y conseguir todo para uñas y pestañas. Venite al local o escribinos: te asesoramos como a una amiga." },
-  contact: { address: "Junín 830", address_note: "entre Salta y Buenos Aires · Corrientes Capital", hours: "Lunes a sábados, 9:30 a 12:30 y 17:30 a 21 hs", whatsapp: "3794-717236", instagram: "s.o.scosmeticos_ctes" },
+  contact: { address: "Junín 830", address_note: "entre Salta y Buenos Aires · Corrientes Capital", hours: "Lunes a sábados, 9:30 a 12:30 y 17:30 a 21 hs", whatsapp: "3794-717236", instagram: "s.o.scosmeticos_ctes", tiktok: "soscosmeticos_cte" },
   footer: { text: "Skincare personalizado, maquillaje, uñas, pestañas y accesorios, nacionales e importados. Outlet de calzado. Corrientes Capital." },
 };
 const merge = (a, b) => { if (Array.isArray(a)) return Array.isArray(b) && b.length ? (typeof a[0] === "object" ? a.map((x, i) => merge(x, b[i] || {})) : b) : a;
@@ -297,7 +297,7 @@ function drawPage() {
   <details class="card pgs"><summary><i data-lucide="map-pin"></i>Contacto y pie de página</summary>
     <div class="grid2">${fld("gAddr", "Dirección", P.contact.address, { max: 60 })}${fld("gAddrN", "Referencia", P.contact.address_note, { max: 80 })}
       ${fld("gHours", "Horarios", P.contact.hours, { max: 80 })}${fld("gWa", "WhatsApp (como se muestra)", P.contact.whatsapp, { max: 20 })}
-      ${fld("gIg", "Instagram (usuario, sin @)", P.contact.instagram, { max: 40 })}</div>
+      ${fld("gIg", "Instagram (usuario, sin @)", P.contact.instagram, { max: 40 })}${fld("gTt", "TikTok (usuario, sin @)", P.contact.tiktok, { max: 40 })}</div>
     ${fld("gFoot", "Texto del pie de página", P.footer.text, { area: 1, max: 300 })}
     <p class="hint">Esto cambia solo cómo se ve el número en la página. El número al que llegan los pedidos por WhatsApp lo cambia quien armó la tienda.</p></details>
   <p class="err" id="gErr" hidden></p>
@@ -316,7 +316,7 @@ function readPage() {
   P.perks.forEach((p, i) => Object.assign(p, { title: v("gPerkT" + i), text: v("gPerkX" + i), hide: $("#gPerkH" + i).checked }));
   Object.assign(P.cats, { title: v("gCatsT"), text: v("gCatsX") }); Object.assign(P.shop, { title: v("gShopT"), text: v("gShopX") });
   Object.assign(P.story, { eyebrow: v("gStEy"), title: v("gStT"), p1: v("gStP1"), p2: v("gStP2") });
-  Object.assign(P.contact, { address: v("gAddr"), address_note: v("gAddrN"), hours: v("gHours"), whatsapp: v("gWa"), instagram: v("gIg").replace(/^@/, "") });
+  Object.assign(P.contact, { address: v("gAddr"), address_note: v("gAddrN"), hours: v("gHours"), whatsapp: v("gWa"), instagram: v("gIg").replace(/^@/, ""), tiktok: v("gTt").replace(/^@/, "") });
   P.footer.text = v("gFoot");
 }
 async function savePage(btn) {

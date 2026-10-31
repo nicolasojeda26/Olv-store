@@ -232,6 +232,8 @@ header{position:sticky;top:0;z-index:30;background:rgb(255 245 251 / .92);backdr
 .visit svg{flex:none;color:var(--berry);margin-top:2px}
 .visit b{display:block}
 .visit span{color:var(--muted);font-size:15px}
+.visit .soc{display:grid;gap:2px}.visit .soc a{color:var(--rose);font-weight:600;text-decoration:none;padding-block:4px}.visit .soc a span{color:inherit;font-size:inherit}
+@media (hover:hover){.visit .soc a:hover{text-decoration:underline}}
 
 footer{background:linear-gradient(135deg,#c42a85 0%,#a51f6f 100%);color:#fff2fb;font-size:14px;margin-top:20px}
 .foot{display:grid;gap:24px;padding-block:40px calc(40px + env(safe-area-inset-bottom,0px))}
@@ -424,6 +426,7 @@ footer{background:linear-gradient(135deg,#c42a85 0%,#a51f6f 100%);color:#fff2fb;
         <div><i data-lucide="map-pin"></i><span><b data-k="contact.address">Junín 830</b><span data-k="contact.address_note">entre Salta y Buenos Aires · Corrientes Capital</span></span></div>
         <div><i data-lucide="clock"></i><span><b>Horarios</b><span data-k="contact.hours">Lunes a sábados, 9:30 a 12:30 y 17:30 a 21 hs</span></span></div>
         <div><i data-lucide="message-circle"></i><span><b>WhatsApp</b><span data-k="contact.whatsapp">3794-717236</span></span></div>
+        <div><i data-lucide="heart"></i><span><b>Seguinos</b><span class="soc"><a data-ig href="https://www.instagram.com/s.o.scosmeticos_ctes/" target="_blank" rel="noopener">Instagram @<span data-k="contact.instagram">s.o.scosmeticos_ctes</span></a><a data-tt href="https://www.tiktok.com/@soscosmeticos_cte" target="_blank" rel="noopener">TikTok @<span data-k="contact.tiktok">soscosmeticos_cte</span></a></span></span></div>
         <a class="btn btn-rose" id="mapsLink" href="https://www.google.com/maps/search/?api=1&query=Jun%C3%ADn+830+Corrientes+Capital" target="_blank" rel="noopener"><i data-lucide="navigation"></i>Cómo llegar</a>
       </div>
     </div>
@@ -447,7 +450,8 @@ footer{background:linear-gradient(135deg,#c42a85 0%,#a51f6f 100%);color:#fff2fb;
       <a href="#cats">Ver todas</a></div></div>
     <div><h3>Contacto</h3><div style="display:grid;gap:0">
       <a href="https://wa.me/5493794717236" target="_blank" rel="noopener">WhatsApp <span data-k="contact.whatsapp">3794-717236</span></a>
-      <a id="igLink" href="https://www.instagram.com/s.o.scosmeticos_ctes/" target="_blank" rel="noopener">Instagram @<span data-k="contact.instagram">s.o.scosmeticos_ctes</span></a>
+      <a data-ig href="https://www.instagram.com/s.o.scosmeticos_ctes/" target="_blank" rel="noopener">Instagram @<span data-k="contact.instagram">s.o.scosmeticos_ctes</span></a>
+      <a data-tt href="https://www.tiktok.com/@soscosmeticos_cte" target="_blank" rel="noopener">TikTok @<span data-k="contact.tiktok">soscosmeticos_cte</span></a>
       <span><span data-k="contact.address">Junín 830</span>, Corrientes Capital</span></div></div>
     <div><h3>Ayuda</h3><div style="display:grid;gap:0;justify-items:start">
       <a class="arr-btn" href="/arrepentimiento.html"><i data-lucide="undo-2" aria-hidden="true"></i>Botón de arrepentimiento</a>
@@ -568,7 +572,8 @@ function applyContent(){
   if(h.cta2_cat&&CATS.some(c=>c.k===h.cta2_cat))$("#cta2").dataset.go=h.cta2_cat;
   if(h.cta2_hide)$("#cta2").hidden=true;
   const ct=C.contact||{};
-  if(ct.instagram)$("#igLink").href="https://www.instagram.com/"+encodeURIComponent(ct.instagram.replace(/^@/,""))+"/";
+  if(ct.instagram)document.querySelectorAll("[data-ig]").forEach(a=>a.href="https://www.instagram.com/"+encodeURIComponent(ct.instagram.replace(/^@/,""))+"/");
+  if(ct.tiktok)document.querySelectorAll("[data-tt]").forEach(a=>a.href="https://www.tiktok.com/@"+encodeURIComponent(ct.tiktok.replace(/^@/,"")));
   if(ct.address)$("#mapsLink").href="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(ct.address+" Corrientes Capital");
   (C.perks||[]).forEach((p,i)=>{const el=document.querySelector(`[data-perk="${i}"]`);if(el&&p&&p.hide)el.hidden=true});
 }
