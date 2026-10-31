@@ -16,6 +16,12 @@ const status = (x) => {
   if (x.max_uses && x.uses >= x.max_uses) return ["Agotado", "bad"];
   return ["Activa", "ok"];
 };
+const PTYPE_INFO = {
+  all: "Baja el precio de <b>todos los productos</b> de la tienda.",
+  category: "Baja el precio solo de los productos de <b>la categoría que elijas</b>.",
+  product: "Baja el precio de <b>un solo producto</b>.",
+  qty: "El descuento se aplica cuando la clienta lleva <b>varias unidades</b>. Ej: llevando 3 o más, 10% menos en todo el pedido.",
+};
 let catList = [], promos = [], coupons = [], cms = null;   // cms = editor abierto: {kind, data, ...}
 
 async function uploadPhoto(file) {
@@ -57,22 +63,22 @@ function openCat(name) {
 function renderCatEditor() {
   const c = cms.data, n = cms.orig ? products.filter((p) => p.category === cms.orig).length : 0;
   sheet(`${cms.orig ? "Editar categoría" : "Nueva categoría"}`, `
-    <label class="fl" for="kName">Nombre<input class="in" id="kName" maxlength="40" value="${esc(c.name)}" placeholder="Ej: Fragancias"></label>
-    <label class="fl" for="kDesc">Descripción corta<input class="in" id="kDesc" maxlength="60" value="${esc(c.description || "")}" placeholder="Ej: Perfumes y splash"></label>
+    <label class="fl" for="kName">Nombre de la categoría <small class="hint">Así aparece en la tienda. Ej: Fragancias</small><input class="in" id="kName" maxlength="40" value="${esc(c.name)}" placeholder="Ej: Fragancias"></label>
+    <label class="fl" for="kDesc">Descripción corta <small class="hint">Una frase chiquita debajo del nombre. Ej: Perfumes y splash</small><input class="in" id="kDesc" maxlength="60" value="${esc(c.description || "")}" placeholder="Ej: Perfumes y splash"></label>
     <div class="fl">Foto de la categoría <small class="hint">Si no subís una, se usa la foto de un producto o el ícono.</small>
       <div class="photo"><div class="thumb">${cms.file ? `<img src="${URL.createObjectURL(cms.file)}" alt="">` : c.image_url ? `<img src="${esc(c.image_url)}" alt="">` : `<i data-lucide="${esc(c.icon)}"></i>`}</div>
         <div class="row"><label class="btn b-line b-sm" for="kFile"><i data-lucide="image-plus"></i>${c.image_url || cms.file ? "Cambiar" : "Subir foto"}</label><input id="kFile" type="file" accept="image/*" hidden>
         ${c.image_url || cms.file ? `<button class="btn b-ghost b-sm" id="kNoPhoto" type="button">Quitar</button>` : ""}</div></div></div>
-    <div class="fl">Ícono (cuando no hay foto)
+    <div class="fl">Dibujito <small class="hint">Se muestra solo si no subiste una foto. Tocá el que más se parezca.</small>
       <div class="icons" role="radiogroup" aria-label="Ícono">${ICONS.map((ic) => `<button type="button" role="radio" aria-checked="${ic === c.icon}" data-kicon="${ic}" aria-label="${ic}"><i data-lucide="${ic}"></i></button>`).join("")}</div></div>
-    <label class="fl" for="kHue">Color de fondo <span class="swatch" style="background:oklch(0.93 0.045 ${c.hue});color:oklch(0.45 0.13 ${c.hue})"><i data-lucide="${esc(c.icon)}"></i></span>
+    <label class="fl" for="kHue">Color de fondo <small class="hint">Mové el círculo hacia los costados para elegir el color. Solo se usa si no hay foto.</small> <span class="swatch" style="background:oklch(0.93 0.045 ${c.hue});color:oklch(0.45 0.13 ${c.hue})"><i data-lucide="${esc(c.icon)}"></i></span>
       <input id="kHue" type="range" min="0" max="360" value="${c.hue}" class="hue"></label>
-    <label class="row chk"><input type="checkbox" id="kActive" ${c.active ? "checked" : ""}> Visible en la tienda</label>
-    <label class="row chk"><input type="checkbox" id="kNav" ${c.in_nav ? "checked" : ""}> Mostrar en el menú de arriba (máximo 6)</label>
+    <label class="row chk"><input type="checkbox" id="kActive" ${c.active ? "checked" : ""}><span>Visible en la tienda<small class="hint">Si la destildás, la categoría y sus productos no se ven, pero no se borra nada.</small></span></label>
+    <label class="row chk"><input type="checkbox" id="kNav" ${c.in_nav ? "checked" : ""}><span>Mostrar en el menú de arriba<small class="hint">El menú de la parte de arriba de la tienda. Entran hasta 6.</small></span></label>
     <p class="err" id="kErr" hidden></p>`,
-    `${cms.orig ? (cms.confirmDel ? `<span class="row"><span style="font-size:14px">¿Borrar la categoría?</span><button class="btn b-rose b-sm" id="kDelYes">Sí, borrar</button><button class="btn b-line b-sm" id="kDelNo">No</button></span>`
-      : `<button class="btn b-ghost" id="kDel" ${n ? `title="Tiene ${n} productos"` : ""}><i data-lucide="trash-2"></i>Borrar</button>`) : "<span></span>"}
-     <button class="btn b-rose" id="kSave"><i data-lucide="check"></i>Guardar</button>`);
+    `${cms.orig ? (cms.confirmDel ? `<span class="row"><span style="font-size:15px">¿Seguro? Se borra para siempre.</span><button class="btn b-rose b-sm" id="kDelYes">Sí, borrar</button><button class="btn b-line b-sm" id="kDelNo">No</button></span>`
+      : `<button class="btn b-ghost" id="kDel" ${n ? `title="Tiene ${n} productos"` : ""}><i data-lucide="trash-2"></i>Borrar categoría</button>`) : "<span></span>"}
+     <button class="btn b-rose" id="kSave"><i data-lucide="check"></i>Guardar categoría</button>`);
 }
 function syncCat() {
   if (!$("#kName")) return;
@@ -122,15 +128,15 @@ function renderPromos() {
       <div class="oh"><b>${esc(p.title)} · ${p.pct}% OFF</b><span class="chip ${k}">${l}</span></div>
       <div class="om">${esc(promoScope(p))}${p.min_items ? ` · llevando ${p.min_items} o más` : ""}${dates(p)}${p.in_ribbon ? " · en la cinta" : ""}</div>
       <div class="row"><button class="btn b-line b-sm" data-pedit="${p.id}"><i data-lucide="pencil"></i>Editar</button>
-        <button class="btn b-ghost b-sm" data-ptoggle="${p.id}">${p.active ? "Pausar" : "Activar"}</button></div>
-    </article>`; }).join("") : `<p class="empty">No hay promociones. Creá una con "Nueva promoción".</p>`;
+        <button class="btn b-ghost b-sm" data-ptoggle="${p.id}">${p.active ? `<i data-lucide="pause"></i>Pausar` : `<i data-lucide="play"></i>Activar`}</button></div>
+    </article>`; }).join("") : `<p class="empty">Todavía no hay promociones. Tocá <b>Nueva promoción</b> para crear la primera.</p>`;
   $("#couponList").innerHTML = coupons.length ? coupons.map((c) => { const [l, k] = status(c); return `
     <article class="card order">
       <div class="oh"><b><span class="code">${esc(c.code)}</span> · ${c.pct}% OFF</b><span class="chip ${k}">${l}</span></div>
       <div class="om">${c.min_amount ? `Compras desde ${money(c.min_amount)} · ` : ""}Usado ${c.uses}${c.max_uses ? ` de ${c.max_uses}` : ""} ${c.uses === 1 ? "vez" : "veces"}${dates(c)}${c.note ? ` · ${esc(c.note)}` : ""}</div>
       <div class="row"><button class="btn b-line b-sm" data-cpedit="${esc(c.code)}"><i data-lucide="pencil"></i>Editar</button>
-        <button class="btn b-ghost b-sm" data-cptoggle="${esc(c.code)}">${c.active ? "Pausar" : "Activar"}</button></div>
-    </article>`; }).join("") : `<p class="empty">No hay cupones.</p>`;
+        <button class="btn b-ghost b-sm" data-cptoggle="${esc(c.code)}">${c.active ? `<i data-lucide="pause"></i>Pausar` : `<i data-lucide="play"></i>Activar`}</button></div>
+    </article>`; }).join("") : `<p class="empty">Todavía no creaste ningún cupón.</p>`;
   icons();
 }
 function openPromo(id) {
@@ -143,23 +149,24 @@ function renderPromoEditor() {
   const p = cms.data, t = p.type;
   const prods = [...products].sort((a, b) => a.name.localeCompare(b.name));
   sheet(cms.id ? "Editar promoción" : "Nueva promoción", `
-    <label class="fl" for="pTitle">Nombre de la promo <small class="hint">Se muestra en los productos y en la cinta. Ej: Semana Ruby Rose, Hot Sale.</small><input class="in" id="pTitle" maxlength="40" value="${esc(p.title)}"></label>
-    <div class="fl">Tipo
-      <div class="seg wrap" role="radiogroup">${[["all", "Toda la tienda"], ["category", "Una categoría"], ["product", "Un producto"], ["qty", "Por cantidad"]].map(([k, l]) => `<button type="button" role="radio" data-ptype="${k}" aria-pressed="${t === k}">${l}</button>`).join("")}</div></div>
+    <label class="fl" for="pTitle">1. Nombre de la promoción <small class="hint">Lo ven las clientas en los productos y en la cinta de arriba. Ej: Semana Ruby Rose, Hot Sale.</small><input class="in" id="pTitle" maxlength="40" value="${esc(p.title)}"></label>
+    <div class="fl">2. ¿A qué se aplica? <small class="hint">Tocá una opción.</small>
+      <div class="seg wrap" role="radiogroup">${[["all", "Toda la tienda"], ["category", "Una categoría"], ["product", "Un producto"], ["qty", "Por cantidad"]].map(([k, l]) => `<button type="button" role="radio" data-ptype="${k}" aria-pressed="${t === k}">${l}</button>`).join("")}</div>
+      <p class="typeinfo">${PTYPE_INFO[t]}</p></div>
     ${t === "category" || t === "qty" ? `<label class="fl" for="pCatSel">${t === "qty" ? "¿Sobre qué productos?" : "Categoría"}<select class="in" id="pCatSel">${t === "qty" ? `<option value="" ${p.scope === "all" ? "selected" : ""}>Toda la tienda</option>` : ""}${Object.keys(CATS).map((c) => `<option ${p.scope === "category" && c === p.category ? "selected" : ""}>${esc(c)}</option>`).join("")}</select></label>` : ""}
     ${t === "product" ? `<label class="fl" for="pProd">Producto<select class="in" id="pProd">${prods.map((x) => `<option value="${x.id}" ${x.id === p.product_id ? "selected" : ""}>${esc(x.name)} · ${money(x.price)}</option>`).join("")}</select></label>` : ""}
     <div class="grid2">
-      <label class="fl" for="pPct">Descuento<span class="cfg-in"><input class="in" id="pPct" type="number" min="1" max="90" inputmode="numeric" value="${p.pct}"><b>%</b></span></label>
-      ${t === "qty" ? `<label class="fl" for="pMin">Llevando desde<span class="cfg-in"><input class="in" id="pMin" type="number" min="2" max="50" inputmode="numeric" value="${p.min_items || 3}"><b>unid.</b></span></label>` : "<span></span>"}
-      <label class="fl" for="pFrom">Desde (opcional)<input class="in" id="pFrom" type="date" value="${toDay(p.starts_at)}"></label>
-      <label class="fl" for="pTo">Hasta (opcional)<input class="in" id="pTo" type="date" value="${toDay(p.ends_at)}"></label>
+      <label class="fl" for="pPct">3. Descuento <small class="hint">Ej: 15 = 15% menos.</small><span class="cfg-in"><input class="in" id="pPct" type="number" min="1" max="90" inputmode="numeric" value="${p.pct}"><b>%</b></span></label>
+      ${t === "qty" ? `<label class="fl" for="pMin">Llevando desde <small class="hint">Cantidad mínima de productos.</small><span class="cfg-in"><input class="in" id="pMin" type="number" min="2" max="50" inputmode="numeric" value="${p.min_items || 3}"><b>unid.</b></span></label>` : "<span></span>"}
+      <label class="fl" for="pFrom">Empieza el día (opcional) <small class="hint">Vacío = empieza ahora.</small><input class="in" id="pFrom" type="date" value="${toDay(p.starts_at)}"></label>
+      <label class="fl" for="pTo">Termina el día (opcional) <small class="hint">Vacío = sigue hasta que la pauses.</small><input class="in" id="pTo" type="date" value="${toDay(p.ends_at)}"></label>
     </div>
-    <label class="row chk"><input type="checkbox" id="pRibbon" ${p.in_ribbon ? "checked" : ""}> Anunciarla en la cinta de arriba de la tienda</label>
-    <label class="row chk"><input type="checkbox" id="pActive" ${p.active ? "checked" : ""}> Activa</label>
+    <label class="row chk"><input type="checkbox" id="pRibbon" ${p.in_ribbon ? "checked" : ""}><span>Anunciarla en la cinta de arriba<small class="hint">La franja rosa con avisos que se mueve arriba de todo en la tienda.</small></span></label>
+    <label class="row chk"><input type="checkbox" id="pActive" ${p.active ? "checked" : ""}><span>Promoción encendida<small class="hint">Si la destildás, queda guardada pero apagada.</small></span></label>
     <p class="hint">${t === "qty" ? "El descuento se aplica a todo el pedido cuando la clienta lleva esa cantidad de productos." : "Si un producto tiene varias promos, se aplica la más alta (no se suman)."}</p>
     <p class="err" id="pErr" hidden></p>`,
-    `${cms.id ? (cms.confirmDel ? `<span class="row"><span style="font-size:14px">¿Borrar la promo?</span><button class="btn b-rose b-sm" id="pDelYes">Sí</button><button class="btn b-line b-sm" id="pDelNo">No</button></span>` : `<button class="btn b-ghost" id="pDel"><i data-lucide="trash-2"></i>Borrar</button>`) : "<span></span>"}
-     <button class="btn b-rose" id="pSave"><i data-lucide="check"></i>Guardar</button>`);
+    `${cms.id ? (cms.confirmDel ? `<span class="row"><span style="font-size:15px">¿Seguro? Se borra para siempre.</span><button class="btn b-rose b-sm" id="pDelYes">Sí, borrar</button><button class="btn b-line b-sm" id="pDelNo">No</button></span>` : `<button class="btn b-ghost" id="pDel"><i data-lucide="trash-2"></i>Borrar promoción</button>`) : "<span></span>"}
+     <button class="btn b-rose" id="pSave"><i data-lucide="check"></i>Guardar promoción</button>`);
 }
 function syncPromo() {
   if (!$("#pTitle")) return; const p = cms.data;
@@ -192,21 +199,21 @@ function openCoupon(code) {
 function renderCouponEditor() {
   const c = cms.data;
   sheet(cms.orig ? "Editar cupón" : "Nuevo cupón", `
-    <label class="fl" for="uCode">Código <small class="hint">Letras y números, sin espacios. Ej: BIENVENIDA</small><input class="in code" id="uCode" maxlength="20" value="${esc(c.code)}" ${cms.orig ? "readonly" : ""} autocapitalize="characters" autocomplete="off"></label>
+    <label class="fl" for="uCode">Palabra del cupón <small class="hint">La que la clienta escribe en el carrito. Solo letras y números, sin espacios. Ej: BIENVENIDA</small><input class="in code" id="uCode" maxlength="20" value="${esc(c.code)}" ${cms.orig ? "readonly" : ""} autocapitalize="characters" autocomplete="off"></label>
     <div class="grid2">
-      <label class="fl" for="uPct">Descuento<span class="cfg-in"><input class="in" id="uPct" type="number" min="1" max="90" inputmode="numeric" value="${c.pct}"><b>%</b></span></label>
-      <label class="fl" for="uMin">Compra mínima<span class="cfg-in"><b>$</b><input class="in" id="uMin" type="number" min="0" step="1000" inputmode="numeric" value="${c.min_amount || ""}" placeholder="Sin mínimo"></span></label>
-      <label class="fl" for="uMax">Límite de usos<input class="in" id="uMax" type="number" min="1" inputmode="numeric" value="${c.max_uses || ""}" placeholder="Sin límite"></label>
+      <label class="fl" for="uPct">Descuento <small class="hint">Ej: 10 = 10% menos.</small><span class="cfg-in"><input class="in" id="uPct" type="number" min="1" max="90" inputmode="numeric" value="${c.pct}"><b>%</b></span></label>
+      <label class="fl" for="uMin">Compra mínima <small class="hint">Vacío = sirve para cualquier compra.</small><span class="cfg-in"><b>$</b><input class="in" id="uMin" type="number" min="0" step="1000" inputmode="numeric" value="${c.min_amount || ""}" placeholder="Sin mínimo"></span></label>
+      <label class="fl" for="uMax">¿Cuántas veces se puede usar? <small class="hint">Vacío = sin límite.</small><input class="in" id="uMax" type="number" min="1" inputmode="numeric" value="${c.max_uses || ""}" placeholder="Sin límite"></label>
       <span></span>
-      <label class="fl" for="uFrom">Desde (opcional)<input class="in" id="uFrom" type="date" value="${toDay(c.starts_at)}"></label>
-      <label class="fl" for="uTo">Hasta (opcional)<input class="in" id="uTo" type="date" value="${toDay(c.ends_at)}"></label>
+      <label class="fl" for="uFrom">Empieza el día (opcional)<input class="in" id="uFrom" type="date" value="${toDay(c.starts_at)}"></label>
+      <label class="fl" for="uTo">Termina el día (opcional)<input class="in" id="uTo" type="date" value="${toDay(c.ends_at)}"></label>
     </div>
-    <label class="fl" for="uNote">Nota interna (opcional)<input class="in" id="uNote" maxlength="80" value="${esc(c.note || "")}" placeholder="Ej: para clientas de Instagram"></label>
-    <label class="row chk"><input type="checkbox" id="uActive" ${c.active ? "checked" : ""}> Activo</label>
+    <label class="fl" for="uNote">Nota para vos (opcional) <small class="hint">Las clientas no la ven. Te sirve para acordarte para qué lo creaste.</small><input class="in" id="uNote" maxlength="80" value="${esc(c.note || "")}" placeholder="Ej: para clientas de Instagram"></label>
+    <label class="row chk"><input type="checkbox" id="uActive" ${c.active ? "checked" : ""}><span>Cupón encendido<small class="hint">Si lo destildás, la palabra deja de funcionar hasta que lo vuelvas a encender.</small></span></label>
     ${cms.orig ? `<p class="hint">Usado ${c.uses} ${c.uses === 1 ? "vez" : "veces"}.</p>` : ""}
     <p class="err" id="uErr" hidden></p>`,
-    `${cms.orig ? (cms.confirmDel ? `<span class="row"><span style="font-size:14px">¿Borrar el cupón?</span><button class="btn b-rose b-sm" id="uDelYes">Sí</button><button class="btn b-line b-sm" id="uDelNo">No</button></span>` : `<button class="btn b-ghost" id="uDel"><i data-lucide="trash-2"></i>Borrar</button>`) : "<span></span>"}
-     <button class="btn b-rose" id="uSave"><i data-lucide="check"></i>Guardar</button>`);
+    `${cms.orig ? (cms.confirmDel ? `<span class="row"><span style="font-size:15px">¿Seguro? Se borra para siempre.</span><button class="btn b-rose b-sm" id="uDelYes">Sí, borrar</button><button class="btn b-line b-sm" id="uDelNo">No</button></span>` : `<button class="btn b-ghost" id="uDel"><i data-lucide="trash-2"></i>Borrar cupón</button>`) : "<span></span>"}
+     <button class="btn b-rose" id="uSave"><i data-lucide="check"></i>Guardar cupón</button>`);
 }
 async function saveCoupon(btn) {
   const c = cms.data, err = $("#uErr"); err.hidden = true; const fail = (m) => { err.textContent = m; err.hidden = false; };
@@ -261,9 +268,9 @@ function drawPage() {
   const P = page, h = P.hero, catOpts = (sel) => Object.keys(CATS).map((c) => `<option ${c === sel ? "selected" : ""}>${esc(c)}</option>`).join("");
   $("#pageForm").innerHTML = `
   <details class="card pgs" open><summary><i data-lucide="megaphone"></i>Cinta de avisos (arriba de todo)</summary>
-    ${fld("gRibbon", "Un aviso por renglón", P.ribbon.join("\n"), { area: 1, rows: 6, max: 800, hint: "Las promociones activas y el descuento por transferencia se agregan solos." })}</details>
+    ${fld("gRibbon", "Un aviso por renglón", P.ribbon.join("\n"), { area: 1, rows: 6, max: 800, hint: "Es la franja rosa que se mueve arriba de todo. Escribí cada aviso en un renglón distinto (tecla Enter para bajar). Las promociones encendidas y el descuento por transferencia se agregan solos." })}</details>
   <details class="card pgs" open><summary><i data-lucide="sparkles"></i>Inicio</summary>
-    ${fld("gKicker", "Frase chica de arriba", h.kicker)}
+    <p class="hint">Es lo primero que se ve al entrar a la tienda.</p>${fld("gKicker", "Frase chica de arriba del título", h.kicker)}
     ${fld("gTitle", "Título grande", h.title, { hint: "Encerrá entre asteriscos la palabra que va en cursiva rosa. Ej: Tu *Sos* de belleza" })}
     ${fld("gText", "Texto debajo del título", h.text, { area: 1, max: 400 })}
     <div class="grid2">${fld("gCta2", "Segundo botón: texto", h.cta2_label, { max: 30 })}
@@ -271,7 +278,7 @@ function drawPage() {
     <label class="row chk"><input type="checkbox" id="gCta2Hide" ${h.cta2_hide ? "checked" : ""}> Ocultar el segundo botón</label>
     ${fld("gNote", "Nota chiquita debajo de los botones", h.note, { hint: "Dejalo vacío para ocultarla." })}
     <div class="grid2">${fld("gStampBig", "Sello redondo: grande", h.stamp_big, { max: 14 })}${fld("gStampSmall", "Sello redondo: chico", h.stamp_small, { max: 22 })}</div>
-    <div class="fl">Las 3 fotos del collage
+    <div class="fl">Las 3 fotos grandes del inicio <small class="hint">Cada foto lleva a una categoría cuando la tocan. Para cambiarla, tocá <b>Cambiar foto</b> y elegila de tu galería.</small>
       <div class="col3">${h.collage.map((c, i) => `
         <div class="colitem"><div class="thumb big">${pageFiles["col" + i] ? `<img src="${URL.createObjectURL(pageFiles["col" + i])}" alt="">` : c.img ? `<img src="${esc(c.img)}" alt="">` : ""}</div>
           <label class="btn b-line b-sm" for="gColFile${i}"><i data-lucide="image-plus"></i>Cambiar foto</label><input id="gColFile${i}" data-colfile="${i}" type="file" accept="image/*" hidden>
@@ -292,9 +299,9 @@ function drawPage() {
       ${fld("gHours", "Horarios", P.contact.hours, { max: 80 })}${fld("gWa", "WhatsApp (como se muestra)", P.contact.whatsapp, { max: 20 })}
       ${fld("gIg", "Instagram (usuario, sin @)", P.contact.instagram, { max: 40 })}</div>
     ${fld("gFoot", "Texto del pie de página", P.footer.text, { area: 1, max: 300 })}
-    <p class="hint">El número al que llegan los pedidos por WhatsApp se cambia en Vercel (lo hace quien armó la tienda).</p></details>
+    <p class="hint">Esto cambia solo cómo se ve el número en la página. El número al que llegan los pedidos por WhatsApp lo cambia quien armó la tienda.</p></details>
   <p class="err" id="gErr" hidden></p>
-  <div class="row pg-actions"><button class="btn b-rose" type="submit" id="gSave"><i data-lucide="save"></i>Guardar cambios</button>
+  <div class="row pg-actions"><span class="dirty" id="gDirty" hidden><i data-lucide="triangle-alert"></i>Tenés cambios sin guardar</span><button class="btn b-rose" type="submit" id="gSave"><i data-lucide="save"></i>Guardar cambios</button>
     <a class="btn b-line" href="/" target="_blank" rel="noopener"><i data-lucide="external-link"></i>Ver tienda</a>
     <button class="btn b-ghost" type="button" id="gReset">Volver a los textos originales</button></div>`;
   icons();
@@ -321,7 +328,7 @@ async function savePage(btn) {
     pageFiles = {};
     const { error } = await sb.from("settings").update({ content: page, updated_at: new Date().toISOString() }).eq("id", 1);
     if (error) throw error;
-    toast("Página guardada"); drawPage();
+    toast("¡Listo! Los cambios ya se ven en la tienda"); drawPage();
   } catch (x) { err.textContent = "No se pudo guardar: " + (x.message || "error"); err.hidden = false; }
   btn.disabled = false;
 }
@@ -331,7 +338,7 @@ function sheet(title, body, foot) {
   $("#editor").hidden = false;
   $("#editor").innerHTML = `<div class="scrim" data-cclose></div>
   <aside class="sheet" role="dialog" aria-modal="true" aria-labelledby="cTitle">
-    <div class="sh"><h2 id="cTitle">${title}</h2><button class="btn b-ghost b-sm" data-cclose aria-label="Cerrar"><i data-lucide="x"></i></button></div>
+    <div class="sh"><h2 id="cTitle">${title}</h2><button class="btn b-line b-sm" data-cclose><i data-lucide="x"></i>Cerrar sin guardar</button></div>
     <div class="sb">${body}</div><div class="sf">${foot}</div></aside>`;
   icons(); setTimeout(() => { const f = $("#editor .sb input:not([readonly]),#editor .sb select"); f && f.focus(); }, 50);
 }
@@ -351,7 +358,7 @@ document.addEventListener("click", async (ev) => {
   if (t.dataset.cpedit) return openCoupon(t.dataset.cpedit);
   if (t.dataset.cptoggle) { const c = coupons.find((x) => x.code === t.dataset.cptoggle); t.disabled = true;
     await sb.from("coupons").update({ active: !c.active }).eq("code", c.code); toast(c.active ? "Cupón pausado" : "Cupón activado"); return loadPromos(); }
-  if (t.id === "gReset") { if (t.dataset.sure) { page = merge(PAGE_DEFAULTS, {}); drawPage(); toast("Textos originales cargados: tocá Guardar para aplicarlos"); }
+  if (t.id === "gReset") { if (t.dataset.sure) { page = merge(PAGE_DEFAULTS, {}); drawPage(); $("#gDirty").hidden = false; toast("Textos originales cargados: tocá Guardar para aplicarlos"); }
     else { t.dataset.sure = 1; t.textContent = "¿Seguro? Tocá de nuevo"; } return; }
   if (!cms) return;
   if (t.hasAttribute("data-cclose")) return closeSheet();
@@ -388,7 +395,9 @@ document.addEventListener("input", (ev) => {
 document.addEventListener("change", (ev) => {
   if (ev.target.id === "kFile" && cms) { syncCat(); const f = ev.target.files[0]; if (f && f.size > 8 * 1024 * 1024) return toast("La foto pesa más de 8 MB"); cms.file = f || null; renderCatEditor(); }
   if (ev.target.dataset && ev.target.dataset.colfile !== undefined) { const f = ev.target.files[0]; if (!f) return; if (f.size > 8 * 1024 * 1024) return toast("La foto pesa más de 8 MB");
-    readPage(); pageFiles["col" + ev.target.dataset.colfile] = f; drawPage(); }
+    readPage(); pageFiles["col" + ev.target.dataset.colfile] = f; drawPage(); $("#gDirty").hidden = false; }
 });
+document.addEventListener("input", (ev) => { if (ev.target.closest && ev.target.closest("#pageForm")) { const d = $("#gDirty"); if (d) d.hidden = false; } });
+window.addEventListener("beforeunload", (ev) => { const d = $("#gDirty"); if (d && !d.hidden) { ev.preventDefault(); ev.returnValue = ""; } });
 document.addEventListener("submit", (ev) => { if (ev.target.id === "pageForm") { ev.preventDefault(); savePage($("#gSave")); } });
 document.addEventListener("keydown", (ev) => { if (ev.key === "Escape" && cms) closeSheet(); });

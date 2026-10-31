@@ -156,6 +156,56 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
 .cfg-in b{color:var(--muted)}
 .toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:999px;font-size:14px;font-weight:600;z-index:80;opacity:0;transition:opacity .2s;pointer-events:none;white-space:nowrap}
 .toast.on{opacity:1}
+/* ---------- lectura fácil: letra grande, botones grandes, explicaciones ---------- */
+body{font-size:17px}
+.sub{font-size:16.5px;color:#5e4250;max-width:70ch}
+h1{font-size:34px}
+label.fl,.fl{font-size:15.5px;color:var(--ink);gap:6px}
+.hint,.cfg small{font-size:14.5px!important;color:#6a4b59!important;line-height:1.45}
+.btn{min-height:48px;font-size:16px;padding:0 20px}
+.b-sm{min-height:42px;font-size:15px;padding:0 14px}
+.chk{font-size:16px;align-items:flex-start}
+.chk input{width:22px;height:22px;margin-top:1px;flex:none}
+.chip{font-size:13.5px;padding:3px 10px}
+.om,.items{font-size:15.5px}
+.toast{font-size:16px;padding:14px 22px;white-space:normal;text-align:center;max-width:min(92vw,520px)}
+.tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;overflow:visible;padding-block:16px 4px}
+@media (max-width:760px){.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tab{min-height:64px;height:auto;padding:10px 12px;border-radius:16px;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;row-gap:1px;align-items:center;text-align:left;white-space:normal;font-size:16px;line-height:1.2;position:relative}
+.tab svg{grid-row:1/3;width:24px;height:24px;color:var(--rose)}
+.tab .td{grid-column:2;font-size:13px;font-weight:500;color:var(--muted)}
+.tab[aria-selected=true] svg{color:var(--gold)}
+.tab[aria-selected=true] .td{color:rgb(255 255 255 / .8)}
+.tab .n{position:absolute;top:-6px;right:-4px;font-size:13px;padding:2px 8px;box-shadow:0 0 0 2px var(--blush)}
+@media (hover:hover){.tab:not([aria-selected=true]):hover{border-color:var(--rose)}}
+/* guía de cada sección */
+.guide{background:#fff;border:2px solid var(--petal);border-radius:18px;margin:6px 0 18px;max-width:820px}
+.guide>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 18px;font-weight:700;font-size:17px;color:var(--berry);min-height:56px}
+.guide>summary::-webkit-details-marker{display:none}
+.guide>summary svg{width:24px;height:24px;color:var(--rose);flex:none}
+.guide>summary .gt{flex:1}
+.guide>summary .gx{font-size:14px;font-weight:600;color:var(--rose);white-space:nowrap}
+.guide[open]>summary{border-bottom:1px solid var(--petal)}
+.gb{padding:14px 18px 18px;display:grid;gap:14px}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:st}
+.steps li{counter-increment:st;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;font-size:16.5px;line-height:1.5}
+.steps li::before{content:counter(st);width:34px;height:34px;border-radius:50%;background:var(--rose);color:#fff;font-weight:700;display:grid;place-items:center;font-size:17px}
+.steps b{color:var(--berry)}
+.tip{display:flex;gap:10px;background:#fff7e6;border-radius:12px;padding:12px 14px;font-size:15.5px;line-height:1.5;color:#5b3a0a}
+.tip svg{flex:none;width:22px;height:22px;color:#c07a12;margin-top:1px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:15px;align-items:center}
+.gok{justify-self:start}
+.typeinfo{background:var(--blush);border-radius:12px;padding:12px 14px;font-size:15.5px;line-height:1.5;color:var(--ink);margin:0}
+.dirty{display:flex;align-items:center;gap:8px;color:#8a4a0c;background:#fff1dc;border-radius:999px;padding:8px 14px;font-weight:600;font-size:15px}
+.dirty svg{width:18px;height:18px}
+.sh h2{font-size:26px}
+.sh .btn{white-space:nowrap}
+@media (max-width:520px){.sh h2{font-size:21px;line-height:1.1}.sh{gap:10px}}
+.grid2>label.fl{display:flex;flex-direction:column}
+.grid2>label.fl>.in,.grid2>label.fl>.cfg-in,.grid2>label.fl>select{margin-top:auto}
+.seg button{min-height:42px;font-size:15.5px;padding:0 16px}
+.seg button[aria-pressed=true]{background:var(--rose);color:#fff;box-shadow:none}
+@media (max-width:420px){.hbtn span{position:static;width:auto;height:auto;clip:auto;overflow:visible}.hbtn{padding:0 8px;font-size:13.5px;gap:4px}.logo small{display:none}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -223,31 +273,33 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
   </header>
   <main class="wrap">
     <div class="tabs" role="tablist">
-      <button class="tab" role="tab" data-tab="orders" aria-selected="true"><i data-lucide="receipt"></i>Pedidos <span class="n" id="pendN" hidden></span></button>
-      <button class="tab" role="tab" data-tab="products" aria-selected="false"><i data-lucide="package"></i>Productos</button>
-      <button class="tab" role="tab" data-tab="cats" aria-selected="false"><i data-lucide="layout-grid"></i>Categorías</button>
-      <button class="tab" role="tab" data-tab="promos" aria-selected="false"><i data-lucide="badge-percent"></i>Promociones</button>
-      <button class="tab" role="tab" data-tab="page" aria-selected="false"><i data-lucide="pen-line"></i>Página</button>
-      <button class="tab" role="tab" data-tab="arr" aria-selected="false"><i data-lucide="undo-2"></i>Arrepentimientos <span class="n" id="arrN" hidden></span></button>
-      <button class="tab" role="tab" data-tab="mp" aria-selected="false"><i data-lucide="credit-card"></i>Mercado Pago</button>
-      <button class="tab" role="tab" data-tab="cfg" aria-selected="false"><i data-lucide="settings"></i>Ajustes</button>
+      <button class="tab" role="tab" data-tab="orders" aria-selected="true"><i data-lucide="receipt"></i>Pedidos<span class="td">Ver ventas y cobrar</span><span class="n" id="pendN" hidden></span></button>
+      <button class="tab" role="tab" data-tab="products" aria-selected="false"><i data-lucide="package"></i>Productos<span class="td">Precios, fotos y stock</span></button>
+      <button class="tab" role="tab" data-tab="cats" aria-selected="false"><i data-lucide="layout-grid"></i>Categorías<span class="td">Grupos de productos</span></button>
+      <button class="tab" role="tab" data-tab="promos" aria-selected="false"><i data-lucide="badge-percent"></i>Promociones<span class="td">Descuentos y cupones</span></button>
+      <button class="tab" role="tab" data-tab="page" aria-selected="false"><i data-lucide="pen-line"></i>Página<span class="td">Textos y fotos</span></button>
+      <button class="tab" role="tab" data-tab="arr" aria-selected="false"><i data-lucide="undo-2"></i>Devoluciones<span class="td">Botón de arrepentimiento</span><span class="n" id="arrN" hidden></span></button>
+      <button class="tab" role="tab" data-tab="mp" aria-selected="false"><i data-lucide="credit-card"></i>Mercado Pago<span class="td">Cobrar con tarjeta</span></button>
+      <button class="tab" role="tab" data-tab="cfg" aria-selected="false"><i data-lucide="settings"></i>Ajustes<span class="td">Transferencia y envíos</span></button>
     </div>
 
     <section id="tab-orders">
       <h1>Pedidos</h1>
-      <p class="sub">Los pagos con Mercado Pago se marcan como pagados solos y descuentan el stock. Los de transferencia o efectivo, marcalos cuando cobres.</p>
+      <p class="sub">Acá aparece cada compra que hacen en la tienda.</p>
+      <div data-guide="orders"></div>
       <div class="tools">
         <select class="f" id="oFilter" aria-label="Filtrar pedidos">
-          <option value="all">Todos</option><option value="pending">Pendientes</option><option value="paid">Pagados</option><option value="delivered">Entregados</option><option value="other">Rechazados / cancelados</option>
+          <option value="all">Ver todos los pedidos</option><option value="pending">Solo pendientes (sin pagar)</option><option value="paid">Solo pagados (falta entregar)</option><option value="delivered">Solo entregados</option><option value="other">Rechazados / cancelados</option>
         </select>
-        <button class="btn b-line b-sm" id="oReload"><i data-lucide="refresh-cw"></i>Actualizar</button>
+        <button class="btn b-line" id="oReload"><i data-lucide="refresh-cw"></i>Actualizar</button>
       </div>
       <div class="list" id="orders"></div>
     </section>
 
     <section id="tab-products" hidden>
       <h1>Productos</h1>
-      <p class="sub">Lo que cambies acá se ve al instante en la tienda.</p>
+      <p class="sub">Todo lo que vendés. Lo que cambies acá se ve enseguida en la tienda.</p>
+      <div data-guide="products"></div>
       <div class="kpis" id="kpis"></div>
       <div class="tools">
         <label class="search"><i data-lucide="search"></i><input id="pq" type="search" placeholder="Buscar producto" aria-label="Buscar producto"></label>
@@ -258,38 +310,44 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
     </section>
 
     <section id="tab-arr" hidden>
-      <h1>Arrepentimientos</h1>
+      <h1>Devoluciones (arrepentimientos)</h1>
       <p class="sub">Pedidos hechos con el botón de arrepentimiento de la tienda. La clienta tiene 10 días corridos desde que recibió el producto; contactala, coordiná la devolución y reintegrá el dinero por el mismo medio de pago.</p>
+      <div data-guide="arr"></div>
       <div class="list" id="arrs"></div>
     </section>
 
     <section id="tab-cats" hidden>
       <h1>Categorías</h1>
-      <p class="sub">Creá, renombrá, ordená y ocultá categorías. Si renombrás una, sus productos se mueven solos.</p>
+      <p class="sub">Los grupos en los que se ordenan tus productos, como Maquillaje o Skincare.</p>
+      <div data-guide="cats"></div>
       <div class="tools"><button class="btn b-rose" id="newCat"><i data-lucide="plus"></i>Nueva categoría</button></div>
       <div class="list" id="catList"></div>
     </section>
 
     <section id="tab-promos" hidden>
       <h1>Promociones</h1>
-      <p class="sub">Descuentos automáticos por toda la tienda, una categoría, un producto o por cantidad, y cupones con código. Se calculan solos en la tienda y en el cobro.</p>
+      <p class="sub">Bajá precios por un tiempo. El descuento se calcula solo en la tienda y al cobrar.</p>
+      <div data-guide="promos"></div>
       <div class="tools"><button class="btn b-rose" id="newPromo"><i data-lucide="plus"></i>Nueva promoción</button></div>
       <div class="list" id="promoList"></div>
-      <h2 class="h2">Cupones de descuento</h2>
-      <p class="sub">La clienta escribe el código en el carrito. Ej: BIENVENIDA, HOTSALE.</p>
+      <h2 class="h2" style="margin-top:40px">Cupones de descuento</h2>
+      <p class="sub">Una palabra clave que la clienta escribe en el carrito para tener un descuento.</p>
+      <div data-guide="coupons"></div>
       <div class="tools"><button class="btn b-line" id="newCoupon"><i data-lucide="ticket"></i>Nuevo cupón</button></div>
       <div class="list" id="couponList"></div>
     </section>
 
     <section id="tab-page" hidden>
       <h1>Página</h1>
-      <p class="sub">Textos, fotos del inicio y datos de contacto de la tienda. Guardá y tocá "Ver tienda" para ver los cambios.</p>
+      <p class="sub">Los textos y las fotos que se ven en la tienda.</p>
+      <div data-guide="page"></div>
       <form id="pageForm" class="pg" novalidate></form>
     </section>
 
     <section id="tab-cfg" hidden>
       <h1>Ajustes</h1>
-      <p class="sub">Lo que cambies acá se ve al instante en la tienda.</p>
+      <p class="sub">Descuento por transferencia, cuotas y envío gratis.</p>
+      <div data-guide="cfg"></div>
       <form class="card cfg" id="cfgForm" novalidate>
         <label class="fl" for="cTr">Descuento pagando con transferencia
           <span class="cfg-in"><input class="in" id="cTr" type="number" inputmode="numeric" min="0" max="50" step="1"><b>%</b></span>
@@ -308,6 +366,7 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
     <section id="tab-mp" hidden>
       <h1>Mercado Pago</h1>
       <p class="sub">Conectá tu cuenta para cobrar con tarjeta, cuotas y dinero en cuenta. La plata va directo a tu Mercado Pago.</p>
+      <div data-guide="mp"></div>
       <div class="card mpbox" id="mpBox"><p class="sub">Revisando la conexión…</p></div>
     </section>
   </main>
@@ -328,7 +387,7 @@ const money=n=>"$"+Math.round(n||0).toLocaleString("es-AR");
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const units=p=>Object.values(p.sizes||{}).reduce((a,b)=>a+(+b||0),0);
 const icons=()=>{try{lucide.createIcons()}catch(e){}};
-function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("on"),2200)}
+function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("on"),4000)}
 async function api(path,opt={}){
   const {data:{session:s}}=await sb.auth.getSession();
   const r=await fetch(path,{...opt,headers:{"Content-Type":"application/json",Authorization:`Bearer ${s?.access_token||""}`,...(opt.headers||{})}});
@@ -388,6 +447,10 @@ $("#logout").onclick=async()=>{await sb.auth.signOut();location.reload()};
 
 /* ---------- pestañas ---------- */
 function selectTab(t){
+  const dirty=$("#gDirty");
+  if(t!=="page"&&dirty&&!dirty.hidden&&!$("#tab-page").hidden&&!confirm("En Página tenés cambios sin guardar. ¿Salir igual y perderlos?"))return;
+  if(dirty)dirty.hidden=true;
+  window.scrollTo({top:0});
   document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===t));
   ["orders","products","cats","promos","page","arr","mp","cfg"].forEach(x=>$("#tab-"+x).hidden=x!==t);
   if(t==="cats")renderCatList(); if(t==="promos")loadPromos(); if(t==="page")renderPage();
@@ -423,7 +486,7 @@ function renderOrders(){
       <div class="row">
         ${o.status==="pending"&&o.pay_method!=="mercadopago"?`<button class="btn b-rose b-sm" data-oact="paid" data-id="${o.id}"><i data-lucide="check"></i>Marcar pagado</button>`:""}
         ${o.status==="paid"?`<button class="btn b-line b-sm" data-oact="delivered" data-id="${o.id}"><i data-lucide="package-check"></i>Marcar entregado</button>`:""}
-        ${o.status==="pending"?`<button class="btn b-ghost b-sm" data-oact="cancelled" data-id="${o.id}">Cancelar</button>`:""}
+        ${o.status==="pending"?`<button class="btn b-ghost b-sm" data-oact="cancelled" data-id="${o.id}">Cancelar pedido</button>`:""}
       </div>
     </article>`}).join(""):`<p class="empty">No hay pedidos${f==="all"?" todavía":" en este estado"}.</p>`;
   icons()}
@@ -431,6 +494,7 @@ $("#oFilter").onchange=renderOrders;
 $("#oReload").onclick=async()=>{await loadOrders();renderOrders();toast("Pedidos actualizados")};
 document.addEventListener("click",async e=>{
   const b=e.target.closest("[data-oact]"); if(!b)return;
+  if(b.dataset.oact==="cancelled"&&!b.dataset.sure){b.dataset.sure=1;b.textContent="¿Seguro que querés cancelarlo? Tocá de nuevo";b.classList.replace("b-ghost","b-line");return}
   b.disabled=true;
   try{const r=await api("/api/orders-admin",{method:"POST",body:JSON.stringify({id:b.dataset.id,action:b.dataset.oact})});
     toast(b.dataset.oact==="paid"?(r.result==="paid_stock_issue"?"Pagado, pero faltaba stock":"Pagado · stock descontado"):"Pedido actualizado");
@@ -502,8 +566,8 @@ function renderProducts(){
   $("#kpis").innerHTML=`
     <div class="card kpi"><b>${act.length}</b><span>publicados</span></div>
     <div class="card kpi"><b>${act.reduce((a,p)=>a+units(p),0)}</b><span>unidades en stock</span></div>
-    <div class="card kpi"><b>${act.filter(p=>{const u=units(p);return u>0&&u<=3}).length}</b><span>stock bajo (3 o menos)</span></div>
-    <div class="card kpi"><b>${act.filter(p=>!units(p)).length}</b><span>agotados</span></div>`;
+    <div class="card kpi"><b>${act.filter(p=>{const u=units(p);return u>0&&u<=3}).length}</b><span>por agotarse (3 o menos)</span></div>
+    <div class="card kpi"><b>${act.filter(p=>!units(p)).length}</b><span>agotados (stock 0)</span></div>`;
   const list=products.filter(p=>(!c||p.category===c)&&(!q||p.name.toLowerCase().includes(q)));
   $("#products").innerHTML=list.length?list.map(p=>{const u=units(p);
     const st=!p.active?`<span class="chip off">Oculto</span>`:!u?`<span class="chip bad">Agotado</span>`:u<=3?`<span class="chip warn">Quedan ${u}</span>`:`<span class="chip ok">${u} en stock</span>`;
@@ -529,32 +593,32 @@ function renderEditor(){
   $("#editor").hidden=false;
   $("#editor").innerHTML=`<div class="scrim" data-eclose></div>
   <aside class="sheet" role="dialog" aria-modal="true" aria-labelledby="eTitle">
-    <div class="sh"><h2 id="eTitle">${e.id?"Editar producto":"Nuevo producto"}</h2><button class="btn b-ghost b-sm" data-eclose aria-label="Cerrar"><i data-lucide="x"></i></button></div>
+    <div class="sh"><h2 id="eTitle">${e.id?"Editar producto":"Nuevo producto"}</h2><button class="btn b-line b-sm" data-eclose><i data-lucide="x"></i>Cerrar sin guardar</button></div>
     <div class="sb">
-      <label class="fl" for="eName">Nombre<input class="in" id="eName" value="${esc(e.name)}" placeholder="Ej: Labial matte larga duración"></label>
+      <label class="fl" for="eName">Nombre del producto <small class="hint">Así lo ven las clientas. Ej: Labial matte Ruby Rose tono 03</small><input class="in" id="eName" value="${esc(e.name)}" placeholder="Ej: Labial matte larga duración"></label>
       <div class="grid2">
-        <label class="fl" for="eCat">Categoría<select class="in" id="eCat">${Object.keys(CATS).map(c=>`<option ${c===e.category?"selected":""}>${esc(c)}</option>`).join("")}</select></label>
-        <label class="fl" for="eSort">Orden en la tienda<input class="in" id="eSort" type="number" value="${e.sort??0}"></label>
-        <label class="fl" for="ePrice">Precio ($)<input class="in" id="ePrice" type="number" min="1" inputmode="numeric" value="${e.price??""}"></label>
-        <label class="fl" for="eOld">Precio anterior ($, opcional)<input class="in" id="eOld" type="number" min="1" inputmode="numeric" value="${e.old_price??""}" placeholder="Para mostrar oferta"></label>
+        <label class="fl" for="eCat">Categoría <small class="hint">El grupo donde aparece en la tienda.</small><select class="in" id="eCat">${Object.keys(CATS).map(c=>`<option ${c===e.category?"selected":""}>${esc(c)}</option>`).join("")}</select></label>
+        <label class="fl" for="eSort">Orden en la tienda <small class="hint">Número más chico = aparece primero. Si no sabés, dejalo así.</small><input class="in" id="eSort" type="number" value="${e.sort??0}"></label>
+        <label class="fl" for="ePrice">Precio de venta ($) <small class="hint">Solo el número, sin puntos. Ej: 12500</small><input class="in" id="ePrice" type="number" min="1" inputmode="numeric" value="${e.price??""}"></label>
+        <label class="fl" for="eOld">Precio anterior ($) — opcional <small class="hint">Si lo completás, se ve tachado al lado del precio, como oferta. Si no, dejalo vacío.</small><input class="in" id="eOld" type="number" min="1" inputmode="numeric" value="${e.old_price??""}" placeholder="Para mostrar oferta"></label>
       </div>
-      <div class="fl">Foto
+      <div class="fl">Foto <small class="hint">Sacala con buena luz y el producto de frente. No importa el tamaño: se achica sola.</small>
         <div class="photo"><div class="thumb" id="ePrev">${e.file?`<img src="${URL.createObjectURL(e.file)}" alt="">`:e.image_url?`<img src="${esc(e.image_url)}" alt="">`:`<i data-lucide="${CATS[e.category]}"></i>`}</div>
           <div class="row"><label class="btn b-line b-sm" for="eFile"><i data-lucide="image-plus"></i>${e.image_url||e.file?"Cambiar foto":"Subir foto"}</label>
           <input id="eFile" type="file" accept="image/*" hidden>
           ${e.image_url||e.file?`<button class="btn b-ghost b-sm" id="eNoPhoto">Quitar</button>`:""}</div></div></div>
-      <div class="fl">Stock
+      <div class="fl">Stock (cuántos tenés) <small class="hint"><b>Talle único</b>: para casi todo. <b>Por talle</b>: para calzado, cuántos pares hay de cada número.</small>
         <div class="seg" role="group" aria-label="Tipo de stock"><button type="button" data-mode="single" aria-pressed="${e.mode==="single"}">Talle único</button><button type="button" data-mode="sizes" aria-pressed="${e.mode==="sizes"}">Por talle</button></div>
         ${e.mode==="single"?`<input class="in" id="eStock" type="number" min="0" inputmode="numeric" value="${e.sizes["Único"]??0}" style="max-width:160px" aria-label="Unidades en stock">`
         :`<div class="sizes">${Object.entries(e.sizes).filter(([s])=>s!=="Único").map(([s,n])=>`<div class="szr"><span style="text-align:center;font-weight:700;color:var(--ink)">${esc(s)}</span><input class="in" type="number" min="0" inputmode="numeric" value="${n}" data-sz="${esc(s)}" aria-label="Stock talle ${esc(s)}"><button type="button" data-rmsz="${esc(s)}">Quitar</button></div>`).join("")}</div>
           <div class="row"><input class="in" id="eNewSz" placeholder="Nuevo talle (ej: 41)" style="max-width:200px"><button type="button" class="btn b-line b-sm" id="eAddSz"><i data-lucide="plus"></i>Agregar talle</button></div>`}
       </div>
-      <label class="row" style="font-weight:600"><input type="checkbox" id="eActive" ${e.active?"checked":""}> Visible en la tienda</label>
+      <label class="row chk"><input type="checkbox" id="eActive" ${e.active?"checked":""}><span>Visible en la tienda<small class="hint">Si lo destildás, el producto se esconde pero no se borra.</small></span></label>
       <p class="err" id="eErr" hidden></p>
     </div>
     <div class="sf">
-      ${e.id?(e.confirmDel?`<span class="row"><span style="font-size:14px">¿Borrar este producto?</span><button class="btn b-rose b-sm" id="eDelYes">Sí, borrar</button><button class="btn b-line b-sm" id="eDelNo">No</button></span>`:`<button class="btn b-ghost" id="eDel"><i data-lucide="trash-2"></i>Borrar</button>`):"<span></span>"}
-      <button class="btn b-rose" id="eSave"><i data-lucide="check"></i>Guardar</button>
+      ${e.id?(e.confirmDel?`<span class="row"><span style="font-size:15px">¿Seguro? Se borra para siempre.</span><button class="btn b-rose b-sm" id="eDelYes">Sí, borrar</button><button class="btn b-line b-sm" id="eDelNo">No</button></span>`:`<button class="btn b-ghost" id="eDel"><i data-lucide="trash-2"></i>Borrar producto</button>`):"<span></span>"}
+      <button class="btn b-rose" id="eSave"><i data-lucide="check"></i>Guardar producto</button>
     </div>
   </aside>`;
   icons();
@@ -651,5 +715,6 @@ document.addEventListener("click",async e=>{
 window.addEventListener("DOMContentLoaded",boot);
 </script>
 <script src="/admin-cms.js"></script>
+<script src="/admin-help.js"></script>
 </body>
 </html>
