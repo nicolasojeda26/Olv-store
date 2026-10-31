@@ -6,7 +6,13 @@
 <title>SOS Cosméticos · Maquillaje, skincare, uñas y pestañas en Corrientes</title>
 <meta name="description" content="Skincare personalizado, maquillaje, insumos de uñas, pestañas y accesorios nacionales e importados. Outlet de calzado. Local en Junín 830, Corrientes, y envíos a todo el país.">
 <meta name="theme-color" content="#c42a85">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23da3d98'/%3E%3Cpath d='M14 44l-2-22 12 10 8-16 8 16 12-10-2 22z' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="/img/favicon-64.png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<link rel="canonical" href="https://soscosmeticos.vercel.app/">
+<meta property="og:image" content="https://soscosmeticos.vercel.app/img/compartir.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SOS Cosméticos">
 <meta property="og:title" content="SOS Cosméticos · Maquillaje, skincare, uñas y pestañas">
@@ -65,7 +71,8 @@ svg.lucide{width:20px;height:20px;stroke-width:1.8}
 header{position:sticky;top:0;z-index:30;background:rgb(255 245 251 / .92);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
 .nav{display:flex;align-items:center;gap:12px;min-height:68px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-.brand img{width:46px;height:46px;border-radius:50%;object-fit:cover}
+.brand img.logo{height:68px;width:auto;display:block;margin-block:-4px}
+@media (max-width:699px){.brand img.logo{height:54px}}
 .brand>div{display:flex;flex-direction:column;align-items:center;line-height:1}
 .brand b{font-family:var(--script);font-weight:400;font-size:42px;color:var(--brand);line-height:.9;display:block;padding:2px 4px 0}
 .brand b svg{width:16px;height:16px;color:var(--gold);margin-top:-4px}
@@ -124,6 +131,14 @@ header{position:sticky;top:0;z-index:30;background:rgb(255 245 251 / .92);backdr
 .collage .b{right:0;top:0;width:46%;aspect-ratio:1;transform:rotate(3deg)}
 .collage .c{right:8%;bottom:0;width:44%;aspect-ratio:1;transform:rotate(-2deg)}
 .collage .stamp{position:absolute;left:34%;bottom:4%;width:118px;height:118px;border-radius:50%;background:var(--rose);color:#fff;display:grid;place-items:center;text-align:center;font-family:var(--display);font-size:20px;line-height:1;transform:rotate(-10deg);box-shadow:var(--shadow);border:0}
+.collage .tile{position:absolute;margin:0;border-radius:24px;overflow:hidden;box-shadow:var(--shadow);border:6px solid var(--paper);aspect-ratio:auto;transition:transform .35s var(--ease)}
+.collage .tile.a{left:0;top:6%;width:52%;aspect-ratio:3/4;transform:rotate(-4deg)}
+.collage .tile.b{right:0;top:0;width:46%;aspect-ratio:1;transform:rotate(3deg)}
+.collage .tile.c{right:8%;bottom:0;width:44%;aspect-ratio:1;transform:rotate(-2deg)}
+@media (hover:hover){.collage .tile:hover{transform:rotate(0) scale(1.03);z-index:2}}
+.collage .tile .ico svg{width:40%;height:40%;margin-bottom:16%}
+.collage .stamp{z-index:3;left:-3%;top:-3%;bottom:auto}
+@media (max-width:699px){.collage .stamp{width:92px;height:92px;font-size:16px}.collage .stamp small{font-size:9px}.collage .tile{border-width:4px;border-radius:18px}.collage .tile span{left:10px;bottom:8px;right:8px;font-size:15px}.collage .tile span small{font-size:10px}.collage .tile .ico{place-items:start center;padding-top:14%}.collage .tile .ico svg{width:32%;height:32%;margin:0}.collage .tile.a .ico{padding-top:26%}}
 .collage .stamp small{display:block;font-family:var(--body);font-size:11px;font-weight:700;letter-spacing:.08em;margin-top:4px}
 
 /* beneficios */
@@ -151,7 +166,7 @@ header{position:sticky;top:0;z-index:30;background:rgb(255 245 251 / .92);backdr
 .cat:not(:has(img)) span{color:var(--ink)}
 .cat:not(:has(img)) span small{color:var(--ink);opacity:.78}
 .cat span{position:absolute;left:14px;right:14px;bottom:12px;z-index:1;color:#fff;font-family:var(--display);font-size:24px;line-height:1.05}
-@media (max-width:699px){.cat{aspect-ratio:1/1}.cat span{font-size:19px;left:12px;right:10px;bottom:10px}.cat .ico{padding-top:12%}.cat .ico svg{width:28%;height:28%}.cat small{font-size:11px}}
+@media (max-width:699px){.cats{grid-template-columns:none;grid-auto-flow:column;grid-template-rows:repeat(2,auto);grid-auto-columns:42%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-inline:-16px;padding-inline:16px;scroll-padding-inline:16px}.cats::-webkit-scrollbar{display:none}.cat{scroll-snap-align:start}.cat:last-child:nth-child(odd){grid-column:auto;min-height:0;aspect-ratio:1/1}.cat{aspect-ratio:1/1}.cat span{font-size:19px;left:12px;right:10px;bottom:10px}.cat .ico{padding-top:12%}.cat .ico svg{width:28%;height:28%}.cat small{font-size:11px}}
 @media (min-width:700px) and (max-width:1099px){.cats{grid-template-columns:repeat(4,minmax(0,1fr))}.cat{aspect-ratio:1/1}.cat span{font-size:18px}}
 @media (min-width:1100px){.cats{grid-template-columns:repeat(7,minmax(0,1fr))}.cat{aspect-ratio:3/4}.cat span{font-size:19px}.cat small{font-size:11px}}
 .cat:last-child:nth-child(odd){grid-column:span 2;aspect-ratio:auto;min-height:150px}
@@ -165,9 +180,10 @@ header{position:sticky;top:0;z-index:30;background:rgb(255 245 251 / .92);backdr
 .row{display:flex;gap:10px}
 .search{flex:1;display:flex;align-items:center;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:0 16px;min-height:48px;min-width:0}
 .search input{border:0;outline:0;font:inherit;flex:1;background:none;color:var(--ink);min-width:0}
-.sort{max-width:44%;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:0 14px;font:inherit;font-size:14px;color:var(--ink);min-height:48px}
+.sort{max-width:44%;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:0 14px;font:inherit;font-size:16px;color:var(--ink);min-height:48px}
 .chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
 .chips::-webkit-scrollbar{display:none}
+@media (min-width:900px){.chips{flex-wrap:wrap;overflow:visible}}
 .chip{white-space:nowrap;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--paper);font-size:14px;font-weight:600;transition:background .2s var(--ease),color .2s var(--ease)}
 .chip[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
 .chip.stock{display:inline-flex;align-items:center;gap:6px}
@@ -221,6 +237,7 @@ footer{background:linear-gradient(135deg,var(--berry) 0%,#5a2a8f 100%);color:#ff
 .consumo b{display:block;color:#fff}
 .foot h3{color:#fff;margin:0 0 6px;font-size:15px;font-family:var(--body);font-weight:700}
 .foot p{margin:0;max-width:40ch;opacity:.9}
+.foot .big-logo{height:96px;width:auto;display:block;margin-bottom:14px}
 .foot .big{font-family:var(--script);font-size:56px;color:#fff;line-height:1;margin-bottom:4px}
 .foot .big small{display:block;font-family:var(--body);font-size:11px;letter-spacing:.32em;text-transform:uppercase;opacity:.85;margin:-4px 0 12px 4px}
 .foot a{text-decoration:none;display:inline-block;padding-block:6px}
@@ -261,6 +278,7 @@ footer{background:linear-gradient(135deg,var(--berry) 0%,#5a2a8f 100%);color:#ff
 .dh{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line)}
 .dh h3{font-family:var(--display);font-weight:400;font-size:26px;margin:0}
 .db{flex:1;overflow:auto;padding:12px 18px}
+@media (max-height:540px){.drawer{overflow-y:auto}.db{flex:none;overflow:visible}}
 .df{padding:14px 18px;border-top:1px solid var(--line);display:grid;gap:12px}
 .ship{background:var(--blush);border-radius:14px;padding:12px 14px;font-size:14px}
 .bar{height:8px;border-radius:999px;background:var(--line);overflow:hidden;margin-top:8px}
@@ -300,6 +318,7 @@ footer{background:linear-gradient(135deg,var(--berry) 0%,#5a2a8f 100%);color:#ff
 
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,16px);opacity:0;background:var(--ink);color:#fff;padding:12px 18px;border-radius:999px;font-size:14px;font-weight:600;z-index:80;transition:opacity .2s var(--ease),transform .25s var(--ease);pointer-events:none;white-space:nowrap}
 .toast.on{opacity:1;transform:translate(-50%,0)}
+@media (max-width:759px){.toast{top:calc(12px + env(safe-area-inset-top,0px));bottom:auto;transform:translate(-50%,-16px)}}
 .wa-float{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:25;width:56px;height:56px;border-radius:50%;background:#1fa855;color:#fff;display:grid;place-items:center;box-shadow:0 10px 24px -8px rgb(0 0 0 / .4)}
 .wa-float svg{width:28px;height:28px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
@@ -314,7 +333,7 @@ footer{background:linear-gradient(135deg,var(--berry) 0%,#5a2a8f 100%);color:#ff
 <header>
   <div class="wrap nav">
     <a class="brand" href="#top" aria-label="SOS Cosméticos, inicio">
-      <div><b>Sos</b><small>Cosméticos</small></div>
+      <img class="logo" src="/img/logo-header.png" width="126" height="88" alt="SOS Cosméticos">
     </a>
     <nav class="links" aria-label="Categorías">
       <button data-go="Maquillaje">Maquillaje</button>
@@ -341,7 +360,7 @@ footer{background:linear-gradient(135deg,var(--berry) 0%,#5a2a8f 100%);color:#ff
       </div>
       <div class="sizes-strip">Calzado del<i>35</i>al<i>40</i>· nacional y brasilero 🇦🇷 🇧🇷</div>
     </div>
-    <div class="showcase" id="showcase"></div>
+    <div class="collage" id="showcase"></div>
   </section>
 
   <section class="wrap perks" aria-label="Beneficios">
@@ -397,7 +416,7 @@ footer{background:linear-gradient(135deg,var(--berry) 0%,#5a2a8f 100%);color:#ff
 <footer>
   <div class="wrap foot">
     <div>
-      <div class="big">Sos<small>Cosméticos</small></div>
+      <img class="big-logo" src="/img/logo-blanco.png" width="160" height="112" alt="SOS Cosméticos" loading="lazy">
       <p>Skincare personalizado, maquillaje, uñas, pestañas y accesorios, nacionales e importados. Outlet de calzado. Corrientes Capital.</p>
     </div>
     <div><h3>Comprá</h3><div style="display:grid;gap:0">
@@ -418,7 +437,7 @@ footer{background:linear-gradient(135deg,var(--berry) 0%,#5a2a8f 100%);color:#ff
       <a href="/cambios.html">Cambios y devoluciones</a>
       <a class="consumo" href="https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario" target="_blank" rel="noopener"><b>Defensa de las y los Consumidores</b>Para reclamos <u>ingrese aquí</u></a></div></div>
   </div>
-  <div class="wrap" style="padding-bottom:24px;font-size:12px;opacity:.75">© 2026 SOS Cosméticos. Precios en pesos argentinos. Pagos online procesados por Mercado Pago. <a href="/admin.html" style="color:#fff">Acceso dueña</a></div>
+  <div class="wrap" style="padding-bottom:24px;font-size:12px;opacity:.75">© 2026 SOS Cosméticos. Precios en pesos argentinos. Pagos online procesados por Mercado Pago. <a href="/admin.html" style="color:#fff;display:inline-block;padding:10px 4px">Acceso dueña</a></div>
 </footer>
 
 <aside aria-label="Contacto rápido"><a class="wa-float" href="https://wa.me/5493794717236" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp"><i data-lucide="message-circle"></i></a></aside>
@@ -498,8 +517,8 @@ function badges(p){const u=units(p),b=[];
   return `<div class="badges">${b.join("")}</div>`}
 
 function renderRibbon(){const t=PROMOS.map(x=>`<span>${x}</span>`).join("");$("#ribbon").innerHTML=t+t+t}
-const SHOW=["Skincare","Maquillaje","Insumos de uñas","Outlet calzado"];
-function renderShowcase(){$("#showcase").innerHTML=CATS.filter(c=>SHOW.includes(c.k)).sort((a,b)=>SHOW.indexOf(a.k)-SHOW.indexOf(b.k)).map(c=>`<button class="tile" data-go="${c.k}"><div class="ico" style="--h:${c.h}"><i data-lucide="${c.icon}"></i></div><span>${c.k}<small>${c.d}</small></span></button>`).join("");icons()}
+const SHOW=["Skincare","Maquillaje","Insumos de uñas"];
+function renderShowcase(){$("#showcase").innerHTML=CATS.filter(c=>SHOW.includes(c.k)).sort((a,b)=>SHOW.indexOf(a.k)-SHOW.indexOf(b.k)).map((c,i)=>`<button class="tile ${"abc"[i]}" data-go="${c.k}"><div class="ico" style="--h:${c.h}"><i data-lucide="${c.icon}"></i></div><span>${c.k}<small>${c.d}</small></span></button>`).join("")+`<div class="stamp" aria-hidden="true"><div>Envíos<small>A TODO EL PAÍS</small></div></div>`;icons()}
 function renderCats(){
   $("#cats").innerHTML=CATS.map(c=>{const p=products.find(x=>x.cat===c.k&&units(x))||products.find(x=>x.cat===c.k);
     return `<button class="cat" data-go="${c.k}">${p&&p.img?imgTag(p):`<div class="ico" style="--h:${c.h}"><i data-lucide="${c.icon}"></i></div>`}<span>${c.k}<small>${c.d}</small></span></button>`}).join("");icons()}
@@ -537,6 +556,7 @@ function renderGrid(){
 /* modal */
 let pickSize=null, pickQty=1;
 function openProduct(id){
+  if(!openLayer())lastFocus=document.activeElement;
   view=byId(id); const p=view;
   const sizes=Object.entries(p.sizes);
   pickSize=sizes.length===1&&sizes[0][1]>0?sizes[0][0]:null; pickQty=1;
@@ -568,7 +588,10 @@ function renderModal(){
       </div>
     </div>`;
   icons()}
-function closeAll(){["#modal","#cart","#result"].forEach(s=>$(s).classList.remove("on"));$("#scrim").classList.remove("on");view=null}
+let lastFocus=null;
+const openLayer=()=>document.querySelector("#modal.on,#cart.on,#result.on");
+function closeAll(){const was=openLayer();["#modal","#cart","#result"].forEach(s=>$(s).classList.remove("on"));$("#scrim").classList.remove("on");view=null;
+  if(was&&lastFocus&&document.contains(lastFocus)){try{lastFocus.focus({preventScroll:true})}catch(e){}}lastFocus=null}
 
 /* carrito */
 let step="cart", sending=false;
@@ -679,7 +702,7 @@ async function showPaymentResult(){
 }
 
 function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("on"),1900)}
-function openDrawer(id){closeAll();$(id).classList.add("on");$("#scrim").classList.add("on")}
+function openDrawer(id){const f=openLayer()?lastFocus:document.activeElement;closeAll();lastFocus=f;$(id).classList.add("on");$("#scrim").classList.add("on");setTimeout(()=>{const x=$(id).querySelector("[data-close],.ibtn,button");x&&x.focus()},60)}
 function goCat(c){cat=c;renderChips();renderGrid();document.getElementById("catalogo").scrollIntoView({behavior:"smooth"})}
 
 document.addEventListener("click",e=>{
@@ -708,7 +731,17 @@ document.addEventListener("change",e=>{
   if(e.target.closest&&e.target.closest(".fields"))readBuyer();
 });
 $("#scrim").onclick=closeAll;
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAll()});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")return closeAll();
+  if(e.key!=="Tab")return;
+  const L=openLayer(); if(!L)return;
+  const f=[...L.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])')].filter(x=>x.offsetParent!==null);
+  if(!f.length)return;
+  const first=f[0],last=f[f.length-1];
+  if(!L.contains(document.activeElement)){e.preventDefault();first.focus();return}
+  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+});
 $("#openCart").onclick=()=>{renderCart();openDrawer("#cart")};
 $("#q").addEventListener("input",e=>{query=e.target.value;if(query.trim()&&cat!=="Todo"){cat="Todo";renderChips()}renderGrid()});
 $("#sort").addEventListener("change",e=>{sort=e.target.value;renderGrid()});
