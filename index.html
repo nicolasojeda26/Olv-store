@@ -15,7 +15,7 @@
 <meta property="og:locale" content="es_AR">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 <style>
 /* Layout: cinta de avisos + header; hero con vitrina de categorías; categorías con foto; catálogo con filtros; ficha en modal; carrito con promos calculadas y pedido por WhatsApp */
@@ -38,7 +38,7 @@
   --warn: #b5560f;
   --display:"DM Serif Display",Georgia,"Times New Roman",serif;
   --body:Figtree,system-ui,-apple-system,"Segoe UI",sans-serif;
-  --script:"DM Serif Display",Georgia,serif;
+  --script:"Great Vibes","Brush Script MT",cursive;
   --radius: 18px;
   --shadow: 0 1px 2px rgb(122 27 94 / .06), 0 10px 30px -12px rgb(122 27 94 / .22);
   --ease: cubic-bezier(0.23, 1, 0.32, 1);
@@ -66,9 +66,10 @@ header{position:sticky;top:0;z-index:30;background:rgb(255 245 251 / .92);backdr
 .nav{display:flex;align-items:center;gap:12px;min-height:68px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
 .brand img{width:46px;height:46px;border-radius:50%;object-fit:cover}
-.brand b{font-family:var(--display);font-weight:400;font-size:26px;color:var(--berry);line-height:1;display:flex;align-items:flex-start;gap:2px}
+.brand>div{display:flex;flex-direction:column;align-items:center;line-height:1}
+.brand b{font-family:var(--script);font-weight:400;font-size:42px;color:var(--brand);line-height:.9;display:block;padding:2px 4px 0}
 .brand b svg{width:16px;height:16px;color:var(--gold);margin-top:-4px}
-.brand small{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.brand small{display:block;font-size:9.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);margin-top:-2px;padding-left:.32em}
 .links{display:none;gap:4px;margin-left:16px}
 .links button,.links a{padding:8px 12px;border-radius:999px;font-weight:500;font-size:15px;text-decoration:none;white-space:nowrap}
 .links a{color:var(--rose);font-weight:600}
@@ -87,7 +88,7 @@ header{position:sticky;top:0;z-index:30;background:rgb(255 245 251 / .92);backdr
 .kicker{display:inline-flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--line);padding:6px 12px;border-radius:999px;font-size:13px;font-weight:600;color:var(--berry)}
 .kicker svg{width:16px;height:16px;color:var(--lavender);fill:var(--lavender)}
 .hero h1{font-family:var(--display);font-weight:400;font-size:clamp(44px,7.4vw,86px);line-height:.95;letter-spacing:-.02em;margin:18px 0 18px;text-wrap:balance;color:var(--ink)}
-.hero h1 em{color:var(--rose);font-style:italic;background:linear-gradient(100deg,var(--rose) 10%,var(--violet) 95%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;padding-right:.08em}
+.hero h1 em{font-family:var(--script);font-style:normal;font-size:1.25em;line-height:.8;color:var(--rose);background:linear-gradient(100deg,var(--rose) 10%,var(--violet) 95%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;padding-right:.08em}
 .hero p{max-width:46ch;margin:0;font-size:18px;color:var(--muted)}
 .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 24px;border-radius:999px;font-weight:700;text-decoration:none;transition:transform .15s var(--ease),filter .2s var(--ease),background .2s var(--ease)}
@@ -220,7 +221,8 @@ footer{background:linear-gradient(135deg,var(--berry) 0%,#5a2a8f 100%);color:#ff
 .consumo b{display:block;color:#fff}
 .foot h3{color:#fff;margin:0 0 6px;font-size:15px;font-family:var(--body);font-weight:700}
 .foot p{margin:0;max-width:40ch;opacity:.9}
-.foot .big{font-family:var(--display);font-size:34px;color:#fff;line-height:1;margin-bottom:10px}
+.foot .big{font-family:var(--script);font-size:56px;color:#fff;line-height:1;margin-bottom:4px}
+.foot .big small{display:block;font-family:var(--body);font-size:11px;letter-spacing:.32em;text-transform:uppercase;opacity:.85;margin:-4px 0 12px 4px}
 .foot a{text-decoration:none;display:inline-block;padding-block:6px}
 @media (hover:hover){.foot a:hover{text-decoration:underline}}
 .foot small{display:block;margin-top:20px;opacity:.7}
@@ -312,7 +314,7 @@ footer{background:linear-gradient(135deg,var(--berry) 0%,#5a2a8f 100%);color:#ff
 <header>
   <div class="wrap nav">
     <a class="brand" href="#top" aria-label="SOS Cosméticos, inicio">
-      <div><b>SOS</b><small>Cosméticos</small></div>
+      <div><b>Sos</b><small>Cosméticos</small></div>
     </a>
     <nav class="links" aria-label="Categorías">
       <button data-go="Maquillaje">Maquillaje</button>
@@ -331,7 +333,7 @@ footer{background:linear-gradient(135deg,var(--berry) 0%,#5a2a8f 100%);color:#ff
   <section class="wrap hero">
     <div>
       <span class="kicker"><i data-lucide="star"></i>Nacionales e importados · Corrientes</span>
-      <h1>Tu <em>SOS</em> de belleza, en un solo lugar</h1>
+      <h1>Tu <em>Sos</em> de belleza, en un solo lugar</h1>
       <p>Skincare personalizado, maquillaje, insumos de uñas, pestañas y accesorios. Y el outlet de calzado con pares únicos. Elegí online, te confirmamos por WhatsApp y retirás en el local o te lo enviamos.</p>
       <div class="cta">
         <a class="btn btn-rose" href="#catalogo"><i data-lucide="sparkles"></i>Ver productos</a>
@@ -395,7 +397,7 @@ footer{background:linear-gradient(135deg,var(--berry) 0%,#5a2a8f 100%);color:#ff
 <footer>
   <div class="wrap foot">
     <div>
-      <div class="big">SOS Cosméticos</div>
+      <div class="big">Sos<small>Cosméticos</small></div>
       <p>Skincare personalizado, maquillaje, uñas, pestañas y accesorios, nacionales e importados. Outlet de calzado. Corrientes Capital.</p>
     </div>
     <div><h3>Comprá</h3><div style="display:grid;gap:0">

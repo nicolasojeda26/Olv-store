@@ -8,14 +8,14 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23da3d98'/%3E%3Cpath d='M14 44l-2-22 12 10 8-16 8 16 12-10-2 22z' fill='%23ffffff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 <style>
 :root{
   --blush:#fff5fb; --petal:#ffe0f7; --rose:#c42a85; --berry:#7a1b5e; --gold:#fea6e2;
   --ink:#2c1520; --muted:#7d5a68; --line:#f6cdea; --paper:#fff; --ok:#1f8a55; --warn:#b5560f; --mp:#0074b8;
-  --display:"DM Serif Display",Georgia,"Times New Roman",serif; --body:Figtree,system-ui,-apple-system,"Segoe UI",sans-serif; --script:"DM Serif Display",Georgia,serif;
+  --display:"DM Serif Display",Georgia,"Times New Roman",serif; --body:Figtree,system-ui,-apple-system,"Segoe UI",sans-serif; --script:"Great Vibes","Brush Script MT",cursive;
   --ease:cubic-bezier(.23,1,.32,1);
 }
 *{box-sizing:border-box}
@@ -28,7 +28,7 @@ svg.lucide{width:18px;height:18px;stroke-width:1.9}
 .wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 header{background:var(--berry);color:#fff;position:sticky;top:0;z-index:10}
 .bar{display:flex;align-items:center;gap:12px;min-height:60px}
-.logo{font-family:var(--script);font-size:34px;line-height:1;padding-top:4px}
+.logo{font-family:var(--script);font-size:40px;line-height:1;padding-top:4px}
 .logo small{font-family:var(--body);font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.8;margin-left:8px}
 .sp{flex:1}
 .hbtn{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;border-radius:999px;font-size:14px;font-weight:600;color:#fff}
@@ -79,7 +79,7 @@ select.f{border:1px solid var(--line);background:var(--paper);border-radius:999p
 @media (min-width:860px){.auth{grid-template-columns:1.1fr 1fr;grid-template-rows:1fr}}
 .auth-brand{position:relative;overflow:hidden;background:radial-gradient(120% 90% at 20% 10%,#f848b4 0%,var(--rose) 40%,#5a2a8f 100%);color:#fff;padding:40px max(24px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;justify-content:space-between;gap:28px;min-height:220px}
 .auth-brand::after{content:"✦";position:absolute;right:-30px;bottom:-70px;font-size:300px;line-height:1;color:rgb(255 255 255 / .06);pointer-events:none}
-.auth-brand .logo{font-size:64px;display:flex;align-items:flex-start;gap:4px}
+.auth-brand .logo{font-size:84px;display:flex;align-items:flex-start;gap:4px}
 
 .auth-brand h2{font-family:var(--display);font-weight:400;font-size:clamp(28px,3.4vw,40px);line-height:1.05;letter-spacing:-.01em;margin:0;max-width:16ch;text-wrap:balance}
 .auth-brand ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:15px;opacity:.92}
@@ -130,7 +130,7 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
 
 <main id="loginView" class="auth" hidden>
   <div class="auth-brand">
-    <div class="logo">SOS <small style="font-family:var(--body);font-size:14px;letter-spacing:.2em;text-transform:uppercase;opacity:.85;align-self:center;margin-left:10px">Cosméticos</small></div>
+    <div class="logo">Sos <small style="font-family:var(--body);font-size:14px;letter-spacing:.3em;text-transform:uppercase;opacity:.9;align-self:flex-end;margin:0 0 14px 6px">Cosméticos</small></div>
     <h2>Tu tienda, en tus manos</h2>
     <ul>
       <li><i data-lucide="receipt"></i>Pedidos y pagos en un solo lugar</li>
@@ -157,7 +157,7 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
 
 <main id="passView" class="auth" hidden>
   <div class="auth-brand">
-    <div class="logo">SOS <small style="font-family:var(--body);font-size:14px;letter-spacing:.2em;text-transform:uppercase;opacity:.85;align-self:center;margin-left:10px">Cosméticos</small></div>
+    <div class="logo">Sos <small style="font-family:var(--body);font-size:14px;letter-spacing:.3em;text-transform:uppercase;opacity:.9;align-self:flex-end;margin:0 0 14px 6px">Cosméticos</small></div>
     <h2>Tu tienda, en tus manos</h2>
     <ul>
       <li><i data-lucide="receipt"></i>Pedidos y pagos en un solo lugar</li>
@@ -182,7 +182,7 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
 <div id="appView" hidden>
   <header>
     <div class="wrap bar">
-      <div class="logo">SOS<small>Panel</small></div>
+      <div class="logo">Sos<small>Panel</small></div>
       <div class="sp"></div>
       <a class="hbtn" href="/" target="_blank" rel="noopener"><i data-lucide="store"></i><span>Ver tienda</span></a>
       <button class="hbtn" id="logout"><i data-lucide="log-out"></i><span>Salir</span></button>
