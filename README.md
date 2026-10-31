@@ -1,4 +1,4 @@
-# Tienda online · S.O.S Cosméticos
+# Tienda online · SOS Cosméticos
 
 Tienda con catálogo, stock por talle, pago con **Mercado Pago** (tarjeta, cuotas y dinero en cuenta), pedidos por WhatsApp para transferencia o efectivo y un panel para la dueña.
 
@@ -52,7 +52,7 @@ Proyecto `isabella-importados` → **Settings → Environment Variables**. Carg�
 | `MP_SANDBOX` | `true` mientras prueban, `false` para cobrar de verdad |
 | `RESEND_API_KEY` | opcional: clave de [Resend](https://resend.com) para mandar avisos por email (secreta) |
 | `NOTIFY_EMAIL` | a quién avisar de ventas nuevas y arrepentimientos (se pueden poner varios separados por coma) |
-| `MAIL_FROM` | opcional: remitente, ej. `S.O.S Cosméticos <avisos@su-dominio.com>`. Sin dominio propio, Resend solo deja mandar al email de la cuenta de Resend |
+| `MAIL_FROM` | opcional: remitente, ej. `SOS Cosméticos <avisos@su-dominio.com>`. Sin dominio propio, Resend solo deja mandar al email de la cuenta de Resend |
 
 Después: **Deployments → ⋯ → Redeploy** para que tome las variables.
 

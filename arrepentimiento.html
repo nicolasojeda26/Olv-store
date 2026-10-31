@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Botón de arrepentimiento · S.O.S Cosméticos</title>
-<meta name="description" content="Arrepentite de tu compra online en S.O.S Cosméticos dentro de los 10 días, sin registrarte.">
+<title>Botón de arrepentimiento · SOS Cosméticos</title>
+<meta name="description" content="Arrepentite de tu compra online en SOS Cosméticos dentro de los 10 días, sin registrarte.">
 <meta name="theme-color" content="#d6246e">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23d6246e'/%3E%3Cpath d='M14 44l-2-22 12 10 8-16 8 16 12-10-2 22z' fill='%23ffffff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -46,7 +46,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 18px}
 </style>
 </head>
 <body>
-<header><div class="wrap"><a class="brand" href="/" aria-label="S.O.S Cosméticos, volver a la tienda">S.O.S <small style="font-family:Figtree,sans-serif;font-size:12px;letter-spacing:.2em;text-transform:uppercase">Cosméticos</small></a><a class="back" href="/">← Volver a la tienda</a></div></header>
+<header><div class="wrap"><a class="brand" href="/" aria-label="SOS Cosméticos, volver a la tienda">SOS <small style="font-family:Figtree,sans-serif;font-size:12px;letter-spacing:.2em;text-transform:uppercase">Cosméticos</small></a><a class="back" href="/">← Volver a la tienda</a></div></header>
 <main class="wrap">
   <h1>Botón de arrepentimiento</h1>
   <p class="lead">Si compraste online, tenés <b>10 días corridos</b> desde que recibiste el producto (o desde la compra, lo que pase último) para arrepentirte, sin dar explicaciones y sin costo. No hace falta tener cuenta: completá este formulario y te damos un código de trámite al instante.</p>
@@ -100,14 +100,14 @@ f.addEventListener("submit",async(e)=>{
     if(!r.ok||!j.code)throw new Error(j.error||"No pudimos registrar tu pedido. Probá de nuevo.");
     document.getElementById("code").textContent=j.code;
     if(j.emailed)document.getElementById("mailNote").textContent="Te lo mandamos también a tu email. Te vamos a contactar para coordinar la devolución del producto y el reintegro del dinero.";
-    const msg=`¡Hola S.O.S! Hice un pedido de arrepentimiento desde la web. Código: ${j.code}. Nombre: ${d.name.trim()}${d.order_ref.trim()?`. Pedido: ${d.order_ref.trim()}`:""}${d.product.trim()?`. Producto: ${d.product.trim()}`:""}`;
+    const msg=`¡Hola SOS! Hice un pedido de arrepentimiento desde la web. Código: ${j.code}. Nombre: ${d.name.trim()}${d.order_ref.trim()?`. Pedido: ${d.order_ref.trim()}`:""}${d.product.trim()?`. Producto: ${d.product.trim()}`:""}`;
     document.getElementById("wa").href="https://wa.me/5493794717236?text="+encodeURIComponent(msg);
     f.hidden=true;const done=document.getElementById("done");done.hidden=false;done.focus();
   }catch(x){fail(x.message);go.disabled=false;go.textContent="Enviar pedido de arrepentimiento";}
 });
 </script>
 <footer><div class="wrap">
-  <span>S.O.S Cosméticos · Junín 830, Corrientes · WhatsApp <a href="https://wa.me/5493794717236">3794-717236</a></span>
+  <span>SOS Cosméticos · Junín 830, Corrientes · WhatsApp <a href="https://wa.me/5493794717236">3794-717236</a></span>
   <a href="/arrepentimiento.html">Botón de arrepentimiento</a>
   <a href="/cambios.html">Cambios y devoluciones</a>
   <a href="https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario" target="_blank" rel="noopener">Defensa de las y los Consumidores. Para reclamos ingrese aquí</a>

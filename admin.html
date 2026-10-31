@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>Panel · S.O.S Cosméticos</title>
+<title>Panel · SOS Cosméticos</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23d6246e'/%3E%3Cpath d='M14 44l-2-22 12 10 8-16 8 16 12-10-2 22z' fill='%23ffffff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -130,7 +130,7 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
 
 <main id="loginView" class="auth" hidden>
   <div class="auth-brand">
-    <div class="logo">S.O.S <small style="font-family:var(--body);font-size:14px;letter-spacing:.2em;text-transform:uppercase;opacity:.85">Cosméticos</small></div>
+    <div class="logo">SOS <small style="font-family:var(--body);font-size:14px;letter-spacing:.2em;text-transform:uppercase;opacity:.85">Cosméticos</small></div>
     <h2>Tu tienda, en tus manos</h2>
     <ul>
       <li><i data-lucide="receipt"></i>Pedidos y pagos en un solo lugar</li>
@@ -141,7 +141,7 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
   <div class="auth-form">
   <form class="card login" id="loginForm" novalidate>
     <div><h1>Hola de nuevo</h1></div>
-    <p class="sub">Entrá al panel de S.O.S Cosméticos.</p>
+    <p class="sub">Entrá al panel de SOS Cosméticos.</p>
     <div style="display:grid;gap:12px">
       <label class="fl" for="lEmail">Usuario<input class="in" id="lEmail" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Tu usuario" required></label>
       <label class="fl" for="lPass">Contraseña<span class="pw"><input class="in" id="lPass" type="password" autocomplete="current-password" required><button type="button" data-eye="lPass" aria-label="Mostrar contraseña"><i data-lucide="eye"></i></button></span></label>
@@ -157,7 +157,7 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
 
 <main id="passView" class="auth" hidden>
   <div class="auth-brand">
-    <div class="logo">S.O.S <small style="font-family:var(--body);font-size:14px;letter-spacing:.2em;text-transform:uppercase;opacity:.85">Cosméticos</small></div>
+    <div class="logo">SOS <small style="font-family:var(--body);font-size:14px;letter-spacing:.2em;text-transform:uppercase;opacity:.85">Cosméticos</small></div>
     <h2>Tu tienda, en tus manos</h2>
     <ul>
       <li><i data-lucide="receipt"></i>Pedidos y pagos en un solo lugar</li>
@@ -182,7 +182,7 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
 <div id="appView" hidden>
   <header>
     <div class="wrap bar">
-      <div class="logo">S.O.S<small>Panel</small></div>
+      <div class="logo">SOS<small>Panel</small></div>
       <div class="sp"></div>
       <a class="hbtn" href="/" target="_blank" rel="noopener"><i data-lucide="store"></i><span>Ver tienda</span></a>
       <button class="hbtn" id="logout"><i data-lucide="log-out"></i><span>Salir</span></button>
@@ -238,7 +238,7 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-const CATS={"Maquillaje":"brush","Skincare":"flask-conical","Uñas":"paintbrush","Pestañas":"eye","Accesorios":"gem","Combos y regalos":"gift","Outlet calzado":"footprints"};
+const CATS={"Maquillaje": "palette","Skincare": "flask-conical","Combos y regalos": "gift","Pestañas": "eye","Insumos de uñas": "paintbrush","Insumos de pestañas": "wand-sparkles","Accesorios": "gem","Brochas y pinceles": "brush","Productos capilares": "scissors","Productos corporales": "hand-heart","Fragancias": "spray-can","Aparatología": "zap","Librería": "notebook-pen","Outlet calzado": "footprints"};
 const SHIP={pickup:"Retiro en el local",city:"Envío en Corrientes Capital",country:"Envío al resto del país"};
 const PAYM={mercadopago:"Mercado Pago",transfer:"Transferencia",cash:"Efectivo"};
 const ST={pending:["Pendiente","warn"],paid:["Pagado","ok"],delivered:["Entregado","mp"],rejected:["Rechazado","bad"],cancelled:["Cancelado","off"]};

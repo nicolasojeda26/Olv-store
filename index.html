@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>S.O.S Cosméticos · Maquillaje, skincare, uñas y pestañas en Corrientes</title>
+<title>SOS Cosméticos · Maquillaje, skincare, uñas y pestañas en Corrientes</title>
 <meta name="description" content="Skincare personalizado, maquillaje, insumos de uñas, pestañas y accesorios nacionales e importados. Outlet de calzado. Local en Junín 830, Corrientes, y envíos a todo el país.">
 <meta name="theme-color" content="#d6246e">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23d6246e'/%3E%3Cpath d='M14 44l-2-22 12 10 8-16 8 16 12-10-2 22z' fill='%23ffffff'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="S.O.S Cosméticos">
-<meta property="og:title" content="S.O.S Cosméticos · Maquillaje, skincare, uñas y pestañas">
+<meta property="og:site_name" content="SOS Cosméticos">
+<meta property="og:title" content="SOS Cosméticos · Maquillaje, skincare, uñas y pestañas">
 <meta property="og:description" content="Skincare personalizado, maquillaje, uñas, pestañas y accesorios. Retiro en Junín 830, Corrientes, o envío a todo el país.">
 <meta property="og:url" content="https://isabella-importados.vercel.app/">
 <meta property="og:locale" content="es_AR">
@@ -65,8 +65,9 @@ header{position:sticky;top:0;z-index:30;background:rgb(255 245 248 / .92);backdr
 .brand b svg{width:16px;height:16px;color:var(--gold);margin-top:-4px}
 .brand small{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
 .links{display:none;gap:4px;margin-left:16px}
-.links button{padding:8px 12px;border-radius:999px;font-weight:500;font-size:15px}
-@media (hover:hover){.links button:hover{background:var(--petal)}}
+.links button,.links a{padding:8px 12px;border-radius:999px;font-weight:500;font-size:15px;text-decoration:none;white-space:nowrap}
+.links a{color:var(--rose);font-weight:600}
+@media (hover:hover){.links button:hover,.links a:hover{background:var(--petal)}}
 @media (min-width:1000px){.links{display:flex}}
 .sp{flex:1}
 .ibtn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:44px;min-height:44px;padding:0 12px;border-radius:999px;font-weight:600;font-size:14px;transition:background .2s var(--ease),transform .15s var(--ease)}
@@ -134,8 +135,6 @@ header{position:sticky;top:0;z-index:30;background:rgb(255 245 248 / .92);backdr
 .sec-h p{margin:6px 0 0;color:var(--muted)}
 .cats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 
-@media (min-width:1100px){.cats{grid-template-columns:repeat(4,minmax(0,1fr))}}
-.cat:last-child:nth-child(odd){grid-column:span 2;aspect-ratio:auto;min-height:150px}
 .cat{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3;background:var(--petal);text-align:left}
 .cat img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
 @media (hover:hover){.cat:hover img{transform:scale(1.04)}}
@@ -147,6 +146,10 @@ header{position:sticky;top:0;z-index:30;background:rgb(255 245 248 / .92);backdr
 .cat:not(:has(img)) span small{color:var(--ink);opacity:.78}
 .cat span{position:absolute;left:14px;right:14px;bottom:12px;z-index:1;color:#fff;font-family:var(--display);font-size:24px;line-height:1.05}
 @media (max-width:699px){.cat{aspect-ratio:1/1}.cat span{font-size:19px;left:12px;right:10px;bottom:10px}.cat .ico{padding-top:12%}.cat .ico svg{width:28%;height:28%}.cat small{font-size:11px}}
+@media (min-width:700px) and (max-width:1099px){.cats{grid-template-columns:repeat(4,minmax(0,1fr))}.cat{aspect-ratio:1/1}.cat span{font-size:18px}}
+@media (min-width:1100px){.cats{grid-template-columns:repeat(7,minmax(0,1fr))}.cat{aspect-ratio:3/4}.cat span{font-size:19px}.cat small{font-size:11px}}
+.cat:last-child:nth-child(odd){grid-column:span 2;aspect-ratio:auto;min-height:150px}
+@media (min-width:700px) and (max-width:1099px){.cat:nth-last-child(2):nth-child(4n+1),.cat:last-child:nth-child(4n+2){grid-column:span 2;aspect-ratio:auto;min-height:160px}}
 .cat small{display:block;font-family:var(--body);font-size:12px;font-weight:600;opacity:.9;margin-top:4px}
 
 /* catálogo */
@@ -303,16 +306,16 @@ footer{background:var(--berry);color:#fde3ec;font-size:14px;margin-top:20px}
 
 <header>
   <div class="wrap nav">
-    <a class="brand" href="#top" aria-label="S.O.S Cosméticos, inicio">
-      <div><b>S.O.S</b><small>Cosméticos</small></div>
+    <a class="brand" href="#top" aria-label="SOS Cosméticos, inicio">
+      <div><b>SOS</b><small>Cosméticos</small></div>
     </a>
     <nav class="links" aria-label="Categorías">
       <button data-go="Maquillaje">Maquillaje</button>
       <button data-go="Skincare">Skincare</button>
-      <button data-go="Uñas">Uñas</button>
+      <button data-go="Insumos de uñas">Uñas</button>
       <button data-go="Pestañas">Pestañas</button>
-      <button data-go="Accesorios">Accesorios</button>
       <button data-go="Outlet calzado">Outlet calzado</button>
+      <a href="#cats">Todas las categorías</a>
     </nav>
     <div class="sp"></div>
     <button class="ibtn" id="openCart" aria-label="Abrir tu pedido"><i data-lucide="shopping-bag"></i><span class="count" id="cartCount">0</span></button>
@@ -323,7 +326,7 @@ footer{background:var(--berry);color:#fde3ec;font-size:14px;margin-top:20px}
   <section class="wrap hero">
     <div>
       <span class="kicker"><i data-lucide="star"></i>Nacionales e importados · Corrientes</span>
-      <h1>Tu <em>S.O.S</em> de belleza, en un solo lugar</h1>
+      <h1>Tu <em>SOS</em> de belleza, en un solo lugar</h1>
       <p>Skincare personalizado, maquillaje, insumos de uñas, pestañas y accesorios. Y el outlet de calzado con pares únicos. Elegí online, te confirmamos por WhatsApp y retirás en el local o te lo enviamos.</p>
       <div class="cta">
         <a class="btn btn-rose" href="#catalogo"><i data-lucide="sparkles"></i>Ver productos</a>
@@ -370,7 +373,7 @@ footer{background:var(--berry);color:#fde3ec;font-size:14px;margin-top:20px}
       <div>
         <span class="eyebrow">Nuestra historia</span>
         <h2>De un hobby a tu local de belleza</h2>
-        <p>S.O.S Cosméticos empezó como un hobby, pasó por una estética y por una zapatería (de ahí nuestro outlet de calzado) y hoy es un local de insumos de belleza en el centro de Corrientes.</p>
+        <p>SOS Cosméticos empezó como un hobby, pasó por una estética y por una zapatería (de ahí nuestro outlet de calzado) y hoy es un local de insumos de belleza en el centro de Corrientes.</p>
         <p>Te ayudamos a armar tu rutina de skincare, elegir tu maquillaje y conseguir todo para uñas y pestañas. Venite al local o escribinos: te asesoramos como a una amiga.</p>
       </div>
       <div class="visit">
@@ -387,17 +390,18 @@ footer{background:var(--berry);color:#fde3ec;font-size:14px;margin-top:20px}
 <footer>
   <div class="wrap foot">
     <div>
-      <div class="big">S.O.S Cosméticos</div>
+      <div class="big">SOS Cosméticos</div>
       <p>Skincare personalizado, maquillaje, uñas, pestañas y accesorios, nacionales e importados. Outlet de calzado. Corrientes Capital.</p>
     </div>
     <div><h3>Comprá</h3><div style="display:grid;gap:0">
       <a href="#catalogo" data-go="Maquillaje">Maquillaje</a>
       <a href="#catalogo" data-go="Skincare">Skincare</a>
-      <a href="#catalogo" data-go="Uñas">Uñas</a>
-      <a href="#catalogo" data-go="Pestañas">Pestañas</a>
-      <a href="#catalogo" data-go="Accesorios">Accesorios</a>
       <a href="#catalogo" data-go="Combos y regalos">Combos y regalos</a>
-      <a href="#catalogo" data-go="Outlet calzado">Outlet calzado</a></div></div>
+      <a href="#catalogo" data-go="Pestañas">Pestañas</a>
+      <a href="#catalogo" data-go="Insumos de uñas">Insumos de uñas</a>
+      <a href="#catalogo" data-go="Insumos de pestañas">Insumos de pestañas</a>
+      <a href="#catalogo" data-go="Outlet calzado">Outlet calzado</a>
+      <a href="#cats">Ver todas</a></div></div>
     <div><h3>Contacto</h3><div style="display:grid;gap:0">
       <a href="https://wa.me/5493794717236" target="_blank" rel="noopener">WhatsApp 3794-717236</a>
       <a href="https://www.instagram.com/s.o.scosmeticos_ctes/" target="_blank" rel="noopener">Instagram @s.o.scosmeticos_ctes</a>
@@ -407,7 +411,7 @@ footer{background:var(--berry);color:#fde3ec;font-size:14px;margin-top:20px}
       <a href="/cambios.html">Cambios y devoluciones</a>
       <a class="consumo" href="https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario" target="_blank" rel="noopener"><b>Defensa de las y los Consumidores</b>Para reclamos <u>ingrese aquí</u></a></div></div>
   </div>
-  <div class="wrap" style="padding-bottom:24px;font-size:12px;opacity:.75">© 2026 S.O.S Cosméticos. Precios en pesos argentinos. Pagos online procesados por Mercado Pago. <a href="/admin.html" style="color:#ffd1e1">Acceso dueña</a></div>
+  <div class="wrap" style="padding-bottom:24px;font-size:12px;opacity:.75">© 2026 SOS Cosméticos. Precios en pesos argentinos. Pagos online procesados por Mercado Pago. <a href="/admin.html" style="color:#ffd1e1">Acceso dueña</a></div>
 </footer>
 
 <aside aria-label="Contacto rápido"><a class="wa-float" href="https://wa.me/5493794717236" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp"><i data-lucide="message-circle"></i></a></aside>
@@ -433,10 +437,17 @@ const PROMOS=["Envíos a todo el país","Retiro en el local: Junín 830","Nueva 
 const CATS=[
   {k:"Maquillaje",d:"Labiales, bases y paletas",icon:"palette",h:15},
   {k:"Skincare",d:"Tu rutina de cuidado",icon:"flask-conical",h:165},
-  {k:"Uñas",d:"Esmaltes e insumos",icon:"paintbrush",h:330},
-  {k:"Pestañas",d:"Extensiones e insumos",icon:"eye",h:285},
-  {k:"Accesorios",d:"Brochas, neceseres y más",icon:"gem",h:220},
   {k:"Combos y regalos",d:"Ramos y combos armados",icon:"gift",h:345},
+  {k:"Pestañas",d:"Postizas y de tira",icon:"eye",h:285},
+  {k:"Insumos de uñas",d:"Esmaltes, geles y más",icon:"paintbrush",h:330},
+  {k:"Insumos de pestañas",d:"Para extensiones",icon:"wand-sparkles",h:265},
+  {k:"Accesorios",d:"Neceseres, espejos y más",icon:"gem",h:220},
+  {k:"Brochas y pinceles",d:"Para maquillaje y uñas",icon:"brush",h:25},
+  {k:"Productos capilares",d:"Cuidado del pelo",icon:"scissors",h:40},
+  {k:"Productos corporales",d:"Cremas y cuidado",icon:"hand-heart",h:190},
+  {k:"Fragancias",d:"Perfumes y splash",icon:"spray-can",h:300},
+  {k:"Aparatología",d:"Lámparas y equipos",icon:"zap",h:250},
+  {k:"Librería",d:"Útiles y papelería",icon:"notebook-pen",h:95},
   {k:"Outlet calzado",d:"Pares únicos del 35 al 40",icon:"footprints",h:60}
 ];
 const HUE=Object.fromEntries(CATS.map(c=>[c.k,c.h]));
@@ -480,7 +491,7 @@ function badges(p){const u=units(p),b=[];
   return `<div class="badges">${b.join("")}</div>`}
 
 function renderRibbon(){const t=PROMOS.map(x=>`<span>${x}</span>`).join("");$("#ribbon").innerHTML=t+t+t}
-const SHOW=["Skincare","Maquillaje","Uñas","Outlet calzado"];
+const SHOW=["Skincare","Maquillaje","Insumos de uñas","Outlet calzado"];
 function renderShowcase(){$("#showcase").innerHTML=CATS.filter(c=>SHOW.includes(c.k)).sort((a,b)=>SHOW.indexOf(a.k)-SHOW.indexOf(b.k)).map(c=>`<button class="tile" data-go="${c.k}"><div class="ico" style="--h:${c.h}"><i data-lucide="${c.icon}"></i></div><span>${c.k}<small>${c.d}</small></span></button>`).join("");icons()}
 function renderCats(){
   $("#cats").innerHTML=CATS.map(c=>{const p=products.find(x=>x.cat===c.k&&units(x))||products.find(x=>x.cat===c.k);
@@ -611,7 +622,7 @@ function readBuyer(){[["bName","name"],["bPhone","phone"],["bEmail","email"],["b
 function orderText(orderId){
   const t=totals();
   const lines=cart.map(l=>{const p=byId(l.id);return `• ${l.qty} x ${p.name}${sizeTxt(l.size)}: ${money(p.price*l.qty)}`});
-  return `¡Hola S.O.S! 💗 Quiero hacer este pedido${orderId?` (N° ${orderId.slice(0,8).toUpperCase()})`:""}:\n\n${lines.join("\n")}\n\n${t.tr?`Subtotal: ${money(t.sub)}\nDescuento transferencia: −${money(t.tr)}\n`:""}Total: ${money(t.total)}\n\nEntrega: ${SHIP[t.ship][0]}${t.ship!=="pickup"&&buyer.address?` (${buyer.address})`:""}\nPago: ${PAY[t.pay][0]}\nA nombre de: ${buyer.name}`}
+  return `¡Hola SOS! 💗 Quiero hacer este pedido${orderId?` (N° ${orderId.slice(0,8).toUpperCase()})`:""}:\n\n${lines.join("\n")}\n\n${t.tr?`Subtotal: ${money(t.sub)}\nDescuento transferencia: −${money(t.tr)}\n`:""}Total: ${money(t.total)}\n\nEntrega: ${SHIP[t.ship][0]}${t.ship!=="pickup"&&buyer.address?` (${buyer.address})`:""}\nPago: ${PAY[t.pay][0]}\nA nombre de: ${buyer.name}`}
 async function checkout(){
   if(sending)return;
   readBuyer(); const t=totals();
@@ -654,7 +665,7 @@ async function showPaymentResult(){
     <h3 id="rTitle">${ok?"¡Gracias por tu compra!":pend?"Tu pago está pendiente":"El pago no se completó"}</h3>
     <p class="note" style="font-size:15px;max-width:36ch">${ok?`Recibimos tu pago${nro?` del pedido N° ${nro}`:""}. Te escribimos por WhatsApp para coordinar la entrega.`
       :pend?"Mercado Pago está procesando el pago. Apenas se acredite te avisamos por WhatsApp.":"No se hizo ningún cobro. Tu pedido sigue en la bolsa para que lo intentes de nuevo o elijas otra forma de pago."}</p>
-    ${ok||pend?`<a class="btn btn-wa" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent(`¡Hola S.O.S! Hice el pedido N° ${nro}`)}"><i data-lucide="message-circle"></i>Escribir por WhatsApp</a>`
+    ${ok||pend?`<a class="btn btn-wa" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent(`¡Hola SOS! Hice el pedido N° ${nro}`)}"><i data-lucide="message-circle"></i>Escribir por WhatsApp</a>`
       :`<button class="btn btn-rose" id="retryPay"><i data-lucide="shopping-bag"></i>Ver mi pedido</button>`}
   </div>`;
   $("#result").classList.add("on"); $("#scrim").classList.add("on"); icons();
