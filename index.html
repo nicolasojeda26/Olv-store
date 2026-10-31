@@ -23,6 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="/lib/pricing.js"></script>
 <style>
 /* Layout: cinta de avisos + header; hero con vitrina de categorías; categorías con foto; catálogo con filtros; ficha en modal; carrito con promos calculadas y pedido por WhatsApp */
 :root{
@@ -271,6 +272,17 @@ footer{background:linear-gradient(135deg,var(--berry) 0%,#5a2a8f 100%);color:#ff
 .qty{display:inline-flex;align-items:center;border:1.5px solid var(--line);border-radius:999px;align-self:flex-start}
 .qty button{width:42px;height:42px;display:grid;place-items:center}
 .qty span{min-width:24px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.coupon{font-size:14px}
+.coupon summary{cursor:pointer;color:var(--rose);font-weight:600;padding:4px 0;list-style:none}
+.coupon summary::-webkit-details-marker{display:none}
+.cp-form{display:flex;gap:8px;margin-top:8px}
+.cp-form input{flex:1;min-width:0;font:inherit;font-size:16px;text-transform:uppercase;border:1.5px solid var(--line);border-radius:12px;padding:8px 12px;min-height:44px;background:var(--paper)}
+.cp-form input:focus{outline:none;border-color:var(--rose)}
+.cp-on{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--petal);border-radius:12px;padding:8px 12px;color:var(--berry)}
+.cp-on span{display:flex;align-items:center;gap:6px}.cp-on svg{width:16px;height:16px}
+.linkbtn{color:var(--rose);font-weight:600;text-decoration:underline;padding:6px}
+.sum small{font-weight:400;opacity:.85}
+.bdg.promo{background:var(--violet);color:#fff}
 .share-row{display:flex;gap:8px;flex-wrap:wrap}
 .btn-sm{min-height:40px;padding:0 14px;font-size:14px}
 .promo-box{background:var(--blush);border-radius:14px;padding:12px 14px;font-size:14px;display:grid;gap:6px}
@@ -356,32 +368,32 @@ footer{background:linear-gradient(135deg,var(--berry) 0%,#5a2a8f 100%);color:#ff
 <main id="top">
   <section class="wrap hero">
     <div>
-      <span class="kicker"><i data-lucide="star"></i>Nacionales e importados · Corrientes</span>
-      <h1>Tu <em>Sos</em> de belleza, en un solo lugar</h1>
-      <p>Skincare personalizado, maquillaje, insumos de uñas, pestañas y accesorios. Y el outlet de calzado con pares únicos. Elegí online, te confirmamos por WhatsApp y retirás en el local o te lo enviamos.</p>
+      <span class="kicker"><i data-lucide="star"></i><span data-k="hero.kicker">Nacionales e importados · Corrientes</span></span>
+      <h1 data-k="hero.title" data-fmt="em">Tu <em>Sos</em> de belleza, en un solo lugar</h1>
+      <p data-k="hero.text">Skincare personalizado, maquillaje, insumos de uñas, pestañas y accesorios. Y el outlet de calzado con pares únicos. Elegí online, te confirmamos por WhatsApp y retirás en el local o te lo enviamos.</p>
       <div class="cta">
         <a class="btn btn-rose" href="#catalogo"><i data-lucide="sparkles"></i>Ver productos</a>
-        <button class="btn btn-line" data-go="Outlet calzado"><i data-lucide="tag"></i>Outlet de calzado</button>
+        <button class="btn btn-line" id="cta2" data-go="Outlet calzado"><i data-lucide="tag"></i><span data-k="hero.cta2_label">Outlet de calzado</span></button>
       </div>
-      <div class="sizes-strip">Calzado del<i>35</i>al<i>40</i>· nacional y brasilero 🇦🇷 🇧🇷</div>
+      <div class="sizes-strip" data-k="hero.note" data-fmt="chips">Calzado del<i>35</i>al<i>40</i>· nacional y brasilero 🇦🇷 🇧🇷</div>
     </div>
     <div class="collage" id="showcase"></div>
   </section>
 
   <section class="wrap perks" aria-label="Beneficios">
-    <div class="perk"><i data-lucide="truck"></i><div><b>Envíos</b><span>en Corrientes y a todo el país</span></div></div>
-    <div class="perk"><i data-lucide="store"></i><div><b>Retiro en el local</b><span>Junín 830, Corrientes</span></div></div>
-    <div class="perk"><i data-lucide="boxes"></i><div><b>Venta mayorista</b><span>consultá precios por cantidad</span></div></div>
-    <div class="perk"><i data-lucide="message-circle"></i><div><b>Asesoramiento</b><span>te armamos tu rutina por WhatsApp</span></div></div>
+    <div class="perk" data-perk="0"><i data-lucide="truck"></i><div><b data-k="perks.0.title">Envíos</b><span data-k="perks.0.text">en Corrientes y a todo el país</span></div></div>
+    <div class="perk" data-perk="1"><i data-lucide="store"></i><div><b data-k="perks.1.title">Retiro en el local</b><span data-k="perks.1.text">Junín 830, Corrientes</span></div></div>
+    <div class="perk" data-perk="2"><i data-lucide="boxes"></i><div><b data-k="perks.2.title">Venta mayorista</b><span data-k="perks.2.text">consultá precios por cantidad</span></div></div>
+    <div class="perk" data-perk="3"><i data-lucide="message-circle"></i><div><b data-k="perks.3.title">Asesoramiento</b><span data-k="perks.3.text">te armamos tu rutina por WhatsApp</span></div></div>
   </section>
 
   <section class="wrap sec" aria-labelledby="catsTitle">
-    <div class="sec-h"><div><h2 id="catsTitle">Comprá por categoría</h2><p>Lo que encontrás en el local, ahora online</p></div></div>
+    <div class="sec-h"><div><h2 id="catsTitle" data-k="cats.title">Comprá por categoría</h2><p data-k="cats.text">Lo que encontrás en el local, ahora online</p></div></div>
     <div class="cats" id="cats"></div>
   </section>
 
   <section class="wrap sec" id="catalogo" aria-labelledby="catTitle">
-    <div class="sec-h"><div><h2 id="catTitle">La tienda</h2><p>Mirá qué hay en stock y, en el outlet de calzado, qué talles quedan de cada par.</p></div></div>
+    <div class="sec-h"><div><h2 id="catTitle" data-k="shop.title">La tienda</h2><p data-k="shop.text">Mirá qué hay en stock y, en el outlet de calzado, qué talles quedan de cada par.</p></div></div>
     <div class="toolbar">
       <div class="row">
         <label class="search"><i data-lucide="search"></i><span class="sr">Buscar</span><input id="q" type="search" placeholder="Buscar sombras, sérum, esmaltes…" autocomplete="off"></label>
@@ -402,17 +414,17 @@ footer{background:linear-gradient(135deg,var(--berry) 0%,#5a2a8f 100%);color:#ff
   <section class="wrap">
     <div class="story">
       <div>
-        <span class="eyebrow">Nuestra historia</span>
-        <h2>De un hobby a tu local de belleza</h2>
-        <p>SOS Cosméticos empezó como un hobby, pasó por una estética y por una zapatería (de ahí nuestro outlet de calzado) y hoy es un local de insumos de belleza en el centro de Corrientes.</p>
-        <p>Te ayudamos a armar tu rutina de skincare, elegir tu maquillaje y conseguir todo para uñas y pestañas. Venite al local o escribinos: te asesoramos como a una amiga.</p>
+        <span class="eyebrow" data-k="story.eyebrow">Nuestra historia</span>
+        <h2 data-k="story.title">De un hobby a tu local de belleza</h2>
+        <p data-k="story.p1">SOS Cosméticos empezó como un hobby, pasó por una estética y por una zapatería (de ahí nuestro outlet de calzado) y hoy es un local de insumos de belleza en el centro de Corrientes.</p>
+        <p data-k="story.p2">Te ayudamos a armar tu rutina de skincare, elegir tu maquillaje y conseguir todo para uñas y pestañas. Venite al local o escribinos: te asesoramos como a una amiga.</p>
       </div>
       <div class="visit">
         <span class="eyebrow">Visitanos</span>
-        <div><i data-lucide="map-pin"></i><span><b>Junín 830</b>entre Salta y Buenos Aires · Corrientes Capital</span></div>
-        <div><i data-lucide="clock"></i><span><b>Horarios</b>Lunes a sábados, 9:30 a 12:30 y 17:30 a 21 hs</span></div>
-        <div><i data-lucide="message-circle"></i><span><b>WhatsApp</b>3794-717236</span></div>
-        <a class="btn btn-rose" href="https://www.google.com/maps/search/?api=1&query=Jun%C3%ADn+830+Corrientes+Capital" target="_blank" rel="noopener"><i data-lucide="navigation"></i>Cómo llegar</a>
+        <div><i data-lucide="map-pin"></i><span><b data-k="contact.address">Junín 830</b><span data-k="contact.address_note">entre Salta y Buenos Aires · Corrientes Capital</span></span></div>
+        <div><i data-lucide="clock"></i><span><b>Horarios</b><span data-k="contact.hours">Lunes a sábados, 9:30 a 12:30 y 17:30 a 21 hs</span></span></div>
+        <div><i data-lucide="message-circle"></i><span><b>WhatsApp</b><span data-k="contact.whatsapp">3794-717236</span></span></div>
+        <a class="btn btn-rose" id="mapsLink" href="https://www.google.com/maps/search/?api=1&query=Jun%C3%ADn+830+Corrientes+Capital" target="_blank" rel="noopener"><i data-lucide="navigation"></i>Cómo llegar</a>
       </div>
     </div>
   </section>
@@ -422,9 +434,9 @@ footer{background:linear-gradient(135deg,var(--berry) 0%,#5a2a8f 100%);color:#ff
   <div class="wrap foot">
     <div>
       <img class="big-logo" src="/img/logo-blanco.png" width="160" height="112" alt="SOS Cosméticos" loading="lazy">
-      <p>Skincare personalizado, maquillaje, uñas, pestañas y accesorios, nacionales e importados. Outlet de calzado. Corrientes Capital.</p>
+      <p data-k="footer.text">Skincare personalizado, maquillaje, uñas, pestañas y accesorios, nacionales e importados. Outlet de calzado. Corrientes Capital.</p>
     </div>
-    <div><h3>Comprá</h3><div style="display:grid;gap:0">
+    <div><h3>Comprá</h3><div style="display:grid;gap:0" data-foot-cats>
       <a href="#catalogo" data-go="Maquillaje">Maquillaje</a>
       <a href="#catalogo" data-go="Skincare">Skincare</a>
       <a href="#catalogo" data-go="Combos y regalos">Combos y regalos</a>
@@ -434,9 +446,9 @@ footer{background:linear-gradient(135deg,var(--berry) 0%,#5a2a8f 100%);color:#ff
       <a href="#catalogo" data-go="Outlet calzado">Outlet calzado</a>
       <a href="#cats">Ver todas</a></div></div>
     <div><h3>Contacto</h3><div style="display:grid;gap:0">
-      <a href="https://wa.me/5493794717236" target="_blank" rel="noopener">WhatsApp 3794-717236</a>
-      <a href="https://www.instagram.com/s.o.scosmeticos_ctes/" target="_blank" rel="noopener">Instagram @s.o.scosmeticos_ctes</a>
-      <span>Junín 830, Corrientes Capital</span></div></div>
+      <a href="https://wa.me/5493794717236" target="_blank" rel="noopener">WhatsApp <span data-k="contact.whatsapp">3794-717236</span></a>
+      <a id="igLink" href="https://www.instagram.com/s.o.scosmeticos_ctes/" target="_blank" rel="noopener">Instagram @<span data-k="contact.instagram">s.o.scosmeticos_ctes</span></a>
+      <span><span data-k="contact.address">Junín 830</span>, Corrientes Capital</span></div></div>
     <div><h3>Ayuda</h3><div style="display:grid;gap:0;justify-items:start">
       <a class="arr-btn" href="/arrepentimiento.html"><i data-lucide="undo-2" aria-hidden="true"></i>Botón de arrepentimiento</a>
       <a href="/cambios.html">Cambios y devoluciones</a>
@@ -465,8 +477,8 @@ footer{background:linear-gradient(135deg,var(--berry) 0%,#5a2a8f 100%);color:#ff
 let WA="5493794717236", CFG=null;
 // Ajustes de la tienda (los cambia la dueña desde el panel → Ajustes)
 let TRANSFER=0, CUOTAS=0, FREE_SHIP=0;
-const PROMOS=["Envíos a todo el país","Retiro en el local: Junín 830","Nueva colección de sombras Ruby Rose","Outlet de calzado: pares únicos","Venta mayorista","Consultas al 3794-717236"];
-const CATS=[
+const PROMOS_TXT=["Envíos a todo el país","Retiro en el local: Junín 830","Nueva colección de sombras Ruby Rose","Outlet de calzado: pares únicos","Venta mayorista","Consultas al 3794-717236"];
+let CATS=[
   {k:"Maquillaje",d:"Labiales, bases y paletas",icon:"palette",h:15},
   {k:"Skincare",d:"Tu rutina de cuidado",icon:"flask-conical",h:165},
   {k:"Combos y regalos",d:"Ramos y combos armados",icon:"gift",h:345},
@@ -482,24 +494,33 @@ const CATS=[
   {k:"Librería",d:"Útiles y papelería",icon:"notebook-pen",h:95},
   {k:"Outlet calzado",d:"Pares únicos del 35 al 40",icon:"footprints",h:60}
 ];
-const HUE=Object.fromEntries(CATS.map(c=>[c.k,c.h]));
+let HUE=Object.fromEntries(CATS.map(c=>[c.k,c.h]));
+let PROMOS=[], COUPON=null, CONTENT={};
+try{COUPON=JSON.parse(localStorage.getItem("sos-cupon")||"null")}catch(e){}
 const CART_KEY="isabella-carrito";
 let products=[], cart=[], cat="Todo", query="", sort="rel", onlyStock=false, loading=true, loadError="";
 let buyer={name:"",phone:"",email:"",address:""};
 try{const b=JSON.parse(localStorage.getItem("isabella-datos")||"null");if(b)buyer={...buyer,...b}}catch(e){}
 function saveCart(){try{localStorage.setItem(CART_KEY,JSON.stringify(cart))}catch(e){}}
 function loadCart(){try{const c=JSON.parse(localStorage.getItem(CART_KEY)||"[]");return Array.isArray(c)?c:[]}catch(e){return []}}
-const fromDb=p=>({id:p.id,cat:p.category,name:p.name,price:p.price,old:p.old_price,sizes:p.sizes||{"Único":0},img:p.image_url||"",icon:p.icon||"sparkles",h:HUE[p.category]??15});
+const fromDb=p=>{const pr=window.Pricing?Pricing.bestPromo({id:p.id,category:p.category,price:p.price},PROMOS):null;
+  const eff=pr?Math.round(p.price*(1-pr.pct/100)):p.price;const old=Math.max(p.old_price||0,pr?p.price:0)||null;
+  return {id:p.id,cat:p.category,name:p.name,list:p.price,price:eff,old:old&&old>eff?old:null,promo:pr?pr.title:"",sizes:p.sizes||{"Único":0},img:p.image_url||"",icon:p.icon||"sparkles",h:HUE[p.category]??15}};
 async function loadProducts(){
   try{
     CFG=await fetch("/api/config").then(r=>{if(!r.ok)throw new Error("config");return r.json()});
     if(CFG.whatsapp)WA=CFG.whatsapp;
     const H={headers:{apikey:CFG.supabaseAnonKey,Authorization:`Bearer ${CFG.supabaseAnonKey}`}};
-    const [r,rs]=await Promise.all([fetch(`${CFG.supabaseUrl}/rest/v1/products?select=*&active=eq.true&order=sort.asc,id.asc`,H),
-      fetch(`${CFG.supabaseUrl}/rest/v1/settings?id=eq.1&select=transfer_pct,installments,free_ship_min`,H).catch(()=>null)]);
+    const U=CFG.supabaseUrl+"/rest/v1/";
+    const [r,rs,rc,rp]=await Promise.all([fetch(U+"products?select=*&active=eq.true&order=sort.asc,id.asc",H),
+      fetch(U+"settings?id=eq.1&select=*",H).catch(()=>null),
+      fetch(U+"categories?select=*&order=sort.asc,name.asc",H).catch(()=>null),
+      fetch(U+"promotions?select=*&active=eq.true",H).catch(()=>null)]);
     if(!r.ok)throw new Error("productos");
-    try{if(rs&&rs.ok){const [st]=await rs.json();if(st){TRANSFER=(+st.transfer_pct||0)/100;CUOTAS=+st.installments||0;FREE_SHIP=+st.free_ship_min||0}}}catch(e){}
-    products=(await r.json()).map(fromDb); loadError="";
+    try{if(rs&&rs.ok){const [st]=await rs.json();if(st){TRANSFER=(+st.transfer_pct||0)/100;CUOTAS=+st.installments||0;FREE_SHIP=+st.free_ship_min||0;CONTENT=st.content||{}}}}catch(e){}
+    try{if(rc&&rc.ok){const cs=await rc.json();if(cs.length){CATS=cs.filter(c=>c.active).map(c=>({k:c.name,d:c.description||"",icon:c.icon||"sparkles",h:+c.hue||330,img:c.image_url||"",nav:!!c.in_nav}));HUE=Object.fromEntries(CATS.map(c=>[c.k,c.h]))}}}catch(e){}
+    try{if(rp&&rp.ok)PROMOS=await rp.json()}catch(e){}
+    products=(await r.json()).filter(p=>!CATS.length||CATS.some(c=>c.k===p.category)).map(fromDb); loadError="";
   }catch(e){loadError="No pudimos cargar los productos. Revisá tu conexión y recargá la página."}
   loading=false;
   cart=loadCart().filter(l=>{const p=byId(l.id);return p&&l.size in p.sizes&&l.qty>0});
@@ -522,22 +543,42 @@ function cuotas(p){return CUOTAS>1?`${CUOTAS} cuotas sin interés de ${money(p.p
 const trTxt=(p,long)=>TRANSFER?`${money(p.price*(1-TRANSFER))} ${long?"pagando":"con"} transferencia`:"";
 function badges(p){const u=units(p),b=[];
   if(!u)b.push('<span class="bdg out">Sin stock</span>');
-  else{if(off(p))b.push(`<span class="bdg off">${off(p)}% OFF</span>`);if(u<=3)b.push(`<span class="bdg low">${u===1?"Última unidad":"Últimas "+u}</span>`)}
+  else{if(p.promo)b.push(`<span class="bdg promo">${esc(p.promo.slice(0,22))}</span>`);if(off(p))b.push(`<span class="bdg off">${off(p)}% OFF</span>`);if(u<=3)b.push(`<span class="bdg low">${u===1?"Última unidad":"Últimas "+u}</span>`)}
   return `<div class="badges">${b.join("")}</div>`}
 
-function renderRibbon(){const extra=[TRANSFER?`${Math.round(TRANSFER*100)}% OFF pagando con transferencia`:"",CUOTAS>1?`Hasta ${CUOTAS} cuotas sin interés`:"",FREE_SHIP?`Envío gratis en Corrientes Capital desde ${money(FREE_SHIP)}`:""].filter(Boolean);const t=[...extra,...PROMOS].map(x=>`<span>${x}</span>`).join("");$("#ribbon").innerHTML=t+t+t}
-const SHOW=[["Skincare","/img/productos/hero-a.jpg","Mascarillas, vinchas y rutina"],["Maquillaje","/img/productos/13.jpg","Ruby Rose y más"],["Brochas y pinceles","/img/productos/07.jpg","Para maquillaje y skincare"]];
-function renderShowcase(){$("#showcase").innerHTML=SHOW.map(([k,img,d],i)=>`<button class="tile ${"abc"[i]}" data-go="${k}"><img src="${img}" alt="" width="675" height="900" ${i?'loading="lazy"':'fetchpriority="high"'}><span>${k}<small>${d}</small></span></button>`).join("")+`<div class="stamp" aria-hidden="true"><div>Envíos<small>A TODO EL PAÍS</small></div></div>`;icons()}
+function renderRibbon(){const extra=[TRANSFER?`${Math.round(TRANSFER*100)}% OFF pagando con transferencia`:"",CUOTAS>1?`Hasta ${CUOTAS} cuotas sin interés`:"",FREE_SHIP?`Envío gratis en Corrientes Capital desde ${money(FREE_SHIP)}`:""].filter(Boolean);const promoTxt=PROMOS.filter(p=>p.in_ribbon!==false&&Pricing.live(p,new Date())).map(p=>`${p.title}: ${p.pct}% OFF`+(p.min_items>0&&!/llevando/i.test(p.title)?` llevando ${p.min_items} o más`:""));const base=Array.isArray(CONTENT.ribbon)&&CONTENT.ribbon.filter(Boolean).length?CONTENT.ribbon.filter(Boolean):PROMOS_TXT;const t=[...promoTxt,...extra,...base].map(x=>`<span>${x}</span>`).join("");$("#ribbon").innerHTML=t+t+t}
+const SHOW0=[["Skincare","/img/productos/hero-a.jpg","Mascarillas, vinchas y rutina"],["Maquillaje","/img/productos/13.jpg","Ruby Rose y más"],["Brochas y pinceles","/img/productos/07.jpg","Para maquillaje y skincare"]];
+function renderShowcase(){const cc=((CONTENT.hero||{}).collage)||[];const SHOW=SHOW0.map((d,i)=>{const c=cc[i]||{};return [c.cat||d[0],c.img||d[1],c.desc??d[2],c.label||c.cat||d[0]]});
+  const h=CONTENT.hero||{};$("#showcase").innerHTML=SHOW.map(([k,img,d,lb],i)=>`<button class="tile ${"abc"[i]}" data-go="${esc(k)}"><img src="${esc(img)}" alt="" width="675" height="900" ${i?'loading="lazy"':'fetchpriority="high"'}><span>${esc(lb)}<small>${esc(d)}</small></span></button>`).join("")+`<div class="stamp" aria-hidden="true"><div>${esc(h.stamp_big||"Envíos")}<small>${esc(h.stamp_small||"A TODO EL PAÍS")}</small></div></div>`;icons()}
 const liveCats=()=>loading||!products.length?CATS:CATS.filter(c=>products.some(p=>p.cat===c.k));
-function syncCatLinks(){if(loading)return;const ok=new Set(liveCats().map(c=>c.k));
-  document.querySelectorAll(".links [data-go],footer [data-go]").forEach(b=>{b.hidden=!ok.has(b.dataset.go)})}
+function syncCatLinks(){if(loading)return;const live=liveCats();
+  let nav=live.filter(c=>c.nav);if(!nav.length)nav=live.slice(0,5);
+  $(".links").innerHTML=nav.slice(0,6).map(c=>`<button data-go="${esc(c.k)}">${esc(c.k)}</button>`).join("")+`<a href="#cats">Todas las categorías</a>`;
+  const fc=document.querySelector("footer [data-foot-cats]");if(fc)fc.innerHTML=live.slice(0,7).map(c=>`<a href="#catalogo" data-go="${esc(c.k)}">${esc(c.k)}</a>`).join("")+`<a href="#cats">Ver todas</a>`}
+/* contenido editable (panel → Página) */
+const getK=(o,k)=>k.split(".").reduce((a,x)=>a==null?a:a[x],o);
+function applyContent(){
+  const C=CONTENT||{};
+  document.querySelectorAll("[data-k]").forEach(el=>{const v=getK(C,el.dataset.k);if(v==null||typeof v==="object")return;
+    const t=String(v).trim();
+    if(el.dataset.fmt==="em")el.innerHTML=esc(t).replace(/\*([^*]+)\*/g,"<em>$1</em>");
+    else if(el.dataset.fmt==="chips"){el.hidden=!t;el.textContent=t}
+    else el.textContent=t});
+  const h=C.hero||{};
+  if(h.cta2_cat&&CATS.some(c=>c.k===h.cta2_cat))$("#cta2").dataset.go=h.cta2_cat;
+  if(h.cta2_hide)$("#cta2").hidden=true;
+  const ct=C.contact||{};
+  if(ct.instagram)$("#igLink").href="https://www.instagram.com/"+encodeURIComponent(ct.instagram.replace(/^@/,""))+"/";
+  if(ct.address)$("#mapsLink").href="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(ct.address+" Corrientes Capital");
+  (C.perks||[]).forEach((p,i)=>{const el=document.querySelector(`[data-perk="${i}"]`);if(el&&p&&p.hide)el.hidden=true});
+}
 function renderCats(){
   const n=liveCats().length;$("#cats").style.setProperty("--n",n<=8?n:7);
   $("#cats").innerHTML=liveCats().map(c=>{const p=products.find(x=>x.cat===c.k&&units(x))||products.find(x=>x.cat===c.k);
-    return `<button class="cat" data-go="${c.k}">${p&&p.img?imgTag(p):`<div class="ico" style="--h:${c.h}"><i data-lucide="${c.icon}"></i></div>`}<span>${c.k}<small>${c.d}</small></span></button>`}).join("");icons()}
+    return `<button class="cat" data-go="${esc(c.k)}">${c.img?`<img src="${esc(c.img)}" alt="" loading="lazy">`:p&&p.img?imgTag(p):`<div class="ico" style="--h:${c.h}"><i data-lucide="${esc(c.icon)}"></i></div>`}<span>${esc(c.k)}<small>${esc(c.d)}</small></span></button>`}).join("");icons()}
 function renderChips(){
   const all=["Todo",...liveCats().map(c=>c.k)];
-  $("#chips").innerHTML=all.map(c=>`<button class="chip" aria-pressed="${c===cat}" data-cat="${c}">${c}</button>`).join("")+
+  $("#chips").innerHTML=all.map(c=>`<button class="chip" aria-pressed="${c===cat}" data-cat="${esc(c)}">${esc(c)}</button>`).join("")+
     `<button class="chip stock" aria-pressed="${onlyStock}" id="onlyStock"><i data-lucide="check"></i>Solo con stock</button>`;
   icons()}
 function list(){
@@ -627,10 +668,9 @@ const PAY={mercadopago:["Mercado Pago","Tarjeta de crédito o débito, cuotas o 
 function totals(){
   const ship=document.querySelector("input[name=ship]:checked")?.value||"pickup";
   const pay=document.querySelector("input[name=pay]:checked")?.value||"mercadopago";
-  const sub=cart.reduce((a,l)=>a+l.qty*byId(l.id).price,0);
-  const n=cart.reduce((a,l)=>a+l.qty,0);
-  const tr=pay==="transfer"?Math.round(sub*TRANSFER):0;
-  return {ship,pay,sub,n,tr,total:sub-tr}}
+  const r=Pricing.priceCart(cart.map(l=>{const p=byId(l.id);return {product:{id:p.id,category:p.cat,price:p.list},qty:l.qty,size:l.size}}),
+    {promos:PROMOS,coupon:COUPON?{...COUPON,active:true}:null,transferPct:pay==="transfer"?Math.round(TRANSFER*100):0});
+  return {ship,pay,sub:r.subtotal,n:r.n,promo:r.promoDiscount,cp:r.couponDiscount,cpErr:r.couponError,tr:r.transferDiscount,total:r.total,applied:r.applied}}
 function field(id,label,type,val,ph,auto){return `<label class="fld" for="${id}"><span>${label}</span><input id="${id}" name="${id}" type="${type}" value="${esc(val)}" placeholder="${ph}" autocomplete="${auto}"></label>`}
 function renderCart(){
   saveCart();
@@ -661,13 +701,17 @@ function renderCart(){
   renderFoot(); icons()}
 function renderFoot(){
   const t=totals(), mpay=t.pay==="mercadopago";
-  const falta=FREE_SHIP&&t.ship==="city"?Math.max(0,FREE_SHIP-t.sub):null;
+  const base=t.sub-t.promo, falta=FREE_SHIP&&t.ship==="city"?Math.max(0,FREE_SHIP-base):null;
   $("#cartFoot").innerHTML=`
-    ${falta===null?"":`<div class="ship">${falta?`Te faltan <b>${money(falta)}</b> para el envío gratis en Corrientes Capital`:`<b>¡Tenés envío gratis en Corrientes Capital!</b>`}<div class="bar"><i style="width:${Math.min(100,Math.round(t.sub/FREE_SHIP*100))}%"></i></div></div>`}
+    ${falta===null?"":`<div class="ship">${falta?`Te faltan <b>${money(falta)}</b> para el envío gratis en Corrientes Capital`:`<b>¡Tenés envío gratis en Corrientes Capital!</b>`}<div class="bar"><i style="width:${Math.min(100,Math.round(base/FREE_SHIP*100))}%"></i></div></div>`}
+    <div class="coupon">${COUPON?`<div class="cp-on"><span><i data-lucide="ticket"></i>Cupón <b>${esc(COUPON.code)}</b> · ${COUPON.pct}% OFF</span><button class="linkbtn" id="cpOff" type="button">Quitar</button></div>${t.cpErr?`<p class="err">${esc(t.cpErr)}</p>`:""}`
+      :`<details${cpOpen?" open":""}><summary>¿Tenés un cupón de descuento?</summary><form class="cp-form" id="cpForm"><label class="sr" for="cpIn">Código del cupón</label><input id="cpIn" autocomplete="off" autocapitalize="characters" placeholder="Ej: BIENVENIDA" maxlength="20"><button class="btn btn-line btn-sm" type="submit">Aplicar</button></form><p class="err" id="cpErr" hidden></p></details>`}</div>
     <div class="sum">
       <div><span>Subtotal (${t.n} ${t.n===1?"producto":"productos"})</span><span>${money(t.sub)}</span></div>
+      ${t.promo?`<div class="dis"><span>Promociones${t.applied.length?` <small>(${esc(t.applied.join(", "))})</small>`:""}</span><span>−${money(t.promo)}</span></div>`:""}
+      ${t.cp?`<div class="dis"><span>Cupón ${esc(COUPON.code)}</span><span>−${money(t.cp)}</span></div>`:""}
       ${t.tr?`<div class="dis"><span>Descuento por transferencia</span><span>−${money(t.tr)}</span></div>`:""}
-      <div><span>Envío</span><span>${t.ship==="pickup"?"Sin cargo":t.ship==="city"&&FREE_SHIP&&t.sub>=FREE_SHIP?"Gratis":"A coordinar"}</span></div>
+      <div><span>Envío</span><span>${t.ship==="pickup"?"Sin cargo":t.ship==="city"&&FREE_SHIP&&base>=FREE_SHIP?"Gratis":"A coordinar"}</span></div>
       <div class="tot"><span>Total</span><span>${money(t.total)}</span></div>
     </div>
     <p class="err" id="cartErr" role="alert" hidden></p>
@@ -680,19 +724,20 @@ function cartErr(msg){const e=$("#cartErr");if(e){e.textContent=msg;e.hidden=!ms
 function readBuyer(){[["bName","name"],["bPhone","phone"],["bEmail","email"],["bAddress","address"]].forEach(([id,k])=>{const el=document.getElementById(id);if(el)buyer[k]=el.value.trim()});try{localStorage.setItem("isabella-datos",JSON.stringify(buyer))}catch(e){}}
 function orderText(orderId){
   const t=totals();
-  const lines=cart.map(l=>{const p=byId(l.id);return `• ${l.qty} x ${p.name}${sizeTxt(l.size)}: ${money(p.price*l.qty)}`});
-  return `¡Hola SOS! 💗 Quiero hacer este pedido${orderId?` (N° ${orderId.slice(0,8).toUpperCase()})`:""}:\n\n${lines.join("\n")}\n\n${t.tr?`Subtotal: ${money(t.sub)}\nDescuento transferencia: −${money(t.tr)}\n`:""}Total: ${money(t.total)}\n\nEntrega: ${SHIP[t.ship][0]}${t.ship!=="pickup"&&buyer.address?` (${buyer.address})`:""}\nPago: ${PAY[t.pay][0]}\nA nombre de: ${buyer.name}`}
+  const lines=cart.map(l=>{const p=byId(l.id);return `• ${l.qty} x ${p.name}${sizeTxt(l.size)}: ${money(p.list*l.qty)}`});
+  return `¡Hola SOS! 💗 Quiero hacer este pedido${orderId?` (N° ${orderId.slice(0,8).toUpperCase()})`:""}:\n\n${lines.join("\n")}\n\n${t.promo||t.cp||t.tr?`Subtotal: ${money(t.sub)}\n`:""}${t.promo?`Promociones: −${money(t.promo)}\n`:""}${t.cp?`Cupón ${COUPON.code}: −${money(t.cp)}\n`:""}${t.tr?`Descuento transferencia: −${money(t.tr)}\n`:""}Total: ${money(t.total)}\n\nEntrega: ${SHIP[t.ship][0]}${t.ship!=="pickup"&&buyer.address?` (${buyer.address})`:""}\nPago: ${PAY[t.pay][0]}\nA nombre de: ${buyer.name}`}
 async function checkout(){
   if(sending)return;
   readBuyer(); const t=totals();
   if(buyer.name.length<2)return cartErr("Completá tu nombre.");
   if(buyer.phone.replace(/\D/g,"").length<8)return cartErr("Completá tu WhatsApp para que podamos contactarte.");
   if(t.ship!=="pickup"&&buyer.address.length<5)return cartErr("Completá la dirección de envío.");
+  if(t.cpErr)return cartErr(t.cpErr+" Quitá el cupón para seguir.");
   cartErr(""); sending=true;
   const btn=$("#checkout"); btn.disabled=true; btn.textContent=t.pay==="mercadopago"?"Conectando con Mercado Pago…":"Registrando tu pedido…";
   try{
     const r=await fetch("/api/checkout",{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({items:cart.map(l=>({id:l.id,size:l.size,qty:l.qty})),shipping:t.ship,pay_method:t.pay,buyer})});
+      body:JSON.stringify({items:cart.map(l=>({id:l.id,size:l.size,qty:l.qty})),shipping:t.ship,pay_method:t.pay,buyer,coupon:COUPON?COUPON.code:""})});
     const d=await r.json().catch(()=>({}));
     if(!r.ok)throw new Error(d.error||"No pudimos procesar el pedido. Probá de nuevo.");
     if(t.pay==="mercadopago"&&d.init_point){location.href=d.init_point;return}
@@ -768,6 +813,20 @@ document.addEventListener("click",async e=>{
     await navigator.clipboard.writeText(url);toast("Link copiado")
   }catch(err){if(err&&err.name!=="AbortError"){try{await navigator.clipboard.writeText(url);toast("Link copiado")}catch(e2){prompt("Copiá el link:",url)}}}
 });
+let cpOpen=false;
+document.addEventListener("submit",async e=>{
+  if(e.target.id!=="cpForm")return; e.preventDefault();
+  const code=$("#cpIn").value.trim().toUpperCase(), err=$("#cpErr"); cpOpen=true;
+  if(!code){err.textContent="Escribí el código.";err.hidden=false;return}
+  const btn=e.target.querySelector("button");btn.disabled=true;
+  try{const r=await fetch("/api/cupon",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({code})});
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok)throw new Error(d.error||"No pudimos validar el cupón.");
+    COUPON={code:d.code,pct:d.pct,min_amount:d.min_amount||0,ends_at:d.ends_at||null};try{localStorage.setItem("sos-cupon",JSON.stringify(COUPON))}catch(x){}
+    renderFoot();toast(`Cupón ${d.code} aplicado`);
+  }catch(x){btn.disabled=false;err.textContent=x.message;err.hidden=false}
+});
+document.addEventListener("click",e=>{if(e.target.closest("#cpOff")){COUPON=null;try{localStorage.removeItem("sos-cupon")}catch(x){}renderFoot()}});
 window.addEventListener("popstate",()=>{
   const m=location.pathname.match(/^\/p\/(\d+)/);
   if(m&&byId(+m[1])){pushedProduct=false;closeAll(true);openProduct(+m[1],true)}
@@ -789,7 +848,7 @@ $("#q").addEventListener("input",e=>{query=e.target.value;if(query.trim()&&cat!=
 $("#sort").addEventListener("change",e=>{sort=e.target.value;renderGrid()});
 
 renderRibbon();renderShowcase();renderCats();renderChips();renderGrid();icons();
-loadProducts().then(()=>{renderRibbon();renderCats();renderChips();syncCatLinks();renderGrid();renderCart();showPaymentResult();
+loadProducts().then(()=>{applyContent();renderRibbon();renderShowcase();renderCats();renderChips();syncCatLinks();renderGrid();renderCart();showPaymentResult();
   const m=location.pathname.match(/^\/p\/(\d+)/),want=window.__OPEN_PRODUCT||(m&&+m[1]);
   if(want){if(byId(want))openProduct(want,true);else{history.replaceState(null,"","/");toast("Ese producto ya no está disponible")}}});
 </script>

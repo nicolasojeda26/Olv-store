@@ -5,6 +5,7 @@
 const fs = require("fs");
 const path = require("path");
 const { sb, siteUrl } = require("../lib/shared");
+const { bestPromo } = require("../lib/pricing");
 
 let TEMPLATE = null;
 const template = () => (TEMPLATE ??= fs.readFileSync(path.join(process.cwd(), "index.html"), "utf8"));
@@ -27,12 +28,14 @@ module.exports = async (req, res) => {
   const id = parseInt(slug, 10);
   if (!Number.isInteger(id) || id <= 0) return redirect(res, "/");
 
-  let p, pct = 0;
+  let p, pct = 0, promos = [];
   try {
-    const [rows, cfg] = await Promise.all([
+    const [rows, cfg, pr] = await Promise.all([
       sb(`products?id=eq.${id}&active=eq.true&select=id,name,category,price,old_price,image_url,sizes`),
       sb("settings?id=eq.1&select=transfer_pct").catch(() => []),
+      sb("promotions?active=eq.true&select=*").catch(() => []),
     ]);
+    promos = pr || [];
     p = rows && rows[0];
     pct = Number(cfg && cfg[0] && cfg[0].transfer_pct) || 0;
   } catch (e) {
@@ -48,13 +51,15 @@ module.exports = async (req, res) => {
   const url = base + canonicalPath;
   const img = p.image_url ? (p.image_url.startsWith("http") ? p.image_url : base + p.image_url) : `${base}/img/compartir.jpg`;
   const stock = Object.values(p.sizes || {}).reduce((a, b) => a + (Number(b) || 0), 0);
-  const tr = pct ? ` · ${money(p.price * (1 - pct / 100))} con transferencia` : "";
+  const promo = bestPromo(p, promos);
+  const price = promo ? Math.round(p.price * (1 - promo.pct / 100)) : p.price;
+  const tr = pct ? ` · ${money(price * (1 - pct / 100))} con transferencia` : "";
   const title = `${p.name} · SOS Cosméticos`;
-  const desc = `${money(p.price)}${tr}. ${p.category} en SOS Cosméticos, Junín 830, Corrientes. Retiro en el local o envío a todo el país.`;
+  const desc = `${promo ? `${promo.title}: ${promo.pct}% OFF · ` : ""}${money(price)}${tr}. ${p.category} en SOS Cosméticos, Junín 830, Corrientes. Retiro en el local o envío a todo el país.`;
   const ld = {
     "@context": "https://schema.org", "@type": "Product", name: p.name, image: [img], category: p.category,
     brand: { "@type": "Brand", name: "SOS Cosméticos" },
-    offers: { "@type": "Offer", url, priceCurrency: "ARS", price: p.price,
+    offers: { "@type": "Offer", url, priceCurrency: "ARS", price,
       availability: stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock" },
   };
 

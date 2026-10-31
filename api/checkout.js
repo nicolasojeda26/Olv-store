@@ -4,6 +4,7 @@
 // - pay_method "transfer" | "cash": solo registra el pedido (se confirma por WhatsApp).
 const { sb, send, readBody, siteUrl, sellerToken, mp, TEST_MODE } = require("../lib/shared");
 const { notifyOrder } = require("../lib/notify");
+const { priceCart } = require("../lib/pricing");
 
 const SHIPPING = { pickup: "Retiro en el local", city: "Envío en Corrientes Capital", country: "Envío al resto del país" };
 const PAY = ["mercadopago", "transfer", "cash"];
@@ -31,7 +32,7 @@ module.exports = async (req, res) => {
 
     // ---- Precios y stock reales desde la base ----
     const ids = [...new Set(items.map((i) => Number(i.id)).filter(Number.isInteger))];
-    const products = await sb(`products?id=in.(${ids.join(",")})&active=eq.true&select=id,name,price,sizes`);
+    const products = await sb(`products?id=in.(${ids.join(",")})&active=eq.true&select=id,name,price,sizes,category`);
     const byId = Object.fromEntries(products.map((p) => [p.id, p]));
     const merged = {};
     for (const i of items) {
@@ -42,29 +43,38 @@ module.exports = async (req, res) => {
       if (!Number.isInteger(qty) || qty < 1 || qty > 20) return send(res, 400, { error: "Cantidad inválida." });
       if (!(size in p.sizes)) return send(res, 400, { error: `Talle inválido para ${p.name}.` });
       const key = `${p.id}|${size}`;
-      merged[key] = merged[key] || { id: p.id, name: p.name, size, qty: 0, price: p.price };
+      merged[key] = merged[key] || { product: p, size, qty: 0 };
       merged[key].qty += qty;
     }
-    const lines = Object.values(merged);
-    for (const l of lines) {
-      const stock = Number(byId[l.id].sizes[l.size] || 0);
+    const raw = Object.values(merged);
+    for (const l of raw) {
+      const stock = Number(l.product.sizes[l.size] || 0);
       if (stock < l.qty) {
-        const what = l.size === "Único" ? l.name : `${l.name} (talle ${l.size})`;
+        const what = l.size === "Único" ? l.product.name : `${l.product.name} (talle ${l.size})`;
         return send(res, 409, { error: stock ? `De ${what} quedan ${stock}.` : `${what} se quedó sin stock.` });
       }
     }
-    const subtotal = lines.reduce((a, l) => a + l.qty * l.price, 0);
 
-    // ---- Descuento por transferencia (lo define la dueña en Ajustes) ----
-    let pct = 0;
-    if (payMethod === "transfer") {
-      try {
-        const [cfg] = await sb("settings?id=eq.1&select=transfer_pct");
-        pct = Math.min(50, Math.max(0, Number(cfg && cfg.transfer_pct) || 0));
-      } catch (e) { console.error("settings", e.message); }
+    // ---- Promociones, cupón y transferencia (los define la dueña en el panel) ----
+    const [promos, cfgRows] = await Promise.all([
+      sb("promotions?active=eq.true&select=*").catch((e) => { console.error("promos", e.message); return []; }),
+      sb("settings?id=eq.1&select=transfer_pct").catch(() => []),
+    ]);
+    const transferPct = payMethod === "transfer" ? Math.min(50, Math.max(0, Number(cfgRows[0] && cfgRows[0].transfer_pct) || 0)) : 0;
+    const code = clean(b.coupon, 20).toUpperCase();
+    let coupon = null;
+    if (code) {
+      [coupon] = await sb(`coupons?code=eq.${encodeURIComponent(code)}&select=*`);
+      if (!coupon) return send(res, 400, { error: "Ese cupón no existe. Revisalo o quitalo para seguir." });
     }
-    const discount = Math.round(subtotal * pct / 100);
-    const total = subtotal - discount;
+    const pr = priceCart(raw, { promos, coupon, transferPct });
+    if (pr.couponError) return send(res, 400, { error: pr.couponError });
+    if (coupon) {
+      const ok = await sb("rpc/use_coupon", { method: "POST", body: { p_code: code } });
+      if (!ok) return send(res, 400, { error: "Ese cupón ya no está disponible." });
+    }
+    const lines = pr.lines.map((l) => ({ id: l.product.id, name: l.product.name, size: l.size, qty: l.qty, price: l.unit, list: l.list, promo: l.promo }));
+    const total = pr.total, discount = pr.transferDiscount;
 
     // ---- Mercado Pago tiene que estar conectado antes de crear el pedido ----
     let token = null;
@@ -77,7 +87,8 @@ module.exports = async (req, res) => {
       method: "POST",
       prefer: "return=representation",
       body: {
-        items: lines, total, discount, shipping, pay_method: payMethod,
+        items: lines, total, discount, subtotal: pr.subtotal, promo_discount: pr.promoDiscount,
+        coupon: coupon ? code : null, coupon_discount: pr.couponDiscount, shipping, pay_method: payMethod,
         buyer_name: name, buyer_phone: phone, buyer_email: email || null,
         buyer_address: shipping === "pickup" ? null : address,
         notes: clean(b.notes, 300) || null,
@@ -86,7 +97,7 @@ module.exports = async (req, res) => {
 
     if (payMethod !== "mercadopago") {
       await notifyOrder(order, { paid: false });
-      return send(res, 200, { order_id: order.id, total, discount });
+      return send(res, 200, { order_id: order.id, total, discount, promo_discount: pr.promoDiscount, coupon_discount: pr.couponDiscount });
     }
 
     const base = siteUrl(req);
@@ -95,13 +106,17 @@ module.exports = async (req, res) => {
       method: "POST",
       idempotencyKey: order.id,
       body: {
-        items: lines.map((l) => ({
-          id: String(l.id),
-          title: l.size === "Único" ? l.name : `${l.name} · talle ${l.size}`,
-          quantity: l.qty,
-          unit_price: l.price,
-          currency_id: "ARS",
-        })),
+        // Si hay descuentos sobre el total (cantidad o cupón), se cobra un solo ítem por el total exacto.
+        items: (pr.couponDiscount || pr.lines.reduce((a, l) => a + l.unit * l.qty, 0) !== total)
+          ? [{ id: order.id.slice(0, 8), title: `Pedido SOS Cosméticos (${pr.n} ${pr.n === 1 ? "producto" : "productos"})`,
+               description: lines.map((l) => `${l.qty} x ${l.name}`).join(", ").slice(0, 250), quantity: 1, unit_price: total, currency_id: "ARS" }]
+          : lines.map((l) => ({
+              id: String(l.id),
+              title: l.size === "Único" ? l.name : `${l.name} · talle ${l.size}`,
+              quantity: l.qty,
+              unit_price: l.price,
+              currency_id: "ARS",
+            })),
         payer: { name, ...(email ? { email } : {}) },
         external_reference: order.id,
         notification_url: `${base}/api/mp-webhook`,

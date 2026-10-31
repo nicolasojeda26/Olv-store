@@ -124,6 +124,32 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
 .mpstate{display:flex;gap:12px;align-items:center}
 .dot{width:12px;height:12px;border-radius:50%;background:#bbb;flex:none}
 .dot.on{background:var(--ok)}
+.h2{font-family:var(--display);font-weight:400;font-size:26px;margin:28px 0 4px}
+.hint{display:block;font-weight:400;color:var(--muted);font-size:12.5px;line-height:1.4;margin:2px 0 0}
+.chk{font-weight:600;font-size:14px;gap:8px}
+.chk input{width:18px;height:18px;accent-color:var(--rose)}
+.icons{display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:6px}
+.icons button{height:42px;border-radius:10px;border:1.5px solid var(--line);display:grid;place-items:center;color:var(--berry);background:var(--paper)}
+.icons button[aria-checked="true"]{border-color:var(--rose);background:var(--petal)}
+.icons svg{width:20px;height:20px}
+.swatch{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:8px;vertical-align:middle;margin-left:6px}
+.swatch svg{width:16px;height:16px}
+.hue{width:100%;height:28px;-webkit-appearance:none;appearance:none;border-radius:999px;background:linear-gradient(90deg,oklch(.85 .1 0),oklch(.85 .1 60),oklch(.85 .1 120),oklch(.85 .1 180),oklch(.85 .1 240),oklch(.85 .1 300),oklch(.85 .1 360))}
+.seg.wrap{flex-wrap:wrap}
+.code{font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em}
+.pg{display:grid;gap:12px;max-width:820px}
+.pgs{padding:4px 18px 18px}
+.pgs summary{cursor:pointer;font-weight:700;font-size:16px;padding:14px 0;display:flex;align-items:center;gap:8px;color:var(--berry);list-style:none}
+.pgs summary::-webkit-details-marker{display:none}
+.pgs summary svg{width:18px;height:18px}
+.pgs[open] summary{margin-bottom:6px}
+.pgs>label,.pgs>div,.pgs>p{margin-top:10px}
+.col3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:6px}
+@media (max-width:700px){.col3{grid-template-columns:1fr}}
+.colitem{display:grid;gap:8px;align-content:start;background:var(--blush);border-radius:14px;padding:10px}
+.thumb.big{width:100%;height:auto;aspect-ratio:3/4}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.pg-actions{position:sticky;bottom:0;background:var(--blush);padding:12px 0 calc(12px + env(safe-area-inset-bottom,0px));gap:10px}
 .cfg{padding:18px;display:grid;gap:18px;max-width:560px}
 .cfg small{display:block;font-weight:400;color:var(--muted);font-size:13px;margin-top:6px;line-height:1.4}
 .cfg-in{display:flex;align-items:center;gap:8px;max-width:240px}
@@ -199,6 +225,9 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
     <div class="tabs" role="tablist">
       <button class="tab" role="tab" data-tab="orders" aria-selected="true"><i data-lucide="receipt"></i>Pedidos <span class="n" id="pendN" hidden></span></button>
       <button class="tab" role="tab" data-tab="products" aria-selected="false"><i data-lucide="package"></i>Productos</button>
+      <button class="tab" role="tab" data-tab="cats" aria-selected="false"><i data-lucide="layout-grid"></i>Categorías</button>
+      <button class="tab" role="tab" data-tab="promos" aria-selected="false"><i data-lucide="badge-percent"></i>Promociones</button>
+      <button class="tab" role="tab" data-tab="page" aria-selected="false"><i data-lucide="pen-line"></i>Página</button>
       <button class="tab" role="tab" data-tab="arr" aria-selected="false"><i data-lucide="undo-2"></i>Arrepentimientos <span class="n" id="arrN" hidden></span></button>
       <button class="tab" role="tab" data-tab="mp" aria-selected="false"><i data-lucide="credit-card"></i>Mercado Pago</button>
       <button class="tab" role="tab" data-tab="cfg" aria-selected="false"><i data-lucide="settings"></i>Ajustes</button>
@@ -234,6 +263,30 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
       <div class="list" id="arrs"></div>
     </section>
 
+    <section id="tab-cats" hidden>
+      <h1>Categorías</h1>
+      <p class="sub">Creá, renombrá, ordená y ocultá categorías. Si renombrás una, sus productos se mueven solos.</p>
+      <div class="tools"><button class="btn b-rose" id="newCat"><i data-lucide="plus"></i>Nueva categoría</button></div>
+      <div class="list" id="catList"></div>
+    </section>
+
+    <section id="tab-promos" hidden>
+      <h1>Promociones</h1>
+      <p class="sub">Descuentos automáticos por toda la tienda, una categoría, un producto o por cantidad, y cupones con código. Se calculan solos en la tienda y en el cobro.</p>
+      <div class="tools"><button class="btn b-rose" id="newPromo"><i data-lucide="plus"></i>Nueva promoción</button></div>
+      <div class="list" id="promoList"></div>
+      <h2 class="h2">Cupones de descuento</h2>
+      <p class="sub">La clienta escribe el código en el carrito. Ej: BIENVENIDA, HOTSALE.</p>
+      <div class="tools"><button class="btn b-line" id="newCoupon"><i data-lucide="ticket"></i>Nuevo cupón</button></div>
+      <div class="list" id="couponList"></div>
+    </section>
+
+    <section id="tab-page" hidden>
+      <h1>Página</h1>
+      <p class="sub">Textos, fotos del inicio y datos de contacto de la tienda. Guardá y tocá "Ver tienda" para ver los cambios.</p>
+      <form id="pageForm" class="pg" novalidate></form>
+    </section>
+
     <section id="tab-cfg" hidden>
       <h1>Ajustes</h1>
       <p class="sub">Lo que cambies acá se ve al instante en la tienda.</p>
@@ -264,7 +317,7 @@ label.fl{display:grid;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-const CATS={"Maquillaje": "palette","Skincare": "flask-conical","Combos y regalos": "gift","Pestañas": "eye","Insumos de uñas": "paintbrush","Insumos de pestañas": "wand-sparkles","Accesorios": "gem","Brochas y pinceles": "brush","Productos capilares": "scissors","Productos corporales": "hand-heart","Fragancias": "spray-can","Aparatología": "zap","Librería": "notebook-pen","Outlet calzado": "footprints"};
+let CATS={"Maquillaje": "palette","Skincare": "flask-conical","Combos y regalos": "gift","Pestañas": "eye","Insumos de uñas": "paintbrush","Insumos de pestañas": "wand-sparkles","Accesorios": "gem","Brochas y pinceles": "brush","Productos capilares": "scissors","Productos corporales": "hand-heart","Fragancias": "spray-can","Aparatología": "zap","Librería": "notebook-pen","Outlet calzado": "footprints"};
 const SHIP={pickup:"Retiro en el local",city:"Envío en Corrientes Capital",country:"Envío al resto del país"};
 const PAYM={mercadopago:"Mercado Pago",transfer:"Transferencia",cash:"Efectivo"};
 const ST={pending:["Pendiente","warn"],paid:["Pagado","ok"],delivered:["Entregado","mp"],rejected:["Rechazado","bad"],cancelled:["Cancelado","off"]};
@@ -320,6 +373,7 @@ async function showApp(){
   const q=new URLSearchParams(location.search).get("mp");
   if(q){history.replaceState(null,"",location.pathname);selectTab("mp");
     toast({conectado:"¡Mercado Pago conectado!",cancelado:"Cancelaste la conexión",invalido:"La conexión venció, probá de nuevo",error:"No se pudo conectar, probá de nuevo"}[q]||"")}
+  await loadCats();
   await Promise.all([loadOrders(),loadProducts(),loadArrs()]); if(!q)renderOrders(); renderMp();
 }
 $("#loginForm").addEventListener("submit",async e=>{
@@ -335,7 +389,8 @@ $("#logout").onclick=async()=>{await sb.auth.signOut();location.reload()};
 /* ---------- pestañas ---------- */
 function selectTab(t){
   document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===t));
-  ["orders","products","arr","mp","cfg"].forEach(x=>$("#tab-"+x).hidden=x!==t);
+  ["orders","products","cats","promos","page","arr","mp","cfg"].forEach(x=>$("#tab-"+x).hidden=x!==t);
+  if(t==="cats")renderCatList(); if(t==="promos")loadPromos(); if(t==="page")renderPage();
   if(t==="cfg")loadCfg();
   if(t==="arr")renderArrs(); if(t==="mp")renderMp(); if(t==="orders")renderOrders(); if(t==="products")renderProducts();
 }
@@ -359,6 +414,8 @@ function renderOrders(){
       <div class="oh"><b>${esc(o.buyer_name)} · ${money(o.total)}</b><span class="chip ${cls}">${lbl}</span></div>
       <div class="om">N° ${nro} · ${d} · ${PAYM[o.pay_method]||o.pay_method} · ${SHIP[o.shipping]||o.shipping}</div>
       <ul class="items">${(o.items||[]).map(i=>`<li>${i.qty} × ${esc(i.name)}${i.size&&i.size!=="Único"?` (talle ${esc(i.size)})`:""} · ${money(i.price*i.qty)}</li>`).join("")}</ul>
+      ${o.promo_discount?`<div class="om" style="color:var(--ok);font-weight:600">Promociones: −${money(o.promo_discount)}</div>`:""}
+      ${o.coupon_discount?`<div class="om" style="color:var(--ok);font-weight:600">Cupón ${esc(o.coupon||"")}: −${money(o.coupon_discount)}</div>`:""}
       ${o.discount?`<div class="om" style="color:var(--ok);font-weight:600">Descuento por transferencia: −${money(o.discount)}</div>`:""}
       <div class="om">WhatsApp: <a href="https://wa.me/${wa}" target="_blank" rel="noopener">${esc(o.buyer_phone)}</a>${o.buyer_email?` · ${esc(o.buyer_email)}`:""}${o.buyer_address?`<br>Envío a: ${esc(o.buyer_address)}`:""}</div>
       ${o.stock_issue?`<p class="err">Se pagó algo que ya no tenía stock. Revisá el pedido con la clienta.</p>`:""}
@@ -433,7 +490,8 @@ document.addEventListener("click",async e=>{
 });
 
 /* ---------- productos ---------- */
-Object.keys(CATS).forEach(c=>$("#pCat").insertAdjacentHTML("beforeend",`<option>${c}</option>`));
+function fillCatFilter(){const v=$("#pCat").value;$("#pCat").innerHTML=`<option value="">Todas</option>`+Object.keys(CATS).map(c=>`<option>${esc(c)}</option>`).join("");$("#pCat").value=v}
+fillCatFilter();
 async function loadProducts(){
   const {data,error}=await sb.from("products").select("*").order("sort").order("id");
   if(!error)products=data; renderProducts();
@@ -462,7 +520,7 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-edit]");if
 
 /* ---------- editor de producto ---------- */
 function openEditor(id){
-  const p=id?products.find(x=>x.id===id):{name:"",category:"Maquillaje",price:"",old_price:"",sizes:{"Único":1},image_url:"",icon:"brush",active:true,sort:(products.length+1)*10};
+  const p=id?products.find(x=>x.id===id):{name:"",category:Object.keys(CATS)[0]||"Maquillaje",price:"",old_price:"",sizes:{"Único":1},image_url:"",icon:"brush",active:true,sort:(products.length+1)*10};
   editing={...p,sizes:{...p.sizes},mode:Object.keys(p.sizes).length===1&&"Único" in p.sizes?"single":"sizes",file:null,confirmDel:false};
   renderEditor();
 }
@@ -475,7 +533,7 @@ function renderEditor(){
     <div class="sb">
       <label class="fl" for="eName">Nombre<input class="in" id="eName" value="${esc(e.name)}" placeholder="Ej: Labial matte larga duración"></label>
       <div class="grid2">
-        <label class="fl" for="eCat">Categoría<select class="in" id="eCat">${Object.keys(CATS).map(c=>`<option ${c===e.category?"selected":""}>${c}</option>`).join("")}</select></label>
+        <label class="fl" for="eCat">Categoría<select class="in" id="eCat">${Object.keys(CATS).map(c=>`<option ${c===e.category?"selected":""}>${esc(c)}</option>`).join("")}</select></label>
         <label class="fl" for="eSort">Orden en la tienda<input class="in" id="eSort" type="number" value="${e.sort??0}"></label>
         <label class="fl" for="ePrice">Precio ($)<input class="in" id="ePrice" type="number" min="1" inputmode="numeric" value="${e.price??""}"></label>
         <label class="fl" for="eOld">Precio anterior ($, opcional)<input class="in" id="eOld" type="number" min="1" inputmode="numeric" value="${e.old_price??""}" placeholder="Para mostrar oferta"></label>
@@ -589,7 +647,9 @@ document.addEventListener("click",async e=>{
   if(t.id==="mpOff"){try{await api("/api/mp-admin?action=disconnect",{method:"POST"});mpConfirm=false;toast("Mercado Pago desconectado");renderMp()}catch(x){toast(x.message)}}
 });
 
-boot();
+// arranca cuando también cargó admin-cms.js
+window.addEventListener("DOMContentLoaded",boot);
 </script>
+<script src="/admin-cms.js"></script>
 </body>
 </html>
