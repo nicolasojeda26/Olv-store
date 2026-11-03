@@ -206,6 +206,31 @@ label.fl,.fl{font-size:15.5px;color:var(--ink);gap:6px}
 .seg button{min-height:42px;font-size:15.5px;padding:0 16px}
 .seg button[aria-pressed=true]{background:var(--rose);color:#fff;box-shadow:none}
 @media (max-width:420px){.hbtn span{position:static;width:auto;height:auto;clip:auto;overflow:visible}.hbtn{padding:0 8px;font-size:13.5px;gap:4px}.logo small{display:none}}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:4px}
+.pcell{display:grid;gap:6px;align-content:start;background:var(--blush);border-radius:14px;padding:8px}
+.pcell.main{outline:2px solid var(--rose)}
+.pcell .thumb.big{width:100%;height:auto;aspect-ratio:4/5;position:relative}
+.pmain{position:absolute;left:6px;top:6px;background:var(--rose);color:#fff;font-size:12px;font-weight:700;border-radius:999px;padding:2px 8px}
+.pbtns{display:grid;gap:4px}.pbtns .btn{width:100%;justify-content:flex-start;min-height:38px;font-size:14px;padding:0 10px}
+.padd{place-items:center;text-align:center;min-height:180px;border:2px dashed var(--line);background:#fff;color:var(--rose);cursor:pointer;font-size:15px}
+.padd svg{width:30px;height:30px}.padd small{color:var(--muted);font-weight:500}
+.tones{display:grid;gap:8px;margin:6px 0 10px}
+.tone{display:grid;grid-template-columns:64px 1fr auto;grid-template-areas:"ph name qty" "ph acts acts";gap:4px 10px;align-items:center;background:var(--blush);border-radius:14px;padding:8px}
+.tthumb{grid-area:ph;width:64px;height:80px;border-radius:10px;background:#fff;border:2px dashed var(--line);display:grid;place-items:center;overflow:hidden;cursor:pointer;color:var(--rose)}
+.tthumb img{width:100%;height:100%;object-fit:cover}
+.tname{grid-area:name;font-size:16px;color:var(--ink);overflow-wrap:anywhere}
+.tqty{grid-area:qty;display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted);font-weight:600}
+.tqty .in{width:76px;min-height:40px;text-align:center;padding:4px}
+.tacts{grid-area:acts;display:flex;gap:4px;flex-wrap:wrap}
+.crop{position:fixed;inset:0;z-index:90;background:rgb(38 23 26 / .7);display:grid;place-items:center;padding:12px}
+.crop-card{background:#fff;border-radius:20px;padding:16px;width:min(440px,100%);max-height:100%;overflow:auto;display:grid;gap:10px}
+.crop-card h2{font-family:var(--display);font-weight:400;font-size:24px;margin:0}
+.crop-stage{width:min(300px,100%,calc((100dvh - 330px) * .8));margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 0 0 3px var(--rose);touch-action:none;background:#fff}
+.crop-stage canvas{display:block;width:100%;height:auto;cursor:grab;touch-action:none}
+.crop-stage canvas:active{cursor:grabbing}
+.crop-zoom input{width:100%;accent-color:var(--rose);height:32px}
+.crop-zoom svg{width:16px;height:16px;vertical-align:-3px}
+.crop-actions{justify-content:flex-end}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -217,7 +242,7 @@ label.fl,.fl{font-size:15.5px;color:var(--ink);gap:6px}
     <h2>Tu tienda, en tus manos</h2>
     <ul>
       <li><i data-lucide="receipt"></i>Pedidos y pagos en un solo lugar</li>
-      <li><i data-lucide="package"></i>Productos, fotos y stock por talle</li>
+      <li><i data-lucide="package"></i>Productos, fotos, tonos y stock</li>
       <li><i data-lucide="credit-card"></i>Cobros con Mercado Pago</li>
     </ul>
   </div>
@@ -244,7 +269,7 @@ label.fl,.fl{font-size:15.5px;color:var(--ink);gap:6px}
     <h2>Tu tienda, en tus manos</h2>
     <ul>
       <li><i data-lucide="receipt"></i>Pedidos y pagos en un solo lugar</li>
-      <li><i data-lucide="package"></i>Productos, fotos y stock por talle</li>
+      <li><i data-lucide="package"></i>Productos, fotos, tonos y stock</li>
       <li><i data-lucide="credit-card"></i>Cobros con Mercado Pago</li>
     </ul>
   </div>
@@ -487,7 +512,7 @@ function renderOrders(){
     return `<article class="card order">
       <div class="oh"><b>${esc(o.buyer_name)} · ${money(o.total)}</b><span class="chip ${cls}">${lbl}</span></div>
       <div class="om">N° ${nro} · ${d} · ${PAYM[o.pay_method]||o.pay_method} · ${SHIP[o.shipping]||o.shipping}</div>
-      <ul class="items">${(o.items||[]).map(i=>`<li>${i.qty} × ${esc(i.name)}${i.size&&i.size!=="Único"?` (talle ${esc(i.size)})`:""} · ${money(i.price*i.qty)}</li>`).join("")}</ul>
+      <ul class="items">${(o.items||[]).map(i=>`<li>${i.qty} × ${esc(i.name)}${i.size&&i.size!=="Único"?` (${esc((i.vl||"talle").toLowerCase())} ${esc(i.size)})`:""} · ${money(i.price*i.qty)}</li>`).join("")}</ul>
       ${o.promo_discount?`<div class="om" style="color:var(--ok);font-weight:600">Promociones: −${money(o.promo_discount)}</div>`:""}
       ${o.coupon_discount?`<div class="om" style="color:var(--ok);font-weight:600">Cupón ${esc(o.coupon||"")}: −${money(o.coupon_discount)}</div>`:""}
       ${o.discount?`<div class="om" style="color:var(--ok);font-weight:600">Descuento por transferencia: −${money(o.discount)}</div>`:""}
@@ -582,10 +607,13 @@ function renderProducts(){
   const list=products.filter(p=>(!c||p.category===c)&&(!q||p.name.toLowerCase().includes(q)));
   $("#products").innerHTML=list.length?list.map(p=>{const u=units(p);
     const st=!p.active?`<span class="chip off">Oculto</span>`:!u?`<span class="chip bad">Agotado</span>`:u<=3?`<span class="chip warn">Quedan ${u}</span>`:`<span class="chip ok">${u} en stock</span>`;
-    const sz=Object.keys(p.sizes||{}).length>1||!("Único" in (p.sizes||{}))?` · talles ${Object.entries(p.sizes).map(([s,n])=>`${s}:${n}`).join(" ")}`:"";
+    const many=Object.keys(p.sizes||{}).length>1||!("Único" in (p.sizes||{}));
+    const lb=(p.variant_label||"Talle").toLowerCase();
+    const sz=many?` · ${Object.keys(p.sizes).length} ${plural(p.variant_label||"Talle").toLowerCase()}: ${Object.entries(p.sizes).map(([s,n])=>`${esc(s)} (${n})`).join(", ")}`:"";
+    const nph=[p.image_url,...(p.images||[])].filter(Boolean).length;
     return `<article class="card prod">
       <div class="thumb">${p.image_url?`<img src="${esc(p.image_url)}" alt="" loading="lazy">`:`<i data-lucide="${esc(p.icon||"sparkles")}"></i>`}</div>
-      <div><div class="pn">${esc(p.name)}</div><div class="pm">${st}<span>${p.category} · ${money(p.price)}${p.old_price?` <s>${money(p.old_price)}</s>`:""}${sz}</span></div></div>
+      <div><div class="pn">${esc(p.name)}</div><div class="pm">${st}<span>${p.category} · ${money(p.price)}${p.old_price?` <s>${money(p.old_price)}</s>`:""}${sz}${nph>1?` · ${nph} fotos`:""}</span></div></div>
       <button class="btn b-line b-sm" data-edit="${p.id}"><i data-lucide="pencil"></i><span>Editar</span></button>
     </article>`}).join(""):`<p class="empty">No hay productos${q||c?" con ese filtro":""}.</p>`;
   icons()}
@@ -594,36 +622,71 @@ $("#newProd").onclick=()=>openEditor(null);
 document.addEventListener("click",e=>{const b=e.target.closest("[data-edit]");if(b)openEditor(+b.dataset.edit)});
 
 /* ---------- editor de producto ---------- */
+// Fotos: e.photos = [{src, url, blob}] (la primera es la principal). Opciones: tonos/colores o talles, cada una con su stock y (si es tono) su foto.
+const TONE_LABELS=["Tono","Color","Modelo","Aroma"], SIZE_LABELS=["Talle","Número"], MAX_PHOTOS=8;
+const kindOf=lbl=>SIZE_LABELS.includes(lbl)?"sizes":"tones";
+const plural=l=>({Tono:"Tonos",Color:"Colores",Modelo:"Modelos",Aroma:"Aromas",Talle:"Talles",Número:"Números"})[l]||l+"s";
 function openEditor(id){
-  const p=id?products.find(x=>x.id===id):{name:"",category:Object.keys(CATS)[0]||"Maquillaje",price:"",old_price:"",sizes:{"Único":1},image_url:"",icon:"brush",active:true,sort:(products.length+1)*10};
-  editing={...p,sizes:{...p.sizes},mode:Object.keys(p.sizes).length===1&&"Único" in p.sizes?"single":"sizes",file:null,confirmDel:false};
+  const p=id?products.find(x=>x.id===id):{name:"",category:Object.keys(CATS)[0]||"Maquillaje",price:"",old_price:"",sizes:{"Único":1},image_url:"",images:[],variant_label:"Tono",variant_images:{},icon:"brush",active:true,sort:(products.length+1)*10};
+  const isSingle=Object.keys(p.sizes).length===1&&"Único" in p.sizes;
+  const lbl=p.variant_label||"Talle";
+  const photos=[p.image_url,...(p.images||[])].filter(Boolean).map(u=>({src:u,url:u,blob:null}));
+  const vimgs=Object.fromEntries(Object.entries(p.variant_images||{}).filter(([,u])=>u).map(([k,u])=>[k,{src:u,url:u,blob:null}]));
+  editing={...p,sizes:{...p.sizes},photos,vimgs,mode:isSingle?"single":kindOf(lbl),vlabel:isSingle?"Tono":lbl,confirmDel:false};
   renderEditor();
 }
+const thumbHTML=(ph,fallback)=>ph?`<img src="${esc(ph.src)}" alt="">`:`<i data-lucide="${fallback}"></i>`;
+function photosHTML(e){
+  return `<div class="fl">Fotos del producto <small class="hint">La <b>primera</b> es la que se ve en la tienda. Podés poner hasta ${MAX_PHOTOS}. Después de elegir cada foto vas a poder <b>acomodarla</b> para que no se corte.</small>
+    <div class="pgrid">${e.photos.map((ph,i)=>`<div class="pcell${i?"":" main"}">
+        <div class="thumb big">${thumbHTML(ph)}${i?"":`<span class="pmain">Principal</span>`}</div>
+        <div class="pbtns"><button type="button" class="btn b-line b-sm" data-pcrop="${i}"><i data-lucide="crop"></i>Acomodar</button>
+          ${i?`<button type="button" class="btn b-ghost b-sm" data-pmain="${i}"><i data-lucide="star"></i>Hacer principal</button>`:""}
+          <button type="button" class="btn b-ghost b-sm" data-prm="${i}"><i data-lucide="trash-2"></i>Quitar</button></div></div>`).join("")}
+      ${e.photos.length<MAX_PHOTOS?`<label class="pcell padd" for="eFiles"><i data-lucide="image-plus"></i><b>${e.photos.length?"Agregar otra foto":"Subir foto"}</b><small>Podés elegir varias juntas</small></label>`:""}
+    </div><input id="eFiles" type="file" accept="image/*" multiple hidden></div>`;
+}
+function stockHTML(e){
+  const opts=Object.entries(e.sizes).filter(([s])=>s!=="Único");
+  const head=`<div class="fl">¿Viene en distintas opciones? <small class="hint"><b>Uno solo</b>: para casi todo. <b>Tonos o colores</b>: labiales, bases, rubores… la clienta elige cuál quiere. <b>Talles</b>: para calzado.</small>
+    <div class="seg wrap" role="radiogroup" aria-label="Opciones del producto">
+      <button type="button" data-mode="single" aria-pressed="${e.mode==="single"}">Uno solo</button>
+      <button type="button" data-mode="tones" aria-pressed="${e.mode==="tones"}">Tonos o colores</button>
+      <button type="button" data-mode="sizes" aria-pressed="${e.mode==="sizes"}">Talles</button></div></div>`;
+  if(e.mode==="single")return head+`<label class="fl" for="eStock">¿Cuántos tenés? <small class="hint">Si no te queda ninguno, poné 0 y en la tienda dice "Agotado".</small><input class="in" id="eStock" type="number" min="0" inputmode="numeric" value="${e.sizes["Único"]??0}" style="max-width:160px"></label>`;
+  if(e.mode==="tones")return head+`
+    <label class="fl" for="eVlabel">¿Cómo le decís a cada opción? <small class="hint">Es la palabra que ve la clienta: "Elegí tu <b>tono</b>".</small>
+      <select class="in" id="eVlabel" style="max-width:220px">${TONE_LABELS.map(l=>`<option ${l===e.vlabel?"selected":""}>${l}</option>`).join("")}</select></label>
+    <div class="fl">${plural(e.vlabel)} y cuántos tenés de cada uno <small class="hint">Tocá el cuadrito de la foto para ponerle la foto de ese ${e.vlabel.toLowerCase()} (opcional). Cuando la clienta lo elige, se muestra esa foto.</small>
+      ${opts.length?`<div class="tones">${opts.map(([s,n])=>`<div class="tone">
+          <label class="tthumb" title="Foto de ${esc(s)}">${thumbHTML(e.vimgs[s],"image-plus")}<input type="file" accept="image/*" data-vimg="${esc(s)}" hidden></label>
+          <b class="tname">${esc(s)}</b>
+          <label class="tqty">Stock<input class="in" type="number" min="0" inputmode="numeric" value="${n}" data-sz="${esc(s)}" aria-label="Stock de ${esc(s)}"></label>
+          <span class="tacts">${e.vimgs[s]?`<button type="button" class="btn b-ghost b-sm" data-vcrop="${esc(s)}"><i data-lucide="crop"></i>Acomodar</button>`:""}<button type="button" class="btn b-ghost b-sm" data-rmsz="${esc(s)}"><i data-lucide="trash-2"></i>Quitar</button></span></div>`).join("")}</div>`
+        :`<p class="typeinfo">Todavía no agregaste ninguno. Escribí el nombre abajo y tocá <b>Agregar</b>.</p>`}
+      <div class="row"><input class="in" id="eNewSz" maxlength="30" placeholder="Nombre del ${e.vlabel.toLowerCase()}. Ej: Rojo 01" style="max-width:280px"><button type="button" class="btn b-line" id="eAddSz"><i data-lucide="plus"></i>Agregar</button></div></div>`;
+  return head+`
+    <label class="fl" for="eVlabel">¿Cómo le decís? <select class="in" id="eVlabel" style="max-width:220px">${SIZE_LABELS.map(l=>`<option ${l===e.vlabel?"selected":""}>${l}</option>`).join("")}</select></label>
+    <div class="fl">${plural(e.vlabel)} y cuántos pares tenés de cada uno
+      <div class="sizes">${opts.map(([s,n])=>`<div class="szr"><span style="text-align:center;font-weight:700;color:var(--ink)">${esc(s)}</span><input class="in" type="number" min="0" inputmode="numeric" value="${n}" data-sz="${esc(s)}" aria-label="Stock ${esc(e.vlabel)} ${esc(s)}"><button type="button" data-rmsz="${esc(s)}">Quitar</button></div>`).join("")}</div>
+      <div class="row"><input class="in" id="eNewSz" maxlength="10" placeholder="Nuevo ${e.vlabel.toLowerCase()} (ej: 41)" style="max-width:200px"><button type="button" class="btn b-line b-sm" id="eAddSz"><i data-lucide="plus"></i>Agregar</button></div></div>`;
+}
 function renderEditor(){
-  const e=editing;
+  const e=editing, top=$("#editor .sb")?.scrollTop||0;
   $("#editor").hidden=false;
   $("#editor").innerHTML=`<div class="scrim" data-eclose></div>
   <aside class="sheet" role="dialog" aria-modal="true" aria-labelledby="eTitle">
     <div class="sh"><h2 id="eTitle">${e.id?"Editar producto":"Nuevo producto"}</h2><button class="btn b-line b-sm" data-eclose><i data-lucide="x"></i>Cerrar sin guardar</button></div>
     <div class="sb">
-      <label class="fl" for="eName">Nombre del producto <small class="hint">Así lo ven las clientas. Ej: Labial matte Ruby Rose tono 03</small><input class="in" id="eName" value="${esc(e.name)}" placeholder="Ej: Labial matte larga duración"></label>
+      <label class="fl" for="eName">Nombre del producto <small class="hint">Así lo ven las clientas. Ej: Labial matte Ruby Rose</small><input class="in" id="eName" value="${esc(e.name)}" placeholder="Ej: Labial matte larga duración"></label>
       <div class="grid2">
         <label class="fl" for="eCat">Categoría <small class="hint">El grupo donde aparece en la tienda.</small><select class="in" id="eCat">${Object.keys(CATS).map(c=>`<option ${c===e.category?"selected":""}>${esc(c)}</option>`).join("")}</select></label>
         <label class="fl" for="eSort">Orden en la tienda <small class="hint">Número más chico = aparece primero. Si no sabés, dejalo así.</small><input class="in" id="eSort" type="number" value="${e.sort??0}"></label>
         <label class="fl" for="ePrice">Precio de venta ($) <small class="hint">Solo el número, sin puntos. Ej: 12500</small><input class="in" id="ePrice" type="number" min="1" inputmode="numeric" value="${e.price??""}"></label>
         <label class="fl" for="eOld">Precio anterior ($) — opcional <small class="hint">Si lo completás, se ve tachado al lado del precio, como oferta. Si no, dejalo vacío.</small><input class="in" id="eOld" type="number" min="1" inputmode="numeric" value="${e.old_price??""}" placeholder="Para mostrar oferta"></label>
       </div>
-      <div class="fl">Foto <small class="hint">Sacala con buena luz y el producto de frente. No importa el tamaño: se achica sola.</small>
-        <div class="photo"><div class="thumb" id="ePrev">${e.file?`<img src="${URL.createObjectURL(e.file)}" alt="">`:e.image_url?`<img src="${esc(e.image_url)}" alt="">`:`<i data-lucide="${CATS[e.category]}"></i>`}</div>
-          <div class="row"><label class="btn b-line b-sm" for="eFile"><i data-lucide="image-plus"></i>${e.image_url||e.file?"Cambiar foto":"Subir foto"}</label>
-          <input id="eFile" type="file" accept="image/*" hidden>
-          ${e.image_url||e.file?`<button class="btn b-ghost b-sm" id="eNoPhoto">Quitar</button>`:""}</div></div></div>
-      <div class="fl">Stock (cuántos tenés) <small class="hint"><b>Talle único</b>: para casi todo. <b>Por talle</b>: para calzado, cuántos pares hay de cada número.</small>
-        <div class="seg" role="group" aria-label="Tipo de stock"><button type="button" data-mode="single" aria-pressed="${e.mode==="single"}">Talle único</button><button type="button" data-mode="sizes" aria-pressed="${e.mode==="sizes"}">Por talle</button></div>
-        ${e.mode==="single"?`<input class="in" id="eStock" type="number" min="0" inputmode="numeric" value="${e.sizes["Único"]??0}" style="max-width:160px" aria-label="Unidades en stock">`
-        :`<div class="sizes">${Object.entries(e.sizes).filter(([s])=>s!=="Único").map(([s,n])=>`<div class="szr"><span style="text-align:center;font-weight:700;color:var(--ink)">${esc(s)}</span><input class="in" type="number" min="0" inputmode="numeric" value="${n}" data-sz="${esc(s)}" aria-label="Stock talle ${esc(s)}"><button type="button" data-rmsz="${esc(s)}">Quitar</button></div>`).join("")}</div>
-          <div class="row"><input class="in" id="eNewSz" placeholder="Nuevo talle (ej: 41)" style="max-width:200px"><button type="button" class="btn b-line b-sm" id="eAddSz"><i data-lucide="plus"></i>Agregar talle</button></div>`}
-      </div>
+      ${photosHTML(e)}
+      ${stockHTML(e)}
       <label class="row chk"><input type="checkbox" id="eActive" ${e.active?"checked":""}><span>Visible en la tienda<small class="hint">Si lo destildás, el producto se esconde pero no se borra.</small></span></label>
       <p class="err" id="eErr" hidden></p>
     </div>
@@ -632,27 +695,38 @@ function renderEditor(){
       <button class="btn b-rose" id="eSave"><i data-lucide="check"></i>Guardar producto</button>
     </div>
   </aside>`;
-  icons();
+  icons(); const sb2=$("#editor .sb"); if(sb2)sb2.scrollTop=top;
 }
 function syncEditor(){
   const e=editing; if(!e||!$("#eName"))return;
   e.name=$("#eName").value; e.category=$("#eCat").value; e.sort=+$("#eSort").value||0;
   e.price=$("#ePrice").value; e.old_price=$("#eOld").value; e.active=$("#eActive").checked;
+  if($("#eVlabel"))e.vlabel=$("#eVlabel").value;
   if(e.mode==="single")e.sizes={"Único":Math.max(0,parseInt($("#eStock").value)||0)};
   else document.querySelectorAll("[data-sz]").forEach(i=>e.sizes[i.dataset.sz]=Math.max(0,parseInt(i.value)||0));
 }
 function closeEditor(){editing=null;$("#editor").hidden=true;$("#editor").innerHTML=""}
 document.addEventListener("click",async ev=>{
+  if(ev.target.closest("#crop"))return;
   const t=ev.target.closest("button,[data-eclose]"); if(!t||!editing)return;
   if(t.hasAttribute("data-eclose"))return closeEditor();
   const e=editing;
-  if(t.dataset.mode){syncEditor();
-    if(t.dataset.mode==="sizes"&&e.mode==="single"){e.sizes=e.category==="Outlet calzado"?{"35":0,"36":0,"37":0,"38":0,"39":0,"40":0}:{}}
-    if(t.dataset.mode==="single"&&e.mode==="sizes"){e.sizes={"Único":Object.values(e.sizes).reduce((a,b)=>a+b,0)}}
-    e.mode=t.dataset.mode;renderEditor();return}
-  if(t.id==="eAddSz"){syncEditor();const v=$("#eNewSz").value.trim();if(v&&!(v in e.sizes)){delete e.sizes["Único"];e.sizes[v]=0}renderEditor();return}
-  if(t.dataset.rmsz){syncEditor();delete e.sizes[t.dataset.rmsz];renderEditor();return}
-  if(t.id==="eNoPhoto"){syncEditor();e.image_url="";e.file=null;renderEditor();return}
+  if(t.dataset.mode){syncEditor(); const to=t.dataset.mode; if(to===e.mode)return;
+    const total=Object.values(e.sizes).reduce((a,b)=>a+b,0);
+    if(to==="single")e.sizes={"Único":total};
+    else{ if(e.mode==="single")e.sizes={}; else if(kindOf(e.vlabel)!==to)e.sizes={};
+      e.vlabel=to==="sizes"?"Talle":(TONE_LABELS.includes(e.vlabel)?e.vlabel:"Tono");
+      if(to==="sizes"&&!Object.keys(e.sizes).length&&e.category==="Outlet calzado")e.sizes={"35":0,"36":0,"37":0,"38":0,"39":0,"40":0}}
+    e.mode=to;renderEditor();return}
+  if(t.id==="eAddSz"){syncEditor();const v=$("#eNewSz").value.replace(/\s+/g," ").trim();
+    if(!v){toast("Escribí el nombre primero");$("#eNewSz").focus();return}
+    if(Object.keys(e.sizes).some(k=>k.toLowerCase()===v.toLowerCase())){toast("Ya está en la lista");return}
+    delete e.sizes["Único"];e.sizes[v]=e.mode==="tones"?1:0;renderEditor();setTimeout(()=>$("#eNewSz")?.focus(),30);return}
+  if(t.dataset.rmsz){syncEditor();delete e.sizes[t.dataset.rmsz];delete e.vimgs[t.dataset.rmsz];renderEditor();return}
+  if(t.dataset.pcrop!=null){syncEditor();const i=+t.dataset.pcrop;const b=await cropPhoto(e.photos[i].blob||e.photos[i].url);if(b){e.photos[i]={src:URL.createObjectURL(b),url:null,blob:b};renderEditor()}return}
+  if(t.dataset.pmain!=null){syncEditor();const [ph]=e.photos.splice(+t.dataset.pmain,1);e.photos.unshift(ph);renderEditor();toast("Listo: esa es la foto principal");return}
+  if(t.dataset.prm!=null){syncEditor();e.photos.splice(+t.dataset.prm,1);renderEditor();return}
+  if(t.dataset.vcrop){syncEditor();const k=t.dataset.vcrop,ph=e.vimgs[k];const b=await cropPhoto(ph.blob||ph.url);if(b){e.vimgs[k]={src:URL.createObjectURL(b),url:null,blob:b};renderEditor()}return}
   if(t.id==="eDel"){syncEditor();e.confirmDel=true;renderEditor();return}
   if(t.id==="eDelNo"){syncEditor();e.confirmDel=false;renderEditor();return}
   if(t.id==="eDelYes"){const {error}=await sb.from("products").delete().eq("id",e.id);
@@ -660,42 +734,97 @@ document.addEventListener("click",async ev=>{
     closeEditor();toast("Producto borrado");loadProducts();return}
   if(t.id==="eSave")return saveProduct(t);
 });
-document.addEventListener("change",ev=>{
-  if(ev.target.id==="eFile"&&editing){syncEditor();const f=ev.target.files[0];
-    if(f&&f.size>8*1024*1024){toast("La foto pesa más de 8 MB");return}
-    editing.file=f||null;renderEditor()}
-  if(ev.target.id==="eCat"&&editing){syncEditor();if(!editing.image_url&&!editing.file)editing.icon=CATS[editing.category];renderEditor()}
+document.addEventListener("keydown",ev=>{if(ev.key==="Enter"&&ev.target.id==="eNewSz"){ev.preventDefault();$("#eAddSz")?.click()}});
+document.addEventListener("change",async ev=>{
+  if(!editing)return;
+  if(ev.target.id==="eFiles"){syncEditor();const files=[...ev.target.files].slice(0,MAX_PHOTOS-editing.photos.length);ev.target.value="";
+    for(const [k,f] of files.entries()){if(f.size>15*1024*1024){toast("Una foto pesa demasiado (más de 15 MB)");continue}
+      const b=await cropPhoto(f,files.length>1?`Foto ${k+1} de ${files.length}`:"");if(!editing)return;
+      if(b)editing.photos.push({src:URL.createObjectURL(b),url:null,blob:b})}
+    renderEditor();return}
+  if(ev.target.dataset&&ev.target.dataset.vimg!=null){syncEditor();const k=ev.target.dataset.vimg,f=ev.target.files[0];ev.target.value="";if(!f)return;
+    const b=await cropPhoto(f,`Foto de ${k}`);if(b&&editing){editing.vimgs[k]={src:URL.createObjectURL(b),url:null,blob:b};renderEditor()}return}
+  if(ev.target.id==="eVlabel"){syncEditor();renderEditor();return}
+  if(ev.target.id==="eCat"){syncEditor();if(!editing.photos.length)editing.icon=CATS[editing.category];renderEditor()}
 });
+
+/* ---------- acomodar foto (recorte 4:5, igual que la tienda) ---------- */
+const CROP_W=1000, CROP_H=1250;
+async function loadBitmap(src){
+  const blob=src instanceof Blob?src:await fetch(src,{mode:"cors"}).then(r=>{if(!r.ok)throw new Error("foto");return r.blob()});
+  try{return await createImageBitmap(blob,{imageOrientation:"from-image"})}catch(x){return await createImageBitmap(blob)}
+}
+function cropPhoto(src,title){
+  return new Promise(async resolve=>{
+    let img; try{img=await loadBitmap(src)}catch(x){toast("No pudimos abrir esa foto. Probá con otra.");return resolve(null)}
+    const box=document.createElement("div");box.id="crop";box.className="crop";
+    box.innerHTML=`<div class="crop-card" role="dialog" aria-modal="true" aria-labelledby="cropT">
+      <h2 id="cropT">${title?esc(title)+" · ":""}Acomodá la foto</h2>
+      <p class="hint">Lo que está adentro del recuadro es lo que se ve en la tienda. <b>Arrastrá</b> la foto con el dedo o el mouse para moverla y usá la barrita para <b>acercar o alejar</b>.</p>
+      <div class="crop-stage"><canvas width="${CROP_W}" height="${CROP_H}"></canvas></div>
+      <label class="fl crop-zoom"><span class="row" style="justify-content:space-between"><span><i data-lucide="zoom-out"></i> Alejar</span><span>Acercar <i data-lucide="zoom-in"></i></span></span><input type="range" min="0" max="1000" value="0" aria-label="Acercar o alejar"></label>
+      <div class="row"><button type="button" class="btn b-line b-sm" data-cfit="contain"><i data-lucide="minimize-2"></i>Que entre entera</button><button type="button" class="btn b-line b-sm" data-cfit="cover"><i data-lucide="maximize-2"></i>Que llene el recuadro</button></div>
+      <div class="row crop-actions"><button type="button" class="btn b-ghost" data-cno>Cancelar</button><button type="button" class="btn b-rose" data-cok><i data-lucide="check"></i>Listo, usar así</button></div>
+    </div>`;
+    document.body.appendChild(box);icons();
+    const cv=box.querySelector("canvas"),ctx=cv.getContext("2d"),zr=box.querySelector("input[type=range]");
+    const cover=Math.max(CROP_W/img.width,CROP_H/img.height),contain=Math.min(CROP_W/img.width,CROP_H/img.height);
+    const minS=contain, maxS=cover*4;
+    let s=cover, cx=CROP_W/2, cy=CROP_H/2; // centro de la foto dentro del recuadro
+    const clamp=()=>{const w=img.width*s,h=img.height*s;
+      cx=w>=CROP_W?Math.min(w/2,Math.max(CROP_W-w/2,cx)):CROP_W/2; cy=h>=CROP_H?Math.min(h/2,Math.max(CROP_H-h/2,cy)):CROP_H/2};
+    const toRange=v=>Math.round(1000*Math.log(v/minS)/Math.log(maxS/minS)), fromRange=r=>minS*Math.pow(maxS/minS,r/1000);
+    const draw=()=>{clamp();ctx.fillStyle="#ffffff";ctx.fillRect(0,0,CROP_W,CROP_H);const w=img.width*s,h=img.height*s;ctx.drawImage(img,cx-w/2,cy-h/2,w,h)};
+    const setS=(ns,ax=CROP_W/2,ay=CROP_H/2)=>{ns=Math.min(maxS,Math.max(minS,ns));cx=ax+(cx-ax)*ns/s;cy=ay+(cy-ay)*ns/s;s=ns;zr.value=toRange(s);draw()};
+    zr.value=toRange(s);draw();
+    zr.oninput=()=>setS(fromRange(+zr.value));
+    let drag=null;const scale=()=>CROP_W/cv.getBoundingClientRect().width;
+    cv.onpointerdown=ev=>{cv.setPointerCapture(ev.pointerId);drag={x:ev.clientX,y:ev.clientY}};
+    cv.onpointermove=ev=>{if(!drag)return;const k=scale();cx+=(ev.clientX-drag.x)*k;cy+=(ev.clientY-drag.y)*k;drag={x:ev.clientX,y:ev.clientY};draw()};
+    cv.onpointerup=cv.onpointercancel=()=>drag=null;
+    cv.onwheel=ev=>{ev.preventDefault();setS(s*(ev.deltaY<0?1.08:1/1.08))};
+    const done=b=>{box.remove();document.removeEventListener("keydown",esc2,true);resolve(b)};
+    const esc2=ev=>{if(ev.key==="Escape"){ev.stopPropagation();done(null)}};
+    document.addEventListener("keydown",esc2,true);
+    box.addEventListener("click",ev=>{const b=ev.target.closest("button");if(!b)return;
+      if(b.dataset.cfit)setS(b.dataset.cfit==="contain"?contain:cover);
+      if(b.hasAttribute("data-cno"))done(null);
+      if(b.hasAttribute("data-cok"))cv.toBlob(bl=>done(bl),"image/jpeg",.88)});
+    setTimeout(()=>box.querySelector("[data-cok]").focus(),50);
+  });
+}
 async function shrink(file){ // achica la foto a 1200px para que la tienda cargue rápido
   try{const img=await createImageBitmap(file);const k=Math.min(1,1200/Math.max(img.width,img.height));
     const c=document.createElement("canvas");c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);
     c.getContext("2d").drawImage(img,0,0,c.width,c.height);
     return await new Promise(r=>c.toBlob(b=>r(b||file),"image/jpeg",.85))}catch(e){return file}}
+async function upBlob(blob){
+  const path=`${crypto.randomUUID()}.jpg`;
+  const {error}=await sb.storage.from("productos").upload(path,blob,{contentType:"image/jpeg",cacheControl:"31536000"});
+  if(error)throw error;
+  return sb.storage.from("productos").getPublicUrl(path).data.publicUrl;
+}
 async function saveProduct(btn){
-  syncEditor(); const e=editing, err=$("#eErr");
-  const fail=m=>{err.textContent=m;err.hidden=false};
+  syncEditor(); const e=editing, err=$("#eErr"); err.hidden=true;
+  const fail=m=>{err.textContent=m;err.hidden=false;err.scrollIntoView({block:"nearest"})};
   const price=parseInt(e.price), old=e.old_price?parseInt(e.old_price):null;
   if(e.name.trim().length<2)return fail("Poné el nombre del producto.");
   if(!(price>0))return fail("Poné un precio válido.");
   if(old!==null&&!(old>price))return fail("El precio anterior tiene que ser mayor al precio actual.");
-  if(!Object.keys(e.sizes).length)return fail("Agregá al menos un talle.");
+  if(!Object.keys(e.sizes).length)return fail(e.mode==="tones"?`Agregá al menos un ${e.vlabel.toLowerCase()}.`:"Agregá al menos un talle.");
   btn.disabled=true;btn.textContent="Guardando…";
   try{
-    let image_url=e.image_url||null;
-    if(e.file){
-      const blob=await shrink(e.file);
-      const path=`${crypto.randomUUID()}.jpg`;
-      const {error:upErr}=await sb.storage.from("productos").upload(path,blob,{contentType:"image/jpeg",cacheControl:"31536000"});
-      if(upErr)throw upErr;
-      image_url=sb.storage.from("productos").getPublicUrl(path).data.publicUrl;
-    }
-    const row={name:e.name.trim(),category:e.category,price,old_price:old,sizes:e.sizes,image_url,icon:CATS[e.category]||e.icon,active:e.active,sort:e.sort};
+    const urls=[];for(const ph of e.photos)urls.push(ph.blob?await upBlob(ph.blob):ph.url);
+    const vimg={};for(const k of Object.keys(e.sizes)){const ph=e.vimgs[k];if(ph)vimg[k]=ph.blob?await upBlob(ph.blob):ph.url}
+    const single=e.mode==="single";
+    const row={name:e.name.trim(),category:e.category,price,old_price:old,sizes:e.sizes,image_url:urls[0]||null,images:urls.slice(1),
+      variant_label:single?"Talle":e.vlabel,variant_images:single?{}:vimg,icon:CATS[e.category]||e.icon,active:e.active,sort:e.sort};
     const q=e.id?sb.from("products").update(row).eq("id",e.id):sb.from("products").insert(row);
     const {error}=await q; if(error)throw error;
     closeEditor();toast("Producto guardado");loadProducts();
-  }catch(x){btn.disabled=false;btn.innerHTML="Guardar";fail("No se pudo guardar: "+(x.message||"error"))}
+  }catch(x){btn.disabled=false;btn.innerHTML="Guardar producto";fail("No se pudo guardar: "+(x.message||"error"))}
 }
-document.addEventListener("keydown",e=>{if(e.key==="Escape"&&editing)closeEditor()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&editing&&!$("#crop"))closeEditor()});
 
 /* ---------- Mercado Pago ---------- */
 let mpConfirm=false;

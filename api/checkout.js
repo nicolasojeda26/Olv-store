@@ -10,6 +10,8 @@ const SHIPPING = { pickup: "Retiro en el local", city: "Envío en Corrientes Cap
 const PAY = ["mercadopago", "transfer", "cash"];
 const clean = (s, max) => String(s || "").replace(/\s+/g, " ").trim().slice(0, max);
 
+const vlab = (p) => String(p.variant_label || "Talle").toLowerCase();
+
 module.exports = async (req, res) => {
   if (req.method !== "POST") return send(res, 405, { error: "Método no permitido" });
   try {
@@ -32,7 +34,7 @@ module.exports = async (req, res) => {
 
     // ---- Precios y stock reales desde la base ----
     const ids = [...new Set(items.map((i) => Number(i.id)).filter(Number.isInteger))];
-    const products = await sb(`products?id=in.(${ids.join(",")})&active=eq.true&select=id,name,price,sizes,category`);
+    const products = await sb(`products?id=in.(${ids.join(",")})&active=eq.true&select=id,name,price,sizes,category,variant_label`);
     const byId = Object.fromEntries(products.map((p) => [p.id, p]));
     const merged = {};
     for (const i of items) {
@@ -41,7 +43,7 @@ module.exports = async (req, res) => {
       const size = String(i.size || "Único");
       if (!p) return send(res, 409, { error: "Un producto del pedido ya no está disponible. Actualizá la página." });
       if (!Number.isInteger(qty) || qty < 1 || qty > 20) return send(res, 400, { error: "Cantidad inválida." });
-      if (!(size in p.sizes)) return send(res, 400, { error: `Talle inválido para ${p.name}.` });
+      if (!(size in p.sizes)) return send(res, 400, { error: `Esa opción de ${p.name} ya no está. Actualizá la página.` });
       const key = `${p.id}|${size}`;
       merged[key] = merged[key] || { product: p, size, qty: 0 };
       merged[key].qty += qty;
@@ -50,7 +52,7 @@ module.exports = async (req, res) => {
     for (const l of raw) {
       const stock = Number(l.product.sizes[l.size] || 0);
       if (stock < l.qty) {
-        const what = l.size === "Único" ? l.product.name : `${l.product.name} (talle ${l.size})`;
+        const what = l.size === "Único" ? l.product.name : `${l.product.name} (${vlab(l.product)} ${l.size})`;
         return send(res, 409, { error: stock ? `De ${what} quedan ${stock}.` : `${what} se quedó sin stock.` });
       }
     }
@@ -73,7 +75,7 @@ module.exports = async (req, res) => {
       const ok = await sb("rpc/use_coupon", { method: "POST", body: { p_code: code } });
       if (!ok) return send(res, 400, { error: "Ese cupón ya no está disponible." });
     }
-    const lines = pr.lines.map((l) => ({ id: l.product.id, name: l.product.name, size: l.size, qty: l.qty, price: l.unit, list: l.list, promo: l.promo }));
+    const lines = pr.lines.map((l) => ({ id: l.product.id, name: l.product.name, size: l.size, ...(l.size !== "Único" ? { vl: l.product.variant_label || "Talle" } : {}), qty: l.qty, price: l.unit, list: l.list, promo: l.promo }));
     const total = pr.total, discount = pr.transferDiscount;
 
     // ---- Mercado Pago tiene que estar conectado antes de crear el pedido ----
@@ -112,7 +114,7 @@ module.exports = async (req, res) => {
                description: lines.map((l) => `${l.qty} x ${l.name}`).join(", ").slice(0, 250), quantity: 1, unit_price: total, currency_id: "ARS" }]
           : lines.map((l) => ({
               id: String(l.id),
-              title: l.size === "Único" ? l.name : `${l.name} · talle ${l.size}`,
+              title: l.size === "Único" ? l.name : `${l.name} · ${(l.vl || "talle").toLowerCase()} ${l.size}`,
               quantity: l.qty,
               unit_price: l.price,
               currency_id: "ARS",

@@ -13,13 +13,13 @@ const GUIDES = {
   },
   products: {
     steps: [
-      "Para <b>agregar</b> un producto, tocá el botón rosa <b>Nuevo producto</b>.",
-      "Escribí el nombre, elegí la categoría, poné el precio y subí una foto (con el celular podés sacarla en el momento).",
-      "En <b>Stock</b> poné cuántas unidades tenés. Tocá <b>Guardar</b> y listo: ya aparece en la tienda.",
-      "Para <b>cambiar</b> el precio, la foto o el stock de uno que ya está, tocá <b>Editar</b> al lado del producto.",
-      "Usá el buscador de arriba para encontrar un producto escribiendo parte del nombre.",
+      "Para <b>agregar</b> un producto, tocá el botón rosa <b>Nuevo producto</b>. Escribí el nombre, elegí la categoría y poné el precio.",
+      "Tocá <b>Subir foto</b>. Podés elegir <b>varias fotos juntas</b>. Por cada una se abre un recuadro: <b>arrastrá</b> la foto y usá la barrita para <b>acercar o alejar</b> hasta que se vea bien, y tocá <b>Listo</b>. Si querés que se vea la foto entera, tocá <b>Que entre entera</b>.",
+      "Si el producto viene en varios tonos (labiales, bases, rubores…), en <b>¿Viene en distintas opciones?</b> tocá <b>Tonos o colores</b>. Escribí el nombre de cada tono, tocá <b>Agregar</b> y poné cuántos tenés. Tocá el cuadrito de cada tono para ponerle <b>su foto</b>.",
+      "Tocá <b>Guardar producto</b> y listo: ya aparece en la tienda. La clienta elige el tono antes de agregarlo al pedido, y en el pedido te llega cuál eligió.",
+      "Para <b>cambiar</b> el precio, las fotos o el stock de uno que ya está, tocá <b>Editar</b> al lado del producto. Para acomodar una foto que se ve cortada, tocá <b>Acomodar</b> debajo de esa foto.",
     ],
-    tip: "Si se te terminó un producto, no lo borres: poné el stock en <b>0</b> y en la tienda dice “Agotado”. Si querés esconderlo un tiempo, entrá a Editar y destildá <b>Visible en la tienda</b>.",
+    tip: "Si se te terminó un tono, no lo borres: poné su stock en <b>0</b> y en la tienda aparece tachado. Para esconder un producto entero, entrá a Editar y destildá <b>Visible en la tienda</b>.",
   },
   cats: {
     steps: [
