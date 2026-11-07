@@ -333,34 +333,39 @@ async function savePage(btn) {
   btn.disabled = false;
 }
 
-/* ============ CAMBIAR MI CONTRASEÑA (por mail) ============ */
+/* ============ CAMBIAR MI CONTRASEÑA (desde el panel, sin correo) ============ */
 async function openMyPass() {
   const { data } = await sb.auth.getSession();
   const email = (data.session && data.session.user && data.session.user.email) || "";
-  const fake = !email || email.endsWith("@" + LOGIN_DOMAIN);
   cms = { kind: "pass", email };
-  sheet("Cambiar mi contraseña", fake
-    ? `<p class="typeinfo">Este usuario no tiene un correo de verdad, así que no podemos mandarle el mail para cambiar la contraseña.</p>
-       <p class="hint">Pedile el cambio a quien armó la tienda, o entrá con tu usuario de correo.</p>`
-    : `<ol class="steps">
-        <li><span>Tocá <b>Enviarme el correo</b>. Te mandamos un mail a <b>${esc(email)}</b>.</span></li>
-        <li><span>Abrí ese mail (si no aparece en unos minutos, fijate en <b>Spam</b> o <b>Promociones</b>) y tocá el enlace <b>Reset Password</b>.</span></li>
-        <li><span>Se abre el panel: escribí tu contraseña nueva dos veces y tocá <b>Guardar y entrar</b>. ¡Listo!</span></li></ol>
-       <p class="tip"><i data-lucide="lightbulb"></i><span>Elegí una contraseña de al menos 8 letras o números que no uses en otro lado. Hasta que no la cambies, la anterior sigue funcionando.</span></p>
-       <p class="okmsg" id="mpOk" hidden></p><p class="err" id="mpErr" hidden></p>`,
-    `<span></span>${fake ? "" : `<button class="btn b-rose" id="mpSend"><i data-lucide="mail"></i>Enviarme el correo</button>`}`);
+  const who = email.endsWith("@" + LOGIN_DOMAIN) ? email.split("@")[0] : email;
+  sheet("Cambiar mi contraseña",
+    `<p class="hint">Estás en la cuenta <b>${esc(who)}</b>. Escribí la contraseña nueva dos veces y tocá <b>Guardar contraseña</b>.</p>
+     <label class="fl" for="mpNew">Contraseña nueva <small class="hint">Al menos 8 letras o números. Que no la uses en otro lado.</small>
+       <span class="row" style="flex-wrap:nowrap"><input class="in" id="mpNew" type="password" autocomplete="new-password" minlength="8" maxlength="200"><button type="button" class="btn b-line b-sm" data-showpw="mpNew" aria-label="Mostrar contraseña"><i data-lucide="eye"></i>Ver</button></span></label>
+     <label class="fl" for="mpNew2">Repetila <input class="in" id="mpNew2" type="password" autocomplete="new-password" minlength="8" maxlength="200"></label>
+     <p class="tip"><i data-lucide="lightbulb"></i><span>Anotala en un lugar seguro. Si un día te la olvidás, en la entrada del panel tocá <b>Olvidé mi contraseña</b>: el enlace para cambiarla le llega a quien armó la tienda y te lo pasa.</span></p>
+     <p class="okmsg" id="mpOk" hidden></p><p class="err" id="mpErr" hidden></p>`,
+    `<span></span><button class="btn b-rose" id="mpSend"><i data-lucide="check"></i>Guardar contraseña</button>`);
+  setTimeout(() => $("#mpNew") && $("#mpNew").focus(), 60);
 }
 async function sendMyPass(btn) {
-  btn.disabled = true; $("#mpErr").hidden = true;
-  const { error } = await sb.auth.resetPasswordForEmail(cms.email, { redirectTo: location.origin + "/admin.html" });
-  if (error) {
-    btn.disabled = false;
-    $("#mpErr").textContent = /rate|seconds|many/i.test(error.message) ? "Ya te mandamos un correo hace poco. Esperá unos minutos y probá de nuevo." : "No se pudo enviar el correo. Probá de nuevo en un rato.";
-    $("#mpErr").hidden = false; return;
-  }
-  btn.innerHTML = '<i data-lucide="check"></i>Correo enviado'; icons();
-  $("#mpOk").textContent = `Listo: revisá tu correo ${cms.email}.`; $("#mpOk").hidden = false;
+  const a = $("#mpNew").value, b = $("#mpNew2").value, err = $("#mpErr");
+  err.hidden = true; $("#mpOk").hidden = true;
+  if (a.length < 8) { err.textContent = "La contraseña tiene que tener al menos 8 letras o números."; err.hidden = false; return; }
+  if (a !== b) { err.textContent = "Las dos contraseñas no son iguales. Escribilas de nuevo."; err.hidden = false; return; }
+  btn.disabled = true;
+  const { error } = await sb.auth.updateUser({ password: a });
+  btn.disabled = false;
+  if (error) { err.textContent = "No se pudo guardar. Probá de nuevo en un rato."; err.hidden = false; return; }
+  closeSheet(); toast("¡Listo! Tu contraseña nueva ya funciona");
 }
+document.addEventListener("click", (ev) => {
+  const t = ev.target.closest("[data-showpw]"); if (!t) return;
+  const i = document.getElementById(t.dataset.showpw), show = i.type === "password";
+  [i, $("#mpNew2")].forEach((x) => x && (x.type = show ? "text" : "password"));
+  t.innerHTML = show ? '<i data-lucide="eye-off"></i>Ocultar' : '<i data-lucide="eye"></i>Ver'; icons();
+});
 
 /* ============ hoja lateral compartida ============ */
 function sheet(title, body, foot) {

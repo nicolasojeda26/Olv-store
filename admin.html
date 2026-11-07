@@ -456,13 +456,13 @@ const LOGIN_DOMAIN="isabella-importados.vercel.app";
 const toEmail=v=>{v=v.trim();return v.includes("@")?v.toLowerCase():`${v.toLowerCase().replace(/[^a-z0-9._-]/g,"")}@${LOGIN_DOMAIN}`};
 $("#forgot").onclick=async()=>{
   const fb=$("#forgot"); if(fb.disabled)return;
-  const email=$("#lEmail").value.trim().toLowerCase();
-  if(email&&!email.includes("@")){$("#lOk").hidden=true;$("#lErr").textContent="Para cambiar la contraseña de este usuario, escribile a quien armó la tienda.";$("#lErr").hidden=false;return}
-  if(!email){$("#lErr").textContent="Escribí tu email y tocá de nuevo.";$("#lErr").hidden=false;return}
+  const raw=$("#lEmail").value.trim();
+  if(!raw){$("#lOk").hidden=true;$("#lErr").textContent="Escribí tu usuario o tu correo y tocá de nuevo.";$("#lErr").hidden=false;return}
+  const email=toEmail(raw);
   fb.disabled=true; setTimeout(()=>fb.disabled=false,60000); // un solo correo por minuto: cada correo nuevo anula el anterior
-  const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+"/admin.html"});
+  const {data:fr,error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+"/admin.html"});
   if(error&&/rate|seconds|many/i.test(error.message)){$("#lOk").hidden=true;$("#lErr").textContent="Ya pediste un correo hace poco. Esperá unos minutos y abrí el último que te llegó.";$("#lErr").hidden=false;return}
-  $("#lErr").hidden=true;$("#lOk").innerHTML="Listo: te mandamos un correo (mirá también en Spam). Abrilo y tocá el enlace <b>en la próxima hora</b>. No pidas otro: cada correo nuevo anula el anterior.";$("#lOk").hidden=false};
+  $("#lErr").hidden=true;$("#lOk").innerHTML=fr&&fr.relay?"Listo: le mandamos el enlace para cambiar la contraseña a <b>quien armó la tienda</b>. Avisale y te lo pasa (sirve por 1 hora).":"Listo: te mandamos un correo (mirá también en Spam). Abrilo y tocá el enlace <b>en la próxima hora</b>. No pidas otro: cada correo nuevo anula el anterior.";$("#lOk").hidden=false};
 async function showApp(){
   $("#loginView").hidden=true;$("#passView").hidden=true;$("#appView").hidden=false;icons();
   const q=new URLSearchParams(location.search).get("mp");

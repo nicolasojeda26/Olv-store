@@ -25,18 +25,21 @@ module.exports = async (req, res) => {
       const email = auth.normEmail(b.email);
       const r = await auth.createReset(email);
       if (r.rateLimited) return send(res, 429, { error: "Too many requests: esperá unos segundos" });
+      // RESET_EMAIL_TO: si está, el enlace va a quien administra la tienda (Resend sin dominio propio
+      // solo puede mandar a la dirección de su cuenta). Esa persona se lo pasa a la dueña.
+      const relay = (process.env.RESET_EMAIL_TO || "").trim();
       if (r.token) {
         const link = `${siteUrl(req)}/admin.html#reset=${encodeURIComponent(r.token)}&type=recovery`;
         const m = await sendMail({
-          to: email, subject: "Cambiá tu contraseña · Panel SOS Cosméticos",
-          html: layout("Cambiá tu contraseña", `<p>Tocá el botón para elegir una contraseña nueva para el panel de la tienda.</p>
+          to: relay || email, subject: relay ? `Cambio de contraseña pedido por ${email} · Panel SOS Cosméticos` : "Cambiá tu contraseña · Panel SOS Cosméticos",
+          html: layout("Cambiá tu contraseña", `${relay ? `<p><b>${email}</b> tocó "Olvidé mi contraseña" en el panel. Pasale este enlace (o abrilo vos con ella) para que elija una contraseña nueva.</p>` : ""}<p>Tocá el botón para elegir una contraseña nueva para el panel de la tienda.</p>
             <p style="margin:22px 0"><a href="${link}" style="background:#c42a85;color:#fff;padding:12px 22px;border-radius:999px;text-decoration:none;font-weight:bold">Elegir contraseña nueva</a></p>
             <p style="color:#7a5866;font-size:13px">El enlace sirve por 1 hora y una sola vez. Si no lo pediste, ignorá este correo: tu contraseña no cambia.</p>`),
         });
         if (m && m.skipped) console.error("forgot: falta RESEND_API_KEY, no se envió el correo");
       }
       // misma respuesta exista o no el usuario
-      return send(res, 200, { ok: true });
+      return send(res, 200, { ok: true, relay: !!relay });
     }
     if (a === "reset") {
       if (!okPass(b.password)) return send(res, 400, { error: "La contraseña tiene que tener al menos 8 caracteres." });

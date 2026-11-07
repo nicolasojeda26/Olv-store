@@ -47,7 +47,7 @@
       async signOut() { await j("/api/auth?a=logout", { method: "POST" }); me = null; return { error: null }; },
       async resetPasswordForEmail(email) {
         const { ok, d } = await j("/api/auth?a=forgot", { method: "POST", body: JSON.stringify({ email }) });
-        return ok ? { data: {}, error: null } : { error: { message: d.error || "Error" } };
+        return ok ? { data: { relay: !!d.relay }, error: null } : { error: { message: d.error || "Error" } };
       },
       async updateUser({ password }) {
         const { ok, d } = RESET
