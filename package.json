@@ -1,6 +1,14 @@
 {
-  "name": "isabella-tienda",
+  "name": "sos-cosmeticos-tienda",
   "private": true,
-  "description": "Tienda online de Isabella Importados con Mercado Pago",
-  "engines": { "node": ">=18" }
+  "description": "Tienda online de SOS Cosm\u00e9ticos con Mercado Pago",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "1.0.2",
+    "@vercel/blob": "1.1.1",
+    "bcryptjs": "2.4.3",
+    "pg": "8.13.1"
+  }
 }

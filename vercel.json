@@ -8,6 +8,10 @@
   "functions": {
     "api/producto.js": {
       "includeFiles": "index.html"
+    },
+    "api/admin.js": {
+      "includeFiles": "neon/schema.sql",
+      "maxDuration": 60
     }
   },
   "redirects": [

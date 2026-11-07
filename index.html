@@ -537,19 +537,14 @@ const fromDb=p=>{const pr=window.Pricing?Pricing.bestPromo({id:p.id,category:p.c
   return {id:p.id,cat:p.category,name:p.name,list:p.price,price:eff,old:old&&old>eff?old:null,promo:pr?pr.title:"",sizes:p.sizes||{"Único":0},img:p.image_url||"",imgs:[p.image_url,...(p.images||[])].filter(Boolean),vl:p.variant_label||"Talle",vimg:p.variant_images||{},icon:p.icon||"sparkles",h:HUE[p.category]??15}};
 async function loadProducts(){
   try{
-    CFG=await fetch("/api/config").then(r=>{if(!r.ok)throw new Error("config");return r.json()});
+    CFG=await fetch("/api/catalog").then(r=>{if(!r.ok)throw new Error("catalogo");return r.json()});
     if(CFG.whatsapp)WA=CFG.whatsapp;
-    const H={headers:{apikey:CFG.supabaseAnonKey,Authorization:`Bearer ${CFG.supabaseAnonKey}`}};
-    const U=CFG.supabaseUrl+"/rest/v1/";
-    const [r,rs,rc,rp]=await Promise.all([fetch(U+"products?select=*&active=eq.true&order=sort.asc,id.asc",H),
-      fetch(U+"settings?id=eq.1&select=*",H).catch(()=>null),
-      fetch(U+"categories?select=*&order=sort.asc,name.asc",H).catch(()=>null),
-      fetch(U+"promotions?select=*&active=eq.true",H).catch(()=>null)]);
-    if(!r.ok)throw new Error("productos");
-    try{if(rs&&rs.ok){const [st]=await rs.json();if(st){TRANSFER=(+st.transfer_pct||0)/100;CUOTAS=+st.installments||0;FREE_SHIP=+st.free_ship_min||0;CONTENT=st.content||{}}}}catch(e){}
-    try{if(rc&&rc.ok){const cs=await rc.json();if(cs.length){CATS=cs.filter(c=>c.active).map(c=>({k:c.name,d:c.description||"",icon:c.icon||"sparkles",h:+c.hue||330,img:c.image_url||"",nav:!!c.in_nav}));HUE=Object.fromEntries(CATS.map(c=>[c.k,c.h]))}}}catch(e){}
-    try{if(rp&&rp.ok)PROMOS=await rp.json()}catch(e){}
-    products=(await r.json()).filter(p=>!CATS.length||CATS.some(c=>c.k===p.category)).map(fromDb); loadError="";
+    const st=CFG.settings;
+    if(st){TRANSFER=(+st.transfer_pct||0)/100;CUOTAS=+st.installments||0;FREE_SHIP=+st.free_ship_min||0;CONTENT=st.content||{}}
+    const cs=CFG.categories||[];
+    if(cs.length){CATS=cs.filter(c=>c.active).map(c=>({k:c.name,d:c.description||"",icon:c.icon||"sparkles",h:+c.hue||330,img:c.image_url||"",nav:!!c.in_nav}));HUE=Object.fromEntries(CATS.map(c=>[c.k,c.h]))}
+    PROMOS=CFG.promotions||[];
+    products=(CFG.products||[]).filter(p=>!CATS.length||CATS.some(c=>c.k===p.category)).map(fromDb); loadError="";
   }catch(e){loadError="No pudimos cargar los productos. Revisá tu conexión y recargá la página."}
   loading=false;
   cart=loadCart().filter(l=>{const p=byId(l.id);return p&&l.size in p.sizes&&l.qty>0});

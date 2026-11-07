@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="/admin-db.js"></script>
 <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 <style>
 :root{
@@ -426,12 +426,11 @@ const AUTH_HASH=new URLSearchParams(location.hash.slice(1)), AUTH_TYPE=AUTH_HASH
 // Si el enlace del correo ya se usó o venció, Supabase vuelve con #error=... : se lo explicamos claro.
 const AUTH_ERR=AUTH_HASH.get("error_code")||AUTH_HASH.get("error");
 async function boot(){
-  try{
-    const cfg=await fetch("/api/config").then(r=>r.json());
-    if(!cfg.supabaseUrl)throw new Error(cfg.error||"config");
-    sb=supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey);
-  }catch(e){document.body.innerHTML=`<p class="empty">Falta configurar la tienda. Revisá las variables de entorno en Vercel.</p>`;return}
-  const {data}=await sb.auth.getSession(); session=data.session;
+  sb=window.SOSDB;
+  if(sb.resetToken)return showPass(); // vino del enlace del correo "Olvidé mi contraseña"
+  let data;
+  try{({data}=await sb.auth.getSession())}catch(e){document.body.innerHTML=`<p class="empty">No pudimos conectar con la tienda. Revisá tu internet y recargá la página.</p>`;return}
+  session=data.session;
   sb.auth.onAuthStateChange((ev,s)=>{session=s;if(ev==="PASSWORD_RECOVERY")return showPass();if(!s)showLogin()});
   if(session&&(AUTH_TYPE==="invite"||AUTH_TYPE==="recovery"))return showPass();
   session?showApp():showLogin();
@@ -448,10 +447,11 @@ $("#passForm").addEventListener("submit",async e=>{
   if(a.length<8){err.textContent="La contraseña tiene que tener al menos 8 caracteres.";err.hidden=false;return}
   if(a!==b){err.textContent="Las contraseñas no coinciden.";err.hidden=false;return}
   $("#nBtn").disabled=true;const {error}=await sb.auth.updateUser({password:a});$("#nBtn").disabled=false;
-  if(error){err.textContent="No se pudo guardar. Pedí un mail nuevo y probá otra vez.";err.hidden=false;return}
+  if(error){err.innerHTML=/otp_expired/.test(error.message)?"Ese enlace ya no sirve: venció o ya se usó. Volvé a la entrada, tocá <b>Olvidé mi contraseña</b> y abrí el último correo.":"No se pudo guardar. Pedí un mail nuevo y probá otra vez.";err.hidden=false;return}
+  const {data:d2}=await sb.auth.getSession();session=d2.session;
   $("#passView").hidden=true;showApp();
 });
-// Usuario "Isabella" → isabella@isabella-importados.vercel.app (usuario interno de Supabase). Un email se usa tal cual.
+// Usuario "Isabella" → isabella@isabella-importados.vercel.app (usuario interno). Un email se usa tal cual.
 const LOGIN_DOMAIN="isabella-importados.vercel.app";
 const toEmail=v=>{v=v.trim();return v.includes("@")?v.toLowerCase():`${v.toLowerCase().replace(/[^a-z0-9._-]/g,"")}@${LOGIN_DOMAIN}`};
 $("#forgot").onclick=async()=>{
