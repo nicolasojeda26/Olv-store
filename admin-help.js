@@ -13,7 +13,7 @@ const GUIDES = {
   },
   products: {
     steps: [
-      "Para <b>agregar</b> un producto, tocá el botón rosa <b>Nuevo producto</b>. Escribí el nombre, elegí la categoría y poné el precio.",
+      "Para <b>agregar</b> un producto, tocá el botón rosa <b>Nuevo producto</b>. Escribí el nombre, elegí la categoría y poné el precio. En <b>Descripción</b> contá qué es y para qué sirve, la marca y las medidas (por ejemplo, la altura del taco): la clienta lo lee al abrir el producto.",
       "Tocá <b>Subir foto</b>. Podés elegir <b>varias fotos juntas</b>. Por cada una se abre un recuadro: <b>arrastrá</b> la foto y usá la barrita para <b>acercar o alejar</b> hasta que se vea bien, y tocá <b>Listo</b>. Si querés que se vea la foto entera, tocá <b>Que entre entera</b>.",
       "Si el producto viene en varios tonos (labiales, bases, rubores…), en <b>¿Viene en distintas opciones?</b> tocá <b>Tonos o colores</b>. Escribí el nombre de cada tono, tocá <b>Agregar</b> y poné cuántos tenés. Tocá el cuadrito de cada tono para ponerle <b>su foto</b>.",
       "Tocá <b>Guardar producto</b> y listo: ya aparece en la tienda. La clienta elige el tono antes de agregarlo al pedido, y en el pedido te llega cuál eligió.",

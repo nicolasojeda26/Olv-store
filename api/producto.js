@@ -31,7 +31,7 @@ module.exports = async (req, res) => {
   let p, pct = 0, promos = [];
   try {
     const [rows, cfg, pr] = await Promise.all([
-      sb(`products?id=eq.${id}&active=eq.true&select=id,name,category,price,old_price,image_url,sizes`),
+      sb(`products?id=eq.${id}&active=eq.true&select=id,name,description,category,price,old_price,image_url,sizes`),
       sb("settings?id=eq.1&select=transfer_pct").catch(() => []),
       sb("promotions?active=eq.true&select=*").catch(() => []),
     ]);
@@ -55,9 +55,11 @@ module.exports = async (req, res) => {
   const price = promo ? Math.round(p.price * (1 - promo.pct / 100)) : p.price;
   const tr = pct ? ` · ${money(price * (1 - pct / 100))} con transferencia` : "";
   const title = `${p.name} · SOS Cosméticos`;
-  const desc = `${promo ? `${promo.title}: ${promo.pct}% OFF · ` : ""}${money(price)}${tr}. ${p.category} en SOS Cosméticos, Junín 830, Corrientes. Retiro en el local o envío a todo el país.`;
+  const about = String(p.description || "").replace(/\s+/g, " ").trim();
+  const short = about.length > 150 ? about.slice(0, 147).replace(/\s+\S*$/, "") + "…" : about;
+  const desc = `${promo ? `${promo.title}: ${promo.pct}% OFF · ` : ""}${money(price)}${tr}. ${short || `${p.category} en SOS Cosméticos, Junín 830, Corrientes. Retiro en el local o envío a todo el país.`}`;
   const ld = {
-    "@context": "https://schema.org", "@type": "Product", name: p.name, image: [img], category: p.category,
+    "@context": "https://schema.org", "@type": "Product", name: p.name, ...(about ? { description: about } : {}), image: [img], category: p.category,
     brand: { "@type": "Brand", name: "SOS Cosméticos" },
     offers: { "@type": "Offer", url, priceCurrency: "ARS", price,
       availability: stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock" },

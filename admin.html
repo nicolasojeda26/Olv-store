@@ -206,6 +206,7 @@ label.fl,.fl{font-size:15.5px;color:var(--ink);gap:6px}
 .seg button{min-height:42px;font-size:15.5px;padding:0 16px}
 .seg button[aria-pressed=true]{background:var(--rose);color:#fff;box-shadow:none}
 @media (max-width:420px){.hbtn span{position:static;width:auto;height:auto;clip:auto;overflow:visible}.hbtn{padding:0 8px;font-size:13.5px;gap:4px}.logo small{display:none}}
+#eDesc{min-height:120px;resize:vertical;line-height:1.5;font-size:16px;font-family:inherit;padding-block:10px}
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:4px}
 .pcell{display:grid;gap:6px;align-content:start;background:var(--blush);border-radius:14px;padding:8px}
 .pcell.main{outline:2px solid var(--rose)}
@@ -627,7 +628,7 @@ const TONE_LABELS=["Tono","Color","Modelo","Aroma"], SIZE_LABELS=["Talle","Núme
 const kindOf=lbl=>SIZE_LABELS.includes(lbl)?"sizes":"tones";
 const plural=l=>({Tono:"Tonos",Color:"Colores",Modelo:"Modelos",Aroma:"Aromas",Talle:"Talles",Número:"Números"})[l]||l+"s";
 function openEditor(id){
-  const p=id?products.find(x=>x.id===id):{name:"",category:Object.keys(CATS)[0]||"Maquillaje",price:"",old_price:"",sizes:{"Único":1},image_url:"",images:[],variant_label:"Tono",variant_images:{},icon:"brush",active:true,sort:(products.length+1)*10};
+  const p=id?products.find(x=>x.id===id):{name:"",description:"",category:Object.keys(CATS)[0]||"Maquillaje",price:"",old_price:"",sizes:{"Único":1},image_url:"",images:[],variant_label:"Tono",variant_images:{},icon:"brush",active:true,sort:(products.length+1)*10};
   const isSingle=Object.keys(p.sizes).length===1&&"Único" in p.sizes;
   const lbl=p.variant_label||"Talle";
   const photos=[p.image_url,...(p.images||[])].filter(Boolean).map(u=>({src:u,url:u,blob:null}));
@@ -679,6 +680,9 @@ function renderEditor(){
     <div class="sh"><h2 id="eTitle">${e.id?"Editar producto":"Nuevo producto"}</h2><button class="btn b-line b-sm" data-eclose><i data-lucide="x"></i>Cerrar sin guardar</button></div>
     <div class="sb">
       <label class="fl" for="eName">Nombre del producto <small class="hint">Así lo ven las clientas. Ej: Labial matte Ruby Rose</small><input class="in" id="eName" value="${esc(e.name)}" placeholder="Ej: Labial matte larga duración"></label>
+      <label class="fl" for="eDesc">Descripción <small class="hint">Contale a la clienta qué es, para qué sirve y todo lo que no se ve en la foto: <b>marca</b>, <b>medidas</b>, <b>altura del taco</b>, cómo se usa… Podés escribir varios renglones (tecla Enter para bajar).</small>
+        <textarea class="in" id="eDesc" rows="5" maxlength="2000" placeholder="Ej: Masajeador facial con luz roja. Ayuda a desinflamar y a que las cremas se absorban mejor. Se usa 5 minutos por día. Marca: Gadnic. Viene con cargador USB.">${esc(e.description||"")}</textarea>
+        <small class="hint" id="eDescN"></small></label>
       <div class="grid2">
         <label class="fl" for="eCat">Categoría <small class="hint">El grupo donde aparece en la tienda.</small><select class="in" id="eCat">${Object.keys(CATS).map(c=>`<option ${c===e.category?"selected":""}>${esc(c)}</option>`).join("")}</select></label>
         <label class="fl" for="eSort">Orden en la tienda <small class="hint">Número más chico = aparece primero. Si no sabés, dejalo así.</small><input class="in" id="eSort" type="number" value="${e.sort??0}"></label>
@@ -699,7 +703,7 @@ function renderEditor(){
 }
 function syncEditor(){
   const e=editing; if(!e||!$("#eName"))return;
-  e.name=$("#eName").value; e.category=$("#eCat").value; e.sort=+$("#eSort").value||0;
+  e.name=$("#eName").value; e.description=$("#eDesc").value; e.category=$("#eCat").value; e.sort=+$("#eSort").value||0;
   e.price=$("#ePrice").value; e.old_price=$("#eOld").value; e.active=$("#eActive").checked;
   if($("#eVlabel"))e.vlabel=$("#eVlabel").value;
   if(e.mode==="single")e.sizes={"Único":Math.max(0,parseInt($("#eStock").value)||0)};
@@ -734,6 +738,7 @@ document.addEventListener("click",async ev=>{
     closeEditor();toast("Producto borrado");loadProducts();return}
   if(t.id==="eSave")return saveProduct(t);
 });
+document.addEventListener("input",ev=>{if(ev.target.id==="eDesc"){const n=ev.target.value.length;$("#eDescN").textContent=n>1700?`Te quedan ${2000-n} letras`:""}});
 document.addEventListener("keydown",ev=>{if(ev.key==="Enter"&&ev.target.id==="eNewSz"){ev.preventDefault();$("#eAddSz")?.click()}});
 document.addEventListener("change",async ev=>{
   if(!editing)return;
@@ -817,7 +822,7 @@ async function saveProduct(btn){
     const urls=[];for(const ph of e.photos)urls.push(ph.blob?await upBlob(ph.blob):ph.url);
     const vimg={};for(const k of Object.keys(e.sizes)){const ph=e.vimgs[k];if(ph)vimg[k]=ph.blob?await upBlob(ph.blob):ph.url}
     const single=e.mode==="single";
-    const row={name:e.name.trim(),category:e.category,price,old_price:old,sizes:e.sizes,image_url:urls[0]||null,images:urls.slice(1),
+    const row={name:e.name.trim(),description:String(e.description||"").replace(/\r/g,"").replace(/\n{3,}/g,"\n\n").trim().slice(0,2000),category:e.category,price,old_price:old,sizes:e.sizes,image_url:urls[0]||null,images:urls.slice(1),
       variant_label:single?"Talle":e.vlabel,variant_images:single?{}:vimg,icon:CATS[e.category]||e.icon,active:e.active,sort:e.sort};
     const q=e.id?sb.from("products").update(row).eq("id",e.id):sb.from("products").insert(row);
     const {error}=await q; if(error)throw error;

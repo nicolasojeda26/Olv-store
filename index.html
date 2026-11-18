@@ -259,6 +259,11 @@ footer{background:linear-gradient(135deg,#c42a85 0%,#a51f6f 100%);color:#fff2fb;
 .modal .ph{aspect-ratio:4/5;border-radius:0;min-height:0;background:#fff}
 .modal .ph img{object-fit:contain}
 .gal{touch-action:pan-y}
+.pdesc{margin:4px 0 2px;padding:12px 14px;background:var(--blush);border-radius:14px;font-size:15px;line-height:1.55;color:var(--ink)}
+.pdesc p{margin:0;white-space:pre-line;overflow-wrap:anywhere}
+.pdesc.long:not(.open) p{display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+.pdesc-more{margin-top:6px;font-weight:700;color:var(--rose);font-size:14.5px;padding:4px 0}
+
 .gnav{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;background:rgb(255 255 255 / .92);display:grid;place-items:center;box-shadow:0 2px 10px rgb(0 0 0 / .15);z-index:2}
 .gnav.prev{left:10px}.gnav.next{right:10px}
 .gdots{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:6px;z-index:2}
@@ -534,7 +539,7 @@ function saveCart(){try{localStorage.setItem(CART_KEY,JSON.stringify(cart))}catc
 function loadCart(){try{const c=JSON.parse(localStorage.getItem(CART_KEY)||"[]");return Array.isArray(c)?c:[]}catch(e){return []}}
 const fromDb=p=>{const pr=window.Pricing?Pricing.bestPromo({id:p.id,category:p.category,price:p.price},PROMOS):null;
   const eff=pr?Math.round(p.price*(1-pr.pct/100)):p.price;const old=Math.max(p.old_price||0,pr?p.price:0)||null;
-  return {id:p.id,cat:p.category,name:p.name,list:p.price,price:eff,old:old&&old>eff?old:null,promo:pr?pr.title:"",sizes:p.sizes||{"Único":0},img:p.image_url||"",imgs:[p.image_url,...(p.images||[])].filter(Boolean),vl:p.variant_label||"Talle",vimg:p.variant_images||{},icon:p.icon||"sparkles",h:HUE[p.category]??15}};
+  return {id:p.id,cat:p.category,name:p.name,desc:(p.description||"").trim(),list:p.price,price:eff,old:old&&old>eff?old:null,promo:pr?pr.title:"",sizes:p.sizes||{"Único":0},img:p.image_url||"",imgs:[p.image_url,...(p.images||[])].filter(Boolean),vl:p.variant_label||"Talle",vimg:p.variant_images||{},icon:p.icon||"sparkles",h:HUE[p.category]??15}};
 async function loadProducts(){
   try{
     CFG=await fetch("/api/catalog").then(r=>{if(!r.ok)throw new Error("catalogo");return r.json()});
@@ -611,7 +616,7 @@ function renderChips(){
   icons()}
 function list(){
   const q=query.trim().toLowerCase();
-  let l=products.filter(p=>(cat==="Todo"||p.cat===cat)&&(!q||(p.name+" "+p.cat).toLowerCase().includes(q))&&(!onlyStock||units(p)>0));
+  let l=products.filter(p=>(cat==="Todo"||p.cat===cat)&&(!q||(p.name+" "+p.cat+" "+p.desc).toLowerCase().includes(q))&&(!onlyStock||units(p)>0));
   if(sort==="asc")l=[...l].sort((a,b)=>a.price-b.price);
   if(sort==="desc")l=[...l].sort((a,b)=>b.price-a.price);
   if(sort==="off")l=[...l].sort((a,b)=>off(b)-off(a));
@@ -673,6 +678,7 @@ function renderModal(){
       <div class="pr">${p.old?`<s>${money(p.old)}</s>`:""}<b>${money(p.price)}</b></div>
       <span class="tr">${trTxt(p,1)}</span>
       <span class="cu">${cuotas(p)}</span>
+      ${p.desc?`<div class="pdesc${p.desc.length>320?" long":""}" id="pdesc"><p>${esc(p.desc)}</p>${p.desc.length>320?`<button class="pdesc-more" data-more aria-expanded="false">Ver más</button>`:""}</div>`:""}
       ${single(p)?(u?`<span class="cu">${u<=3?`Quedan ${u} en stock`:"En stock"}</span>`:""):`<span class="lbl">${pickSize?esc(L)+": <b>"+esc(pickSize)+"</b>":"Elegí tu "+esc(L.toLowerCase())}</span>
       <div class="szs${isTone(p)?" tones":""}" role="group" aria-label="Elegí tu ${esc(L.toLowerCase())}">${sz}</div>`}
       ${u?`<span class="lbl">Cantidad</span>
@@ -827,6 +833,7 @@ document.addEventListener("click",e=>{
   if(t.id==="onlyStock"){onlyStock=!onlyStock;renderChips();renderGrid();return}
   if(t.dataset.open){openProduct(+t.dataset.open);return}
   if(t.dataset.sz){pickSize=t.dataset.sz;pickQty=Math.min(pickQty,Math.max(1,avail(view,pickSize)));const vi=view.vimg[pickSize];if(vi){const k=gallery(view).indexOf(vi);if(k>=0)gIdx=k}renderModal();return}
+  if(t.hasAttribute&&t.hasAttribute("data-more")){const d=$("#pdesc");const o=d.classList.toggle("open");t.textContent=o?"Ver menos":"Ver más";t.setAttribute("aria-expanded",o);return}
   if(t.dataset.g){const n=gallery(view).length;gIdx=(gIdx+(+t.dataset.g)+n)%n;renderModal();return}
   if(t.dataset.gi!=null){gIdx=+t.dataset.gi;renderModal();return}
   if(t.dataset.mq){const max=pickSize?avail(view,pickSize):99;pickQty=Math.max(1,Math.min(max,pickQty+(+t.dataset.mq)));if(pickSize&&pickQty===max&&+t.dataset.mq>0)toast("Es todo el stock de ese "+vlow(view));renderModal();return}
